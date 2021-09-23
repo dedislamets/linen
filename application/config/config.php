@@ -24,7 +24,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 */
 // $config['base_url'] = 'http://192.168.0.9:8080/linen/';
-$config['base_url'] = 'http://linen.wmlogistics.id/';
+$config['base_url'] = 'https://www.wmlogistics.id/linen/';
 
 /*
 |--------------------------------------------------------------------------
