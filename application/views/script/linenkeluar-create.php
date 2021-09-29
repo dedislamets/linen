@@ -97,6 +97,7 @@
 
     $("#btnStop").on('click', function(e) {
     	e.preventDefault();
+    	doclose();
     	app.list_scan=[];
     	arr_epc = [];
     	$.each(app.list_request, function(index, obj) {
@@ -108,7 +109,7 @@
     	$("#total_berat").text(0);
 		$("#btnScan").text('Start Scan');
 		clearInterval(setScan);
-		doclose();
+		
 		$("#status_koneksi").val("Stop scanning...");
 		$("#status_koneksi").removeClass("error-text");
     	$("#status_koneksi").removeClass("scan-text");
@@ -126,6 +127,7 @@
 	    	}, 100);
     	}else{
     		start = 0;
+    		doclose();
     		$("#btnScan").html('<i class="fa fa-barcode"></i> Start Scan');
     		$("#status_koneksi").val('Stop scanning...');
     		clearInterval(setScan);

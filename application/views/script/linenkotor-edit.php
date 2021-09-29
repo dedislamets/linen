@@ -69,6 +69,7 @@
 
     $("#btnStop").on('click', function(e) {
     	e.preventDefault();
+    	doclose();
     	$('#tbody-table').html('');
     	arr_epc = [];
     	start = 0;
@@ -77,29 +78,51 @@
     	$("#total_berat").val(0);
 		$("#btnScan").text('Start Scan');
 		clearInterval(setScan);
-		doclose();
+		
 		$("#status_koneksi").val("Stop scanning...");
     })
 
     $("#btnScan").on('click', function(e) {
     	e.preventDefault();
     	// arr_epc = [];
-
+    	$("#status_koneksi").removeClass("error-text");
+    	$("#status_koneksi").addClass("scan-text");
     	if(start == 0){
-    		start =1;
-    		$("#btnScan").html('<i class="fa fa-stop"></i> Stop Scan');
+    		config();
     		setScan = setInterval(function(){ 
 	    		scanning();
-	    	}, 500);
+	    	}, 100);
     	}else{
     		start = 0;
     		$("#btnScan").html('<i class="fa fa-barcode"></i> Start Scan');
-    		$("#status_koneksi").val("Stop scanning...");
+    		$("#status_koneksi").val('Stop scanning...');
     		clearInterval(setScan);
+    		doclose();
     		return;
     	}
         
     })
+
+    function config(){
+    	var Port = 9;
+        var Baud=5;
+
+        // var ipAddr = "192.168.0.250";
+        // var Port="27011";
+        // var konek = TUHF2000.RFID_TcpOpen(ipAddr,Port);
+       
+        var konek = TUHF2000.RFID_ComOpen(Port,Baud);
+        if(konek == 0){
+        	$("#btnScan").html('<i class="fa fa-stop"></i> Stop Scan');
+        	$("#status_koneksi").val("Tersambung...");
+        	TUHF2000.RFID_SetRfPower(30);
+        	TUHF2000.RFID_Beep(1);
+        	start =1;
+        }else{
+        	$("#status_koneksi").val("Terputus...(Copot kabel usb dan pasang kembali untuk mengulangi scan!)");
+        }
+
+    }
 
     function scanning(){
     	var session = 255;
@@ -108,16 +131,7 @@
 	    var anteana = 128;
 	    var t=128;
        	
-       	var Port = 9;
-        var Baud=5;
-
-        var konek = TUHF2000.RFID_ComOpen(Port,Baud);
-        // if(konek > 0){
-        // 	$("#status_koneksi").val("Tersambung...");
-        // }else{
-        // 	$("#status_koneksi").val("Terputus...(Copot kabel usb dan pasang kembali untuk mengulangi scan!)");
-        // }
-    	var sum = TUHF2000.RFID_Inventory(QValue,session,scantid,anteana,0,10); 
+    	var sum = TUHF2000.RFID_Inventory(QValue,session,scantid,anteana,0,10);  
         if(sum=="") 
         {	 	
            $("#status_koneksi").val("Waiting for scanning...");
@@ -130,20 +144,21 @@
            $("#status_koneksi").val("Get data Serial...("+ EPC +")");
 
            if(arr_epc.indexOf(EPC) > -1){
-           		TUHF2000.RFID_Beep(0);
+           		// TUHF2000.RFID_Beep(0);
            		$("#status_koneksi").val("Waiting for scanning...");
            }else{
            		totalqty++;
            		$("#total_qty").val(totalqty);
 
-           		TUHF2000.RFID_Beep(1);
+           		// TUHF2000.RFID_Beep(1);
            		arr_epc.push(EPC);
 	        	var params = { epc: EPC};
 	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 		            if(data.status == 'success'){
 
-		            	totalberat += parseFloat(data.data_detail[0].berat);
-		            	$("#total_berat").val(totalberat);
+		            	totalberat = parseFloat($("#total_berat").val());
+		            	totalberat += parseFloat((data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat));
+		            	$("#total_berat").val(totalberat.toFixed(1));
 
 			            var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
 						if( nomor != undefined ) 	{
@@ -164,9 +179,9 @@
 						} 
 						baris += '</td>';
 						baris += '<td><input type="text" name="epc'+ nomor +'" id="epc'+ nomor +'" class="form-control" value="'+ EPC +'" readonly /></td>';
-						baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="'+ data.data_detail[0].jenis +'" readonly/></td>';
-						baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ data.data_detail[0].nama_ruangan +'"/></td>';
-						baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ data.data_detail[0].berat +'"></td>';
+						baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? '' : data.data_detail[0].jenis) +'" readonly/></td>';
+						baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].nama_ruangan) +'"/></td>';
+						baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat)+'"></td>';
 						baris += '<td>'+ (last_status != null ? last_status.STATUS : '') +'</td>';
 					
 						baris += '</tr>';
@@ -182,7 +197,7 @@
            }
         }
 
-        doclose();
+        // doclose();
     }
 
     function doclose() 

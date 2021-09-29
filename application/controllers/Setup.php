@@ -48,17 +48,24 @@ class Setup extends CI_Controller {
     }
     public function simpan()
     {
-        $this->form_validation->set_rules('range_day', 'range_day', 'required');
+        $this->form_validation->set_rules('serial_com', 'serial_com', 'required');
+        $this->form_validation->set_rules('power', 'power', 'required');
+        $this->form_validation->set_rules('ip', 'ip', 'required');
+        $this->form_validation->set_rules('port_ip', 'port_ip', 'required');
         $this->form_validation->set_message('required', '<div class="alert alert-danger" >
             <div class="header"><b><i class="fa fa-exclamation-circle"></i> {field}</b> harus diisi</div></div>');
 
         if ($this->form_validation->run() == TRUE) {
             $data = array(
-                'range_date'         =>  $this->input->post('range_day') ,
-                'range_notifikasi'   =>  $this->input->post('range_notifikasi') ,
+                'port_com'         =>  $this->input->post('serial_com') ,
+                'power'   =>  $this->input->post('power') ,
+                'baud'   =>  $this->input->post('baud') ,
+                'speed'   =>  $this->input->post('speed') ,
+                'ip'   =>  $this->input->post('ip') ,
+                'port_ip'   =>  $this->input->post('port_ip') ,
             );
             $this->db->set($data);
-            $this->db->update('setup');
+            $this->db->update('tb_setting');
 
             $this->session->set_flashdata('message', '<div class="alert alert-success" >
             <b><i class="fa fa-exclamation-circle"></i> Berhasil</b> update !!</div>');

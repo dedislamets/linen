@@ -6,17 +6,17 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">Setup</h4>
+      <div class="card-header" style="color:#fff;background-color: green !important;">
+        <h4 class="card-title" style="color: #fff;">Setup</h4>
       </div>
       <div class="card-content" >
         <?php echo $this->session->flashdata('message'); ?>
-        <form method="post" action="<?php echo base_url() ?>index.php/setup/simpan" class="form-horizontal">
+        <form method="post" action="<?php echo base_url() ?>setup/simpan" class="form-horizontal">
           <fieldset>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Serial COM</label>
               <div class="col-sm-4">
-                <input type="text" id="range_day" name="range_day" class="form-control" value="<?php echo $setup[0]->port_com ?>">
+                <input type="text" id="serial_com" name="serial_com" class="form-control" value="<?php echo $setup[0]->port_com ?>">
               </div>
               <label class="col-sm-2 col-form-label">Baud Rate</label>
               <div class="col-sm-4">
