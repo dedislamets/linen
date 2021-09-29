@@ -81,10 +81,15 @@ $db['default'] = array(
 	// 'password'	=> '123',
 	// 'username' => 'root',
 
-	'username' => 'u9892485_sistem',
-	'database' => 'u9892485_linen',
+	// 'username' => 'u9892485_sistem',
+	// 'database' => 'u9892485_linen',
+	// 'hostname' => 'localhost',
+	// 'password'	=> 'wmlogistics123^',
+
+	'username' => 'sacn1673_sa',
+	'database' => 'sacn1673_linen',
 	'hostname' => 'localhost',
-	'password'	=> 'wmlogistics123^',
+	'password'	=> 'KopiKapalApi05',
 	
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
