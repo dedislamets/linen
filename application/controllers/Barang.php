@@ -59,12 +59,14 @@ class Barang extends CI_Controller {
             1=>'jenis',
             2=>'nama_ruangan',
             3=>'berat',
+            4 => 'harga'
         );
         $valid_sort = array(
             0=>'serial',
             1=>'jenis',
             2=>'nama_ruangan',
             3=>'berat',
+            4 => 'harga'
         );
         if(!isset($valid_sort[$col]))
         {
@@ -96,7 +98,7 @@ class Barang extends CI_Controller {
             }                 
         }
         $this->db->limit($length,$start);
-        $this->db->select("barang.*,jenis,berat");
+        $this->db->select("barang.*,jenis,berat,harga");
         $this->db->from("barang");
         $this->db->join('jenis_barang', 'barang.id_jenis = jenis_barang.id');
 
@@ -110,6 +112,7 @@ class Barang extends CI_Controller {
                         $r->jenis,
                         $r->nama_ruangan,
                         $r->berat,
+                        $r->harga,
                         '<button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->serial.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
                         </button>

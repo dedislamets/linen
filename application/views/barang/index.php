@@ -27,6 +27,9 @@
                         <th>
                           Berat (Kg)
                         </th>
+                        <th>
+                          Harga
+                        </th>
                         
                         <th>
                           Aksi
