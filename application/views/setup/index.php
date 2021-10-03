@@ -49,6 +49,31 @@
                 <input type="text" id="port_ip" name="port_ip" class="form-control" value="<?php echo $setup[0]->port_ip ?>">
               </div>
             </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Default Scan</label>
+              <div class="col-sm-10">
+                
+                <div class="row mg-t-10">
+                  <div class="col-lg-3">
+                    <label class="rdiobox">
+                      <input name="default_scan" type="radio" value="0" <?php echo ($setup[0]->default_scan==0 ? "checked": "") ?>>
+                      <span>COM</span>
+                    </label>
+                  </div><!-- col-3 -->
+                  <div class="col-lg-3 mg-t-20 mg-lg-t-0">
+                    <label class="rdiobox">
+                      <input name="default_scan" type="radio" value="1" <?php echo ($setup[0]->default_scan==1 ? "checked": "") ?>>
+                      <span>TCP</span>
+                    </label>
+                  </div><!-- col-3 -->
+                </div>
+              </div>
+              <!-- <label class="col-sm-2 col-form-label">Port</label>
+              <div class="col-sm-4">
+                <input type="text" id="port_ip" name="port_ip" class="form-control" value="<?php echo $setup[0]->port_ip ?>">
+              </div> -->
+            </div>
+
           </fieldset>
           <fieldset>
             <div class="form-group">

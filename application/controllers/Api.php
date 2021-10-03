@@ -96,6 +96,24 @@ class Api extends RestController  {
         }
     }
 
+    public function config_get()
+    {
+        $shift = $this->admin->api_array('tb_setting');
+
+        if ($shift != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $shift
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 404 );
+        }
+    }
+
     public function serial_get()
     {
         $sql = "SELECT serial,nama_ruangan as ruangan,jenis FROM barang INNER JOIN jenis_barang ON barang.`id_jenis`=jenis_barang.`id`";

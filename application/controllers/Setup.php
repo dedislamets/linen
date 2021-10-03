@@ -55,6 +55,7 @@ class Setup extends CI_Controller {
         $this->form_validation->set_message('required', '<div class="alert alert-danger" >
             <div class="header"><b><i class="fa fa-exclamation-circle"></i> {field}</b> harus diisi</div></div>');
 
+
         if ($this->form_validation->run() == TRUE) {
             $data = array(
                 'port_com'         =>  $this->input->post('serial_com') ,
@@ -63,6 +64,7 @@ class Setup extends CI_Controller {
                 'speed'   =>  $this->input->post('speed') ,
                 'ip'   =>  $this->input->post('ip') ,
                 'port_ip'   =>  $this->input->post('port_ip') ,
+                'default_scan'   =>  $this->input->post('default_scan')
             );
             $this->db->set($data);
             $this->db->update('tb_setting');
