@@ -3,40 +3,32 @@
         <div class="row">
             <div class="col-xl-10">
                 <h4><?= $title ?></h4>
-                <span>Halaman Utama ini menampilkan informasi <?= $title ?></span>
+                <span>Halaman Utama ini menampilkan Jenis Barang</span>
             </div>
-            <!-- <div class="col-xl-2" style="padding-right: 0;">
-                <a class="btn btn-block btn-dark btn-rounded" id="btnHistory" href="<?= base_url() ?>linenkotor/create"><i class="fa fa-history"></i>&nbsp; History</a>
-            </div> -->
             <div class="col-xl-2">
-                <a class="btn btn-block btn-dark btn-rounded" id="btnAdd" href="<?= base_url() ?>linenkotor/create"><i class="fa fa-plus"></i>&nbsp; Tambah baru</a>
+                <button class="btn btn-success" id="btnAdd"><i class="icofont icofont-ui-add"></i> Tambah baru</button>
             </div>
         </div>
     </div>
     <div class="card-block" style="padding: 10px;">
-        <div class="table-responsive">
+        <div class="dt-responsive table-responsive">
             <table id="ViewTable" class="table table-striped">
                 <thead class="text-primary">
                     <tr>
                         <th>
-                          Tanggal
+                          Nama
                         </th>
                         <th>
-                          No Transaksi
+                          Berat (Kg)
                         </th>
                         <th>
-                          PIC
+                          Harga
                         </th>
                         <th>
-                          Total Qty
+                          Jenis
                         </th>
-                        <th>
-                          Total Berat
-                        </th>
-                        <th>
-                          Status
-                        </th>
-                        <th>
+                        
+                        <th class="text-left" style="width: 120px;">
                           Aksi
                         </th>
                     </tr>

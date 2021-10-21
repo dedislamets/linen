@@ -57,18 +57,16 @@ class Linenkotor extends CI_Controller {
       $valid_columns = array(
           0=>'TANGGAL',
           1=>'NO_TRANSAKSI',
-          2=>'KATEGORI',
-          3=>'PIC',
-          4=>'TOTAL_QTY',
-          5=>'TOTAL_BERAT',
+          2=>'PIC',
+          3=>'TOTAL_QTY',
+          4=>'TOTAL_BERAT',
       );
       $valid_sort = array(
           0=>'TANGGAL',
           1=>'NO_TRANSAKSI',
-          2=>'KATEGORI',
-          3=>'PIC',
-          4=>'TOTAL_QTY',
-          5=>'TOTAL_BERAT',
+          2=>'PIC',
+          3=>'TOTAL_QTY',
+          4=>'TOTAL_BERAT',
       );
       if(!isset($valid_sort[$col]))
       {
@@ -99,7 +97,7 @@ class Linenkotor extends CI_Controller {
               $x++;
           }                 
       }
-      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI");
+      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY");
       $this->db->limit($length,$start);
       $this->db->from("linen_kotor");
 
@@ -117,7 +115,6 @@ class Linenkotor extends CI_Controller {
           $data[] = array( 
                       $r->TANGGAL,
                       $r->NO_TRANSAKSI,
-                      $r->KATEGORI,
                       $r->PIC,
                       $r->TOTAL_QTY,
                       $r->TOTAL_BERAT,
@@ -193,18 +190,16 @@ class Linenkotor extends CI_Controller {
       $valid_columns = array(
           0=>'TANGGAL',
           1=>'NO_TRANSAKSI',
-          2=>'KATEGORI',
-          3=>'PIC',
-          4=>'TOTAL_QTY',
-          5=>'TOTAL_BERAT',
+          2=>'PIC',
+          3=>'TOTAL_QTY',
+          4=>'TOTAL_BERAT',
       );
       $valid_sort = array(
           0=>'TANGGAL',
           1=>'NO_TRANSAKSI',
-          2=>'KATEGORI',
-          3=>'PIC',
-          4=>'TOTAL_QTY',
-          5=>'TOTAL_BERAT',
+          2=>'PIC',
+          3=>'TOTAL_QTY',
+          4=>'TOTAL_BERAT',
       );
       if(!isset($valid_sort[$col]))
       {
@@ -247,7 +242,6 @@ class Linenkotor extends CI_Controller {
           $data[] = array( 
                       $r->TANGGAL,
                       $r->NO_TRANSAKSI,
-                      $r->KATEGORI,
                       $r->PIC,
                       $r->TOTAL_QTY,
                       $r->TOTAL_BERAT,
@@ -305,7 +299,6 @@ class Linenkotor extends CI_Controller {
       $data['modal'] = 'modal/kotor'; 
       $data['mode'] ='edit';
       $data['totalrow'] = 0;
-      $data['kategori'] = $this->admin->getmaster('kategori');
       $data['pic'] = $this->admin->getmaster('tb_user');
 
       $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI");
@@ -345,7 +338,6 @@ class Linenkotor extends CI_Controller {
 
       $data['no_transaksi'] = $nomor_transaksi;
       $data['pic'] = $this->admin->getmaster('tb_user');
-      $data['kategori'] = $this->admin->getmaster('kategori');
       $data['data'] = array();
 
       $data['data_detail'] = array();
@@ -369,7 +361,6 @@ class Linenkotor extends CI_Controller {
           'NO_TRANSAKSI'   => $this->input->post('no_transaksi'),
           'TANGGAL'   => date("Y-m-d", strtotime($tgl)),
           'PIC'       => $this->input->post('pic'),
-          'KATEGORI'       => $this->input->post('kategori'),
           'TOTAL_BERAT'   => $this->input->post('total_berat'),
           'TOTAL_QTY'     => $this->input->post('total_qty'),
           'STATUS'     => 'CUCI',           

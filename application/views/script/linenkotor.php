@@ -13,7 +13,7 @@
 			// "ordering": false,
 			"autoWidth": true,
 			order: [
-	            [0, 'asc'],[6, 'asc']
+	            [0, 'asc'],[5, 'asc']
 	        ], 
 	    });
 

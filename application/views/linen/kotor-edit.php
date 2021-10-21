@@ -45,23 +45,7 @@
           <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= empty($data) ? "" : date("m/d/Y", strtotime($data['TANGGAL'])) ?>" />
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">KATEGORI</label>
-        <div class="col-sm-10">
-          <select name="kategori" id="kategori" class="form-control">
-            <?php 
-            foreach($kategori as $row)
-            { 
-              if( empty($data) ? "" : $data['KATEGORI'] === $row->kategori){
-                echo '<option value="'.$row->kategori.'" selected >'.$row->kategori.'</option>';
-              }else{
-                echo '<option value="'.$row->kategori.'">'.$row->kategori.'</option>';
-              }
-            }
-            ?>
-          </select>
-        </div>
-      </div>
+
      <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">PIC</label>
         <div class="col-sm-10">
