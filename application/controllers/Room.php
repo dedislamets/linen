@@ -56,12 +56,12 @@ class Room extends CI_Controller {
 
         $valid_columns = array(
             0=>'ruangan',
-            0=>'finfeksius',
+            1=>'finfeksius',
 
         );
         $valid_sort = array(
             0=>'ruangan',
-            0=>'finfeksius',
+            1=>'finfeksius',
 
         );
         if(!isset($valid_sort[$col]))
