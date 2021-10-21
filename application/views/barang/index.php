@@ -1,12 +1,12 @@
 <div class="card z-depth-0">
-    <div class="card-header back-green" style="color:#fff">
+    <div class="card-header back-green" style="color:#fff;background-color: green;">
         <div class="row">
             <div class="col-xl-10">
                 <h4>Master Linen</h4>
                 <span>Halaman Utama ini menampilkan informasi linen</span>
             </div>
             <div class="col-xl-2">
-                <button class="btn btn-primary" id="btnAdd"><i class="icofont icofont-ui-add"></i> Tambah baru</button>
+                <a class="btn btn-block btn-dark btn-rounded" id="btnAdd" href="<?= base_url() ?>barang/create"><i class="fa fa-plus"></i>&nbsp; Tambah baru</a>
             </div>
         </div>
     </div>
@@ -23,6 +23,9 @@
                         </th>
                         <th>
                           Ruangan
+                        </th>
+                        <th>
+                          Jenis
                         </th>
                         <th>
                           Berat (Kg)

@@ -56,10 +56,12 @@ class Room extends CI_Controller {
 
         $valid_columns = array(
             0=>'ruangan',
+            0=>'finfeksius',
 
         );
         $valid_sort = array(
             0=>'ruangan',
+            0=>'finfeksius',
 
         );
         if(!isset($valid_sort[$col]))
@@ -99,6 +101,7 @@ class Room extends CI_Controller {
 
             $data[] = array( 
                         $r->ruangan,
+                        $r->finfeksius,
                         '<button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->id.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
                         </button>
@@ -160,7 +163,7 @@ class Room extends CI_Controller {
       $recLogin = $this->session->userdata('user_id');
       $data = array(
           'ruangan'   => $this->input->post('nama_ruangan'),
-                      
+          'finfeksius'   => $this->input->post('finfeksius'),
       );
 
       $this->db->trans_begin();
@@ -168,7 +171,7 @@ class Room extends CI_Controller {
       if($this->input->post('id_ruangan') != "") {
 
           $this->db->set($data);
-          $this->db->where('id_ruangan', $this->input->post('id_ruangan'));
+          $this->db->where('id', $this->input->post('id_ruangan'));
           $result  =  $this->db->update('tb_ruangan');  
 
           if(!$result){

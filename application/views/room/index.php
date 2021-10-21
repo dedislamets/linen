@@ -6,7 +6,7 @@
                 <span>Halaman Utama ini menampilkan informasi Ruangan</span>
             </div>
             <div class="col-xl-2">
-                <button class="btn btn-primary" id="btnAdd"><i class="icofont icofont-ui-add"></i> Tambah baru</button>
+                <button class="btn btn-success" id="btnAdd"><i class="icofont icofont-ui-add"></i> Tambah baru</button>
             </div>
         </div>
     </div>
@@ -17,6 +17,9 @@
                     <tr>
                         <th>
                           Nama Ruangan
+                        </th>
+                        <th>
+                          Jenis
                         </th>
                         
                         <th class="text-left" style="width: 120px;">

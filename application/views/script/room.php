@@ -22,7 +22,8 @@
 		$.get('room/edit', { id: $(val).data('id') }, function(data){ 
 				$("#lbl-title").text("Edit");
 				$("#nama_ruangan").val(data[0]['ruangan']);
-				$("#id_ruangan").val(data[0]['id_ruangan']);
+				$("#finfeksius").val(data[0]['finfeksius']);
+				$("#id_ruangan").val(data[0]['id']);
            		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
            
         });
@@ -31,11 +32,9 @@
 	
 	$('#btnAdd').on('click', function (event) {
 		$("#lbl-title").text('Tambah');
-		$("#jenis").val('Gadget');
-		$("#satuan").val('Kg');
-		$("#nama_barang").val('');
-		$("#berat_barang").val(0);
-		$("#id_barang").val('');
+		$("#nama_ruangan").val('');
+		$("#finfeksius").val("Infeksius");
+		$("#id_ruangan").val('');
 		$('#Form').find(':input:disabled').removeAttr('disabled');
 		
 		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;

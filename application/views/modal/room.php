@@ -15,7 +15,13 @@
 						<label>Nama Ruangan<span style="color:red"> *</span></label>
 						<input type="text" id="nama_ruangan" name="nama_ruangan" class="form-control" maxlength="200" />
 					</div>	
-					
+					<div class="form-group">
+	                    <label style="font-weight: bold;">Ruangan</label>
+	                    <select id="finfeksius" name="finfeksius" class="form-control" >
+                        	<option value="Infeksius">Infeksius</option>
+                        	<option value="Non Infeksius">Non Infeksius</option>
+                      	</select>
+	                  </div>
 									
 					<input type="hidden" name="id_ruangan" id="id_ruangan" value="">
 					<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
