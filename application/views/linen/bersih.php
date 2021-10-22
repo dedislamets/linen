@@ -22,9 +22,6 @@
                           No Transaksi
                         </th>
                         <th>
-                          Kategori
-                        </th>
-                        <th>
                           PIC
                         </th>
                         <th>

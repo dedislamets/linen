@@ -126,10 +126,12 @@
     font-weight: 400;
     color: #ffffff;
     margin-bottom: 0;
+    text-align: center;
   }
 
   .card__apply {
     grid-row: 4/5;
+    text-align: center;
   }
 
   /* CARD BACKGROUNDS */
@@ -193,25 +195,34 @@
         </div>
         <div class="cards">
           <div class="card card-4">
-            <h2 class="card__title">
-              <span><?= empty($kotor) ? "" : $kotor['NO_TRANSAKSI'] ?></span> 
-              <input type="hidden" name="NO_TRANSAKSI" id="NO_TRANSAKSI" value="<?= empty($kotor) ? "" : $kotor['NO_TRANSAKSI'] ?>">
-              <span style="float: right;"><?= empty($kotor) ? "" : $kotor['KATEGORI'] ?></span>
-            </h2>
-            <p class="card__apply">
-              <a class="card__link" href="#">No Transaksi</a>
-              <a class="card__link" href="#" style="float: right;">Kategori</a>
-            </p>
-            <h2 class="card__title">
-              <span><?= empty($kotor) ? "" : $kotor['PIC'] ?></span> 
-              <span style="float: right;"><?= empty($kotor) ? "" : date("Y-m-d", strtotime($kotor['TANGGAL'])) ?></span>
-            </h2>
-            <p class="card__apply">
-              <a class="card__link" href="#">PIC Linen Kotor</a>
-              <a class="card__link" href="#" style="float: right;">Tanggal Input Linen Kotor</a>
-            </p>
+            <div class="row">
+              <div class="col-xl-4">
+                <h2 class="card__title">
+                  <span><?= empty($kotor) ? "" : $kotor['NO_TRANSAKSI'] ?></span> 
+                  <input type="hidden" name="NO_TRANSAKSI" id="NO_TRANSAKSI" value="<?= empty($kotor) ? "" : $kotor['NO_TRANSAKSI'] ?>">
+                </h2>
+                <p class="card__apply">
+                  <a class="card__link" href="#">No Transaksi</a>
+                </p>
+              </div>
+              <div class="col-xl-4">
+                <h2 class="card__title">
+                  <span><?= empty($kotor) ? "" : $kotor['PIC'] ?></span> 
+                </h2>
+                <p class="card__apply">
+                  <a class="card__link" href="#">PIC Linen Kotor</a>
+                </p>
+              </div>
+              <div class="col-xl-4">
+                <h2 class="card__title">
+                  <span><?= empty($kotor) ? "" : date("Y-m-d", strtotime($kotor['TANGGAL'])) ?></span> 
+                </h2>
+                <p class="card__apply">
+                  <a class="card__link" href="#">Tanggal Input Linen Kotor</a>
+                </p>
+              </div>
+            </div>
           </div>
-          
         </div>
       </div>
 

@@ -57,18 +57,16 @@ class Linenbersih extends CI_Controller {
       $valid_columns = array(
           0=>'TANGGAL',
           1=>'NO_TRANSAKSI',
-          2=>'KATEGORI',
-          3=>'PIC',
-          4=>'TOTAL_QTY',
-          5=>'TOTAL_BERAT',
+          2=>'PIC',
+          3=>'TOTAL_QTY',
+          4=>'TOTAL_BERAT',
       );
       $valid_sort = array(
           0=>'TANGGAL',
           1=>'NO_TRANSAKSI',
-          2=>'KATEGORI',
-          3=>'PIC',
-          4=>'TOTAL_QTY',
-          5=>'TOTAL_BERAT',
+          2=>'PIC',
+          3=>'TOTAL_QTY',
+          4=>'TOTAL_BERAT',
       );
       if(!isset($valid_sort[$col]))
       {

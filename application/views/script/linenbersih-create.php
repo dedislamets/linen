@@ -75,6 +75,7 @@
 
     $("#btnStop").on('click', function(e) {
     	e.preventDefault();
+    	doclose();
     	$('#tbody-table').html('');
     	arr_epc = [];
     	start = 0;
@@ -83,47 +84,76 @@
     	$("#total_berat").val(0);
 		$("#btnScan").text('Start Scan');
 		clearInterval(setScan);
-		doclose();
+		
 		$("#status_koneksi").val("Stop scanning...");
     })
+
 
     $("#btnScan").on('click', function(e) {
     	e.preventDefault();
     	// arr_epc = [];
-
+    	$("#status_koneksi").removeClass("error-text");
+    	$("#status_koneksi").addClass("scan-text");
     	if(start == 0){
-    		start =1;
-    		$("#btnScan").html('<i class="fa fa-stop"></i> Stop Scan');
-    		setScan = setInterval(function(){ 
-	    		scanning();
-	    	}, 500);
+    		config();
     	}else{
     		start = 0;
     		$("#btnScan").html('<i class="fa fa-barcode"></i> Start Scan');
     		$("#status_koneksi").val('Stop scanning...');
     		clearInterval(setScan);
+    		doclose();
     		return;
     	}
         
     })
 
-    function scanning(){
-    	var session = 255;
-	    var QValue = 4;
+    function config(){
+    	$.get('<?= base_url()?>api/config', {  }, function(data){ 
+    		if(data.status){
+    			var Port = data.data[0].port_com;
+    			var Baud = data.data[0].baud;
+
+    			var ipAddr = data.data[0].ip;
+		        var Port_IP= data.data[0].port_ip;
+		        var def = data.data[0].default_scan;
+		        var power= data.data[0].power;
+		        var konek;
+		        try{
+		        	if (def ==1){
+		        		konek = TUHF2000.RFID_TcpOpen(ipAddr,Port_IP);
+		        	}else{
+		        		konek = TUHF2000.RFID_ComOpen(Port,Baud);
+		        	}
+		        	
+			        if(konek == 0){
+			        	$("#btnScan").html('<i class="fa fa-stop"></i> Stop Scan');
+			        	$("#status_koneksi").val("Tersambung...");
+			        	TUHF2000.RFID_SetRfPower(power);
+			        	TUHF2000.RFID_Beep(1);
+			        	start =1;
+
+			        	setScan = setInterval(function(){ 
+				    		scanning(data.data[0].session, data.data[0].QValue, data.data[0].anteana);
+				    	}, 100);
+			        }else{
+			        	$("#status_koneksi").val("Terputus...(Copot kabel usb dan pasang kembali untuk mengulangi scan!)");
+			        }
+		        }catch(e){
+		        	alert('Silahkan gunakan browser IE untuk menggunakan fitur ini.');
+		        }
+		       
+		        
+    		}
+    	});
+
+    }
+
+    function scanning(session,QValue,anteana){
+	  
 	    var scantid=0;
-	    var anteana = 128;
 	    var t=128;
        	
-       	var Port = 9;
-        var Baud=5;
-
-        var konek = TUHF2000.RFID_ComOpen(Port,Baud);
-        if(konek == 0){
-        	$("#status_koneksi").val("Tersambung...");
-        }else{
-        	$("#status_koneksi").val("Terputus...(Copot kabel usb dan pasang kembali untuk mengulangi scan!)");
-        }
-    	var sum = TUHF2000.RFID_Inventory(QValue,session,scantid,anteana,0,10); 
+    	var sum = TUHF2000.RFID_Inventory(QValue,session,scantid,anteana,0,1); 
         if(sum=="") 
         {	 	
            $("#status_koneksi").val("Waiting for scanning...");
@@ -240,7 +270,7 @@
            }
         }
 
-        doclose();
+        // doclose();
     }
 
     function doclose() 

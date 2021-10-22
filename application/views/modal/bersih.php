@@ -20,9 +20,7 @@
 	                            <th>
 	                              NO_TRANSAKSI
 	                            </th>
-	                            <th>
-	                              KATEGORI
-	                            </th>
+	                           
 	                            <th>
 	                              PIC
 	                            </th>
