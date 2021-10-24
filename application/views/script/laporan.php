@@ -17,7 +17,7 @@
 		window.location.href="<?= base_url(); ?>laporan?f=1&b="+ $("#bulan_medis").val() + "&t=" + $("#tahun_medis").val() 
 	})
 	$('#btnRawat').on('click', function (event) {
-		window.location.href="<?= base_url(); ?>laporan?b="+ $("#bulan_medis").val() + "&t=" + $("#tahun_medis").val() 
+		window.location.href="<?= base_url(); ?>laporan?b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val() 
 	})
 
 	$('#btnCetakMedis').on('click', function (event) {
