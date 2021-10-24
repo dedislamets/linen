@@ -222,7 +222,7 @@
         <a href="#" class="az-header-search-link"><?php echo $this->session->userdata('nama'); ?></a>  
         <div class="dropdown az-profile-menu">
           <a href="#" class="az-img-user">
-            <img src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=CollarSweater&clotheColor=Blue03&eyeType=Surprised&eyebrowType=UpDownNatural&mouthType=Twinkle&skinColor=Light'/>
+            <img src='<?= base_url() ?>assets/images/avaco.png'/>
           </a>
           <div class="dropdown-menu">
             <div class="az-dropdown-header d-sm-none">
@@ -230,7 +230,7 @@
             </div>
             <div class="az-header-profile">
               <div class="az-img-user">
-                <img src='https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=CollarSweater&clotheColor=Blue03&eyeType=Surprised&eyebrowType=UpDownNatural&mouthType=Twinkle&skinColor=Light'/>
+                <img src='<?= base_url() ?>assets/images/avaco.png'/>
               </div><!-- az-img-user -->
               <h6><?= $this->session->userdata('user_name') ?></h6>
               <span><?= $this->session->userdata('role_name') ?></span>

@@ -139,7 +139,7 @@
 			        	$("#status_koneksi").val("Terputus...(Copot kabel usb dan pasang kembali untuk mengulangi scan!)");
 			        }
 		        }catch(e){
-		        	alert('Silahkan gunakan browser IE untuk menggunakan fitur ini.');
+		        	alert('Terjadi gangguan, silahkan coba kembali..');
 		        }
 		       
 		        

@@ -52,6 +52,7 @@ class Dashboard extends CI_Controller {
             $this->db->group_by('tb_ruangan.ruangan');
             $this->db->order_by('count(epc) desc');
             $data['ruangan'] = $this->db->get()->result();
+            // echo $this->db->last_query(); exit();
 
             $this->db->select('ruangan, sum(qty-qty_keluar) AS jml');
             $this->db->from('request_linen A');

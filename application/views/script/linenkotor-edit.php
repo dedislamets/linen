@@ -113,6 +113,9 @@
 		        try{
 		        	if (def ==1){
 		        		konek = TUHF2000.RFID_TcpOpen(ipAddr,Port_IP);
+		        		if(konek == undefined){
+		        			konek = TUHF2000.RFID_TcpOpen(ipAddr,Port_IP);
+		        		}
 		        	}else{
 		        		konek = TUHF2000.RFID_ComOpen(Port,Baud);
 		        	}
@@ -131,7 +134,7 @@
 			        	$("#status_koneksi").val("Terputus...(Copot kabel usb dan pasang kembali untuk mengulangi scan!)");
 			        }
 		        }catch(e){
-		        	alert('Silahkan gunakan browser IE untuk menggunakan fitur ini.');
+		        	alert('Terjadi gangguan, silahkan coba kembali..');
 		        }
 		       
 		        
@@ -315,6 +318,10 @@
 			        	alert('Item yang discan tidak diijinkan untuk disimpan..');
 			        	flag= false;
 			        }
+			    }
+			    if($tds.eq(2).next().children().val() == ""){
+			    	alert('Serial belum terdaftar..');
+			        flag= false;
 			    }
 		    });
     	}

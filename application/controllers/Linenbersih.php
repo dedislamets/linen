@@ -109,7 +109,6 @@ class Linenbersih extends CI_Controller {
           $data[] = array( 
                       $r->TANGGAL,
                       $r->NO_TRANSAKSI,
-                      $r->KATEGORI,
                       $r->PIC,
                       $r->TOTAL_QTY,
                       $r->TOTAL_BERAT,
