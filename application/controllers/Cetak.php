@@ -18,12 +18,11 @@ class Cetak extends CI_Controller {
 			$data['ruangan'] = $this->admin->getmaster('tb_ruangan');
 			$bln = date('m');
 			$thn = date('Y');
-			$page="";
+			$page=$this->input->get("p", TRUE);
 
 			if(!empty($this->input->get("b", TRUE))){
 				$bln=$this->input->get("b", TRUE);
 				$thn=$this->input->get("t", TRUE);
-				$page=$this->input->get("p", TRUE);
 			}
 			$data['page'] = $page;
 
@@ -56,6 +55,7 @@ class Cetak extends CI_Controller {
 				}
 				$data['laporan_medis']= $arr;
 				$data['laporan_medis_sum']= $arr_sum;
+				$this->load->view('cetak',$data,FALSE); 
 			}elseif ($page == 'rawat_infeksius_kg') {
 				$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,berat as total
 								FROM `linen_kotor` 
@@ -79,6 +79,7 @@ class Cetak extends CI_Controller {
 				}
 				$data['laporan_rawat_inf']= $arr;
 				$data['laporan_rawat_inf_sum']= $arr_sum;
+				$this->load->view('cetak',$data,FALSE); 
 			}elseif ($page == 'rawat_non_infeksius_kg') {
 				$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,berat as total
 								FROM `linen_kotor` 
@@ -102,6 +103,7 @@ class Cetak extends CI_Controller {
 				}
 				$data['laporan_non_rawat_inf']= $arr;
 				$data['laporan_non_rawat_inf_sum']= $arr_sum;
+				$this->load->view('cetak',$data,FALSE); 
 			}elseif ($page == 'rawat_infeksius_lb') {
 				$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
 									FROM `linen_kotor` 
@@ -125,6 +127,7 @@ class Cetak extends CI_Controller {
 				}
 				$data['laporan_rawat_inf_2']= $arr;
 				$data['laporan_rawat_inf_sum_2']= $arr_sum;
+				$this->load->view('cetak',$data,FALSE); 
 			}elseif ($page == 'rawat_non_infeksius_lb') {
 				$laporan_rawat_non_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
 									FROM `linen_kotor` 
@@ -148,12 +151,12 @@ class Cetak extends CI_Controller {
 				}
 				$data['laporan_rawat_non_inf_2']= $arr;
 				$data['laporan_rawat_non_inf_sum_2']= $arr_sum;
+				$this->load->view('cetak',$data,FALSE); 
+			}elseif($page == 'keluar'){
+				$this->load->view('cetak_thermal',$data,FALSE); 
 			}
 
-			
-			// print("<pre>".print_r($data,true)."</pre>"); exit();
-
-			$this->load->view('cetak',$data,FALSE); 
+			// print("<pre>".print_r($data,true)."</pre>"); exit();	
 
 	    }else{
 	        redirect("login");

@@ -99,6 +99,7 @@
     	}
         
     })
+
     function config(){
     	$.get('<?= base_url()?>api/config', {  }, function(data){ 
     		if(data.status){

@@ -174,14 +174,16 @@
   <? endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
-        <div class="col-xl-10">
+        <div class="col-xl-8">
             <h4><?= $title ?> <a href="<?= base_url() ?>linenkeluar" style="color: #000;margin-left: 10px;"> Back </a></h4>
             <span>Halaman ini menampilkan data linen yang tersimpan</span>
         </div>
         
         <div class="col-xl-2">
           <div class="status-trans"><?= $mode=="new" ? "INPUT" : $keluar['STATUS'] ?></div>
-          
+        </div>
+        <div class="col-xl-2">
+          <button class="btn btn-success btn-block" id="btnCetak" ><i class="fa fa-print"></i>&nbsp; Print</button>
         </div>
     </div>
   </div>

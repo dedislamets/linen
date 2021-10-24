@@ -66,18 +66,9 @@
 		}
 	})
 
-	
-
-	// myTable = $('#ViewTableKotor').DataTable({
-	// 		ajax: {		            
-	//             "url": "<?= base_url(); ?>linenkotor/dataTableBrowse",
-	//             "type": "GET"
-	//         },
-	//         processing	: true,
-	// 		serverSide	: true,			
-	// 		"bPaginate": true,	
-
-	//     });
+	$('#btnCetak').on('click', function (event) {
+		window.open("<?= base_url(); ?>cetak?p=keluar",'_blank' );
+	})
 
 	$('#ViewTableRequest').DataTable({
 		ajax: {		            
