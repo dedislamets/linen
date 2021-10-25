@@ -153,6 +153,19 @@ class Cetak extends CI_Controller {
 				$data['laporan_rawat_non_inf_sum_2']= $arr_sum;
 				$this->load->view('cetak',$data,FALSE); 
 			}elseif($page == 'keluar'){
+
+				$id=$this->input->get("id", TRUE);
+				$data['keluar'] = $this->admin->get_array('linen_keluar',array( 'id' => $id));;
+			    $data['data_detail_keluar'] = $this->admin->get_result_array('linen_keluar_detail',array( 'no_transaksi' => $data['keluar']['NO_TRANSAKSI']));
+			    foreach ($data['data_detail_keluar'] as $key => $value) {
+			        $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
+			        $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
+			        $data['data_detail_keluar'][$key]['jenis'] = $jenis['jenis'];
+			        $data['data_detail_keluar'][$key]['berat'] = $jenis['berat'];
+			        $data['data_detail_keluar'][$key]['harga'] = $jenis['harga'];
+			    }
+
+			    $data['no_transaksi'] = $data['keluar']['NO_TRANSAKSI'];
 				$this->load->view('cetak_thermal',$data,FALSE); 
 			}
 

@@ -9,50 +9,75 @@
     </head>
     <body>
         <div class="ticket">
-            <img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;padding-left: 105px;">
-            <p class="centered">Formulir Distribusi Linen Kotor Bersih<br>
+            <img class="watermark" src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" >
+            <div class="judul">Formulir Distribusi Linen Bersih</div>
+            <p class="centered" style="margin-block-start: 0;">
                 RSUD Gambiran Kota Kediri<br>
                 Instalasi Laundry
             </p>
-            <table width="100%">
+
+              <div class="headerTitle">
+                <?= $keluar['RUANGAN'] ?>
+              </div>
+              <div class="headerSubTitle">
+                <?= $no_transaksi ?>
+              </div>
+              <div id="location">
+                <?= $keluar['PIC'] ?>
+              </div>
+              <div id="location" style="background: beige;">
+                <?= $keluar['NO_REFERENSI'] ?>
+              </div>
+              <div id="date">
+               Waktu : <?= tgl_waktu_indo($keluar['CURRENT_INSERT']) ?>
+              </div>
+
+            <!-- <table width="100%">
                 <thead>
                     <tr>
-                        <th class="quantity">Q.</th>
-                        <th class="description">Description</th>
-                        <th class="price">$$</th>
+                        <th>No</th>
+                        <th class="quantity">Serial</th>
+                        <th class="description">Jenis</th>
+                        <th class="price">Berat</th>
+                        <th class="price">Harga</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td class="quantity">1.00</td>
-                        <td class="description">ARDUINO UNO R3</td>
-                        <td class="price">$25.00</td>
-                    </tr>
-                    <tr>
-                        <td class="quantity">2.00</td>
-                        <td class="description">JAVASCRIPT BOOK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                    <tr>
-                        <td class="quantity">1.00</td>
-                        <td class="description">STICKER PACK</td>
-                        <td class="price">$10.00</td>
-                    </tr>
-                    <tr>
-                        <td class="quantity"></td>
-                        <td class="description">TOTAL</td>
-                        <td class="price">$55.00</td>
-                    </tr>
+                    <?php 
+                    $no=1;
+                    foreach($data_detail_keluar as $row) : ?> 
+                        <tr>
+                            <td style="width: 20px;"><?= $no ?></td>
+                            <td><?= $row['epc'] ?></td>
+                            <td><?= $row['jenis'] ?></td>
+                            <td><?= $row['berat'] ?></td>
+                            <td><?= $row['harga'] ?></td>
+                        </tr>
+                    <?php 
+                    $no++;
+                    endforeach; ?>
                 </tbody>
-            </table>
-            <p class="centered">Thanks for your purchase!
-                <br>parzibyte.me/blog</p>
+            </table> -->
+            <div class="flex">
+                <div id="qrcode"></div>  
+            </div>
+            <p class="centered">Struk ini merupakan bukti sah</p>
         </div>
         <button id="btnPrint" class="hidden-print">Print</button>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/davidshimjs-qrcodejs@0.0.2/qrcode.min.js"></script>
         <script type="text/javascript">
             const $btnPrint = document.querySelector("#btnPrint");
             $btnPrint.addEventListener("click", () => {
                 window.print();
+            });
+
+            var qrcode = new QRCode(document.getElementById("qrcode"), {
+                text: "https://gg.bronyhouse.com/r/122424",
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+              width : 100,
+              height : 100,
+                correctLevel : QRCode.CorrectLevel.H,
             });
         </script>
     </body>

@@ -197,3 +197,8 @@ function ChangeRole($recLogin=""){
     return $menu;
 }
 
+function tgl_waktu_indo($tanggal){
+    setlocale(LC_ALL, 'id-ID', 'id_ID');
+    echo strftime("%A, %d %B %Y %T", strtotime($tanggal)) . "\n";
+}
+

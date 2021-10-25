@@ -67,7 +67,7 @@
 	})
 
 	$('#btnCetak').on('click', function (event) {
-		window.open("<?= base_url(); ?>cetak?p=keluar",'_blank' );
+		window.open("<?= base_url(); ?>cetak?p=keluar&id=" + $("#id_keluar").val() ,'_blank' );
 	})
 
 	$('#ViewTableRequest').DataTable({

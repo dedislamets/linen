@@ -2,6 +2,58 @@
     font-family: 'Times New Roman';
 }
 
+.watermark {
+   position: absolute;
+   left: 7mm;
+   top: 21mm;
+   width: 75mm;
+   opacity: 0.1;
+}
+
+.orderNo {
+  width: 100%;
+  text-align: right;
+  padding-bottom: 1mm;
+  font-size: 12pt;
+  font-weight: bold;
+}
+
+.orderNo:empty {
+  display: none;
+}
+
+.headerSubTitle {
+  font-family: 'Equestria', 'Permanent Marker', cursive;
+  text-align: center;
+  font-size: 12pt;
+}
+
+.headerTitle {
+  font-family: 'Equestria', 'Permanent Marker', cursive;
+  text-align: center;
+  font-size: 24pt;
+  font-weight: bold;
+}
+
+#location {
+  margin-top: 5pt;
+  text-align: center;
+  font-size: 16pt;
+  font-weight: bold;
+}
+.judul {
+  margin-top: 5pt;
+  text-align: center;
+  font-size:14pt;
+  font-weight: bold;
+}
+
+#date {
+  margin: 5pt 0px;
+  text-align: center;
+  font-size: 8pt;
+}
+
 td,
 th,
 tr,
@@ -14,6 +66,7 @@ td.description,
 th.description {
     width: 75px;
     max-width: 75px;
+    text-align: left;
 }
 
 td.quantity,
@@ -21,6 +74,7 @@ th.quantity {
     width: 40px;
     max-width: 40px;
     word-break: break-all;
+    text-align: left;
 }
 
 td.price,
@@ -28,6 +82,7 @@ th.price {
     width: 40px;
     max-width: 40px;
     word-break: break-all;
+    text-align: left;
 }
 
 .centered {
@@ -36,8 +91,10 @@ th.price {
 }
 
 .ticket {
-    width: 300px;
-    max-width: 300px;
+    width: 320px;
+    max-width: 320px;
+    border: solid 1px black;
+    padding: 10px;
 }
 
 img {
@@ -50,4 +107,52 @@ img {
     .hidden-print * {
         display: none !important;
     }
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+}
+
+#qrcode {
+  align-self: center;
+  flex: 0 0 100px
+}
+
+.totals {
+  flex-grow: 1;
+  align-self: center;
+  font-size: 8pt;
+}
+
+.totals .row {
+  display: flex;
+  text-align: right;
+}
+
+.totals .section {
+  padding-top: 2mm;
+}
+
+.totalRow > div, .total > div {
+  text-align: right;
+  align-items: baseline;
+  font-size: 8pt;
+}
+
+.totals .col1 {
+  text-align: right;
+  flex-grow: 1;
+}
+
+.totals .col2 {
+   width: 22mm; 
+}
+
+.totals .col2:empty {
+  display: none;
+}
+
+.totals .col3 {
+  width: 15mm;  
 }
