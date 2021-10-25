@@ -29,6 +29,10 @@
 					<div class="form-group">
 						<label style="font-weight: bold;">Berat</label>
 						<input type="number" id="berat" name="berat" class="form-control" value="0" />
+					</div>
+					<div class="form-group">
+						<label style="font-weight: bold;">Spesifikasi</label>
+						<textarea name="spesifikasi" id="spesifikasi" rows="4" class="form-control" placeholder="" style="height: 100px;" ></textarea>
 					</div>				
 					<input type="hidden" name="id_jenis" id="id_jenis" value="">
 					<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >

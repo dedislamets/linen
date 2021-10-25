@@ -155,18 +155,26 @@ class Cetak extends CI_Controller {
 			}elseif($page == 'keluar'){
 
 				$id=$this->input->get("id", TRUE);
-				$data['keluar'] = $this->admin->get_array('linen_keluar',array( 'id' => $id));;
+				$berat =0;
+				$jml=0;
+				$data['keluar'] = $this->admin->get_array('linen_keluar',array( 'id' => $id));
+				$ruangan = $this->admin->get_array('tb_ruangan',array( 'ruangan' => $data['keluar']['RUANGAN']));
+				$data['ruangan'] = strtoupper($ruangan['finfeksius']);
 			    $data['data_detail_keluar'] = $this->admin->get_result_array('linen_keluar_detail',array( 'no_transaksi' => $data['keluar']['NO_TRANSAKSI']));
 			    foreach ($data['data_detail_keluar'] as $key => $value) {
+			    	$jml++;
 			        $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
 			        $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
+
 			        $data['data_detail_keluar'][$key]['jenis'] = $jenis['jenis'];
 			        $data['data_detail_keluar'][$key]['berat'] = $jenis['berat'];
 			        $data['data_detail_keluar'][$key]['harga'] = $jenis['harga'];
+			        $berat += $jenis['berat'];
 			    }
-
+			    $data['berat'] = $berat;
+			    $data['jml'] = $jml;
 			    $data['no_transaksi'] = $data['keluar']['NO_TRANSAKSI'];
-				$this->load->view('cetak_thermal',$data,FALSE); 
+				$this->load->view('cetak_thermal_revisi',$data,FALSE); 
 			}
 
 			// print("<pre>".print_r($data,true)."</pre>"); exit();	

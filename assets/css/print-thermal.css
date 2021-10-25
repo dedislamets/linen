@@ -17,6 +17,15 @@
   font-size: 12pt;
   font-weight: bold;
 }
+.no-border{
+  border: unset;
+}
+
+.full-border{
+  border-left: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
+}
 
 .orderNo:empty {
   display: none;
@@ -26,6 +35,12 @@
   font-family: 'Equestria', 'Permanent Marker', cursive;
   text-align: center;
   font-size: 12pt;
+}
+.headerSubTitleNormal {
+  text-align: center;
+  font-size: 12pt;
+  font-weight: bold;
+  padding: 5px;
 }
 
 .headerTitle {
@@ -96,6 +111,11 @@ th.price {
     border: solid 1px black;
     padding: 10px;
 }
+.ticket_dua {
+    width: 550px;
+    max-width: 550px;
+    padding: 10px;
+}
 
 img {
     max-width: inherit;
@@ -112,6 +132,7 @@ img {
 .flex {
   display: flex;
   justify-content: center;
+  padding: 5px;
 }
 
 #qrcode {

@@ -25,6 +25,7 @@
 				$("#fmedis").val(data[0]['fmedis']);
 				$("#harga").val(data[0]['harga']);
 				$("#berat").val(data[0]['berat']);
+				$("#spesifikasi").val(data[0]['spesifikasi']);
 				$("#id_jenis").val(data[0]['id']);
            		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
            
@@ -38,6 +39,7 @@
 		$("#fmedis").val("Medis");
 		$("#harga").val(0);
 		$("#berat").val(0);
+		$("#spesifikasi").val('');
 		$("#id_jenis").val('');
 		$('#Form').find(':input:disabled').removeAttr('disabled');
 		

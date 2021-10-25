@@ -172,6 +172,7 @@ class Jenis extends CI_Controller {
           'fmedis'   => $this->input->post('fmedis'),
           'harga'   => str_replace('.', '',  $this->input->post('harga',TRUE)),
           'berat'   => $this->input->post('berat'),
+          'spesifikasi'   => $this->input->post('spesifikasi'),
       );
 
       $this->db->trans_begin();
