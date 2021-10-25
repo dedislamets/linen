@@ -350,6 +350,37 @@ class LinenKeluar extends CI_Controller {
     }
   }
 
+  public function detail($id){
+      $data['title'] = 'Edit Keluar';
+      $data['main'] = 'linen/keluar-detail';
+      $data['js'] = 'script/linenkeluar-detail';
+      $data['modal'] = 'modal/keluar'; 
+      $data['mode'] ='edit';
+      $data['totalrow'] = 0;
+
+      $data['keluar'] = $this->admin->get_array('linen_keluar',array( 'id' => $id));;
+      $data['data_detail_keluar'] = $this->admin->get_result_array('linen_keluar_detail',array( 'no_transaksi' => $data['keluar']['NO_TRANSAKSI']));
+      foreach ($data['data_detail_keluar'] as $key => $value) {
+        $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
+        $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
+        $data['data_detail_keluar'][$key]['jenis'] = $jenis['jenis'];
+        $data['data_detail_keluar'][$key]['berat'] = $jenis['berat'];
+
+        $data['totalrow'] ++;
+        
+      }
+
+      $data['no_transaksi'] = $data['keluar']['NO_TRANSAKSI'];
+
+      $data['kategori'] = $this->admin->getmaster('kategori');
+      $data['ruangan'] = $this->admin->getmaster('tb_ruangan');
+      $data['pic'] = $this->admin->getmaster('tb_user');
+   
+      // print("<pre>".print_r($data['data_detail_keluar'],true)."</pre>");exit();
+
+      $this->load->view('dashboard',$data,FALSE); 
+  }
+
   public function Save()
   {       
     // print("<pre>".print_r(json_decode($this->input->post('scan')),true)."</pre>");

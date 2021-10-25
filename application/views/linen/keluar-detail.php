@@ -1,4 +1,9 @@
 <style type="text/css">
+  .kbw-signature { width: 100%; height: 200px;}
+  #sig canvas{
+    width: 100% !important;
+    height: auto;
+  }
   .error-text {
     color: red;
     border: solid 1px red;
@@ -86,6 +91,27 @@
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.25);
     transition: all 0.2s;
   }
+  @media only screen and (max-width: 600px) {
+    .card {
+      padding: 5px;
+    }
+    .az-content .container {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .az-header{
+      display: none;
+    }
+    .judul{
+      text-align: center;
+    }
+    .table th, .table td {
+      padding: 6px 10px;
+    }
+    .az-content-dashboard {
+      padding-top: 0px;
+    }
+  }
 
   .card:hover {
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.4);
@@ -132,12 +158,6 @@
     margin-bottom: 0;
   }
 
-  /*.card__apply {
-    grid-row: 4/5;
-  }*/
-
-  /* CARD BACKGROUNDS */
-
   .card-1 {
     background: radial-gradient(#a8e063, #56ab2f);
     
@@ -162,28 +182,10 @@
 </style>
 
 <div class="card z-depth-0" id="app">
-  <? include("application/views/Browser.php");
-  $browser = new Browser();
-  if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
-  <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">×</span>
-    </button>
-    <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
-  </div>
-  <? endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-8">
-            <h4><?= $title ?> <a href="<?= base_url() ?>linenkeluar" style="color: #000;margin-left: 10px;"> Back </a></h4>
-            <span>Halaman ini menampilkan data linen yang tersimpan</span>
-        </div>
-        
-        <div class="col-xl-2">
-          <div class="status-trans"><?= $mode=="new" ? "INPUT" : $keluar['STATUS'] ?></div>
-        </div>
-        <div class="col-xl-2">
-          <button class="btn btn-success btn-block" id="btnCetak" ><i class="fa fa-print"></i>&nbsp; Print</button>
+            <h4 class="judul">Detail Linen Keluar</h4>
         </div>
     </div>
   </div>
@@ -191,68 +193,34 @@
     <form id="form-keluar" name="form-wizard" action="" method="" style="padding-top: 20px;">
       <input type="hidden" name="mode" id="mode" value="<?= $mode ?>">
       <input type="hidden" id="status" name="status" value="<?= $mode=="new" ? "INPUT" : $keluar['STATUS'] ?>">
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">NO TRANSAKSI</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control form-bg-inverse" id="no_transaksi" name="no_transaksi" value="<?= $no_transaksi ?>" required readonly >
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">TANGGAL </label>
-        <div class="col-sm-10">
-          <input class="form-control form-bg-inverse" type="text" id="tanggal" name="tanggal" value="<?= empty($keluar) ? date("m/d/Y") : date("m/d/Y", strtotime($keluar['TANGGAL'])) ?>" />
-        </div>
-      </div>
       
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">PIC</label>
-        <div class="col-sm-10">
-          <select id="pic" name="pic" class="form-control" >
-            <?php 
-            foreach($pic as $row)
-            { 
-              if( empty($keluar) ? "" : $keluar['PIC'] === $row->nama_user){
-                echo '<option value="'.$row->nama_user.'" selected>'.$row->nama_user.'</option>';
-              }else{
-                echo '<option value="'.$row->nama_user.'">'.$row->nama_user.'</option>';
-              }
-              
-            }?>
-            
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">Ruangan</label>
-        <div class="col-sm-10">
-          <select id="ruangan" name="ruangan" class="form-control" >
-            <?php 
-            foreach($ruangan as $row)
-            { 
-              if( empty($keluar) ? "" : $keluar['RUANGAN'] === $row->ruangan){
-                echo '<option value="'.$row->ruangan.'" selected>'.$row->ruangan.'</option>';
-              }else{
-                echo '<option value="'.$row->ruangan.'">'.$row->ruangan.'</option>';
-              }
-              
-            }?>
-            
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">No Referensi</label>
-        <div class="col-sm-10">
-
-          <div class="input-group input-group-button m-b-0" >
-
-            <input type="text" class="form-control" id="no_referensi" name="no_referensi" value="<?= empty($keluar) ? "" : $keluar['NO_REFERENSI'] ?>" readonly>
-            <span class="input-group-addon btn btn-grd-inverse" id="btnBrowse" style="border-width: 0;background-color: #01a9ac;" >
-              <span class="">Browse..</span>
-            </span>
-          </div>
-        </div>
-      </div> 
+      <table class="table table-bordered" style="margin-bottom: 10px;">
+        <tr>
+          <td>No Transaksi</td>
+          <td width="10px">:</td>
+          <td><?= $no_transaksi ?></td>
+        </tr>
+        <tr>
+          <td>Tanggal</td>
+          <td width="10px">:</td>
+          <td><?= empty($keluar) ? date("m/d/Y") : date("m/d/Y", strtotime($keluar['TANGGAL'])) ?></td>
+        </tr>
+        <tr>
+          <td>PIC</td>
+          <td width="10px">:</td>
+          <td><?= $keluar['PIC'] ?></td>
+        </tr>
+        <tr>
+          <td>Ruangan</td>
+          <td width="10px">:</td>
+          <td><?= $keluar['RUANGAN'] ?></td>
+        </tr>
+        <tr>
+          <td>Referensi</td>
+          <td width="10px">:</td>
+          <td><?= $keluar['NO_REFERENSI'] ?></td>
+        </tr>
+      </table>
       <div class="row">
         <div class="col-sm-12">
           <div class="cards">
@@ -292,36 +260,19 @@
           </div>
         </div>
       </div>
-      <div class="form-group row" style="margin-top: 10px;">
-        <div class="col-sm-2">
-          <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
-        </div>
-        <? if($mode == 'new') : ?>
-        <div class="col-sm-2">
-          <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
-        </div>
-        <? endif; ?>
-        <div class="col-sm-2">
-          <input type="hidden" name="id_keluar" id="id_keluar" value="<?= empty($keluar) ? "" : $keluar['id'] ?>">
-          <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
-          <button class="btn btn-success btn-sm btn-block" id="btnSave" ><i class="fa fa-save"></i> Simpan</button>
-        </div>
-        <div class="col-sm-6">
-          <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
-        </div>
-      </div>
       <div class="row" id="barang">
-       
+        <input type="hidden" name="id_keluar" id="id_keluar" value="<?= empty($keluar) ? "" : $keluar['id'] ?>">
+        <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
         <div class="col-sm-12">
           <div class="cards">
             <div class="card card-2" style="width: 100%">
               <h4 style="margin-bottom: 12px;">List Scan</h4>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="col-sm-2">Total Scan :</div>
                 <div class="col-sm-5" id="total_qty">0</div>
                 <div class="col-sm-2">Total Berat : </div>
                 <div class="col-sm-1" id="total_berat">0</div>
-              </div>
+              </div> -->
               <div class="dt-responsive table-responsive table-brg" style="min-height: 50px;">
                 <input type="hidden" id="total-row" name="total-row" value="<?= $totalrow ?>">
                 <table id="ViewTableBrg" class="table" style="margin-top: 0 !important;width: 100% !important;">
@@ -334,13 +285,10 @@
                               Serial/EPC
                             </th>
                             <th>
-                              Nama Barang
+                              Jenis
                             </th>                       
                             <th>
-                              Berat Kg
-                            </th>
-                            <th>
-                              Status
+                              Berat
                             </th>
                         </tr>
                     </thead>
@@ -350,7 +298,6 @@
                           <td>{{ log.serial }}</td>
                           <td>{{ log.jenis }}</td>
                           <td>{{ log.berat }}</td>
-                          <td>{{ log.status }}</td>
                       </tr>
                     </tbody>
                 </table>
@@ -359,8 +306,23 @@
           </div>
         </div>
       </div>
-      
-    
+      <div class="form-group row pd-t-15">
+        <label class="col-sm-2 col-form-label" style="font-weight: bold;">Nama Penerima</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control form-bg-inverse" id="penerima" name="penerima" value="" required >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+            <label class="" for="" style="font-weight: bold;">Tanda Tangan Penerima:</label>
+            <br/>
+            <div id="sig" ></div>
+            <br/>
+            <button id="clear">Clear Signature</button>
+            <textarea id="signature64" name="signed" style="display: none"></textarea>
+        </div>
+      </div>
+      <button class="btn btn-success btn-rounded btn-sm btn-block mg-t-15" id="btnSave" ><i class="fa fa-save"></i> Submit</button>
     </form>
 
   </div>

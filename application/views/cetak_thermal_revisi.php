@@ -102,6 +102,7 @@
                                     
                                 </td>
                                 <td style="width:50%" class="no-border">
+                                    <input type="hidden" name="id" id="id" value="<?= $keluar['id'] ?>">
                                     <table width="100%" class="no-border">
                                         <tr class="no-border">
                                             <td class="no-border" width="90px;" style="vertical-align: top;">Tanggal</td>
@@ -152,7 +153,7 @@
             });
 
             var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: "https://gg.bronyhouse.com/r/122424",
+                text: "<?= base_url() ?>linenkeluar/detail/" + document.querySelector("#id").value,
                 colorDark : "#000000",
                 colorLight : "#ffffff",
               width : 100,

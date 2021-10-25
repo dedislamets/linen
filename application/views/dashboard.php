@@ -27,9 +27,12 @@
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/chosen.min.css" />
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/animate.min.css"/>
+  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/signature/css/jquery.signature.css" rel="stylesheet">
   <!--<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-tagsinput.css"> -->
   <!-- <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/jstree/css/style.min.css"> -->
   <style type="text/css">
+    
     .icon-big {
       font-size: 45px;
     }
@@ -212,12 +215,11 @@
         <div class="az-header-menu-header">
           <a href="<?= base_url()?>accpac" class="az-logo"><span></span> <!-- <?php echo $this->session->userdata('nama'); ?> -->Akumulasi Q</a>
           <a href="#" class="close">&times;</a>
-        </div><!-- az-header-menu-header -->
-
+        </div>
         <? $this->load->view('nav'); ?>
 
         
-      </div><!-- az-header-menu -->
+      </div>
       <div class="az-header-right">
         <a href="#" class="az-header-search-link"><?php echo $this->session->userdata('nama'); ?></a>  
         <div class="dropdown az-profile-menu">
@@ -231,10 +233,10 @@
             <div class="az-header-profile">
               <div class="az-img-user">
                 <img src='<?= base_url() ?>assets/images/avaco.png'/>
-              </div><!-- az-img-user -->
+              </div>
               <h6><?= $this->session->userdata('user_name') ?></h6>
               <span><?= $this->session->userdata('role_name') ?></span>
-            </div><!-- az-header-profile -->
+            </div>
 
             <!-- <a href="#" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>
             <a href="#" class="dropdown-item"><i class="typcn typcn-edit"></i> Edit Profile</a>
@@ -294,6 +296,8 @@
   <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/jstree/js/jstree.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets\switchery\js\switchery.min.js"></script>
+  <script src="<?= base_url(); ?>assets/signature/js/jquery.signature.js"></script>
+  <script type="text/javascript" src="<?= base_url(); ?>assets/signature/js/jquery.ui.touch-punch.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script> -->
    <!-- <script src="<?= base_url(); ?>assets/js/plugins/sweetalert2.min.js"></script> -->
    <script type="text/javascript">
