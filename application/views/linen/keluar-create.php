@@ -293,13 +293,15 @@
         </div>
       </div>
       <div class="form-group row" style="margin-top: 10px;">
-        <div class="col-sm-2">
-          <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
-        </div>
-        <? if($mode == 'new') : ?>
-        <div class="col-sm-2">
-          <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
-        </div>
+        <? if(empty($keluar['signature'])): ?>
+          <div class="col-sm-2">
+            <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
+          </div>
+          <? if($mode == 'new') : ?>
+          <div class="col-sm-2">
+            <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
+          </div>
+          <? endif; ?>
         <? endif; ?>
         <div class="col-sm-2">
           <input type="hidden" name="id_keluar" id="id_keluar" value="<?= empty($keluar) ? "" : $keluar['id'] ?>">
@@ -309,6 +311,7 @@
         <div class="col-sm-6">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
+
       </div>
       <div class="row" id="barang">
        
@@ -359,7 +362,29 @@
           </div>
         </div>
       </div>
-      
+      <? if(!empty($keluar['signature'])): ?>
+        <table class="table table-bordered mg-t-15">
+          <tr>
+            <td style="width:300px;">Diterima Tanggal</td>
+            <td width="10">:</td>
+            <td><?= empty($keluar) ? "" : tgl_waktu_indo($keluar['tgl_terima']) ?></td>
+          </tr>
+          <tr>
+            <td style="width:300px;">Diterima Oleh</td>
+            <td width="10">:</td>
+            <td><?= empty($keluar) ? "" : $keluar['penerima'] ?></td>
+          </tr>
+          <tr>
+            <td style="width:300px;">Signature</td>
+            <td width="10">:</td>
+            <td>
+              <? if(!empty($keluar['signature'])): ?>
+                <img src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>" style="width: 400px;">
+              <? endif; ?>
+            </td>
+          </tr>
+        </table>
+      <? endif; ?>
     
     </form>
 

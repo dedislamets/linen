@@ -565,6 +565,7 @@ class LinenKeluar extends CI_Controller {
 
       $data['signature'] = $imgfile;
       $data['penerima'] = $this->input->post('penerima');
+      $data['tgl_terima'] = date("Y-m-d H:i:s"); 
 
       $this->db->set($data);
       $this->db->where(
