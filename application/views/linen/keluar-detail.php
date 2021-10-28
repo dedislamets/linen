@@ -180,7 +180,12 @@
     background: radial-gradient(#f588d8, #c0a3e5);
   }
 </style>
-
+<? if(!empty($this->session->flashdata('message'))): ?>
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+    <?php echo $this->session->flashdata('message'); ?>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+</div>
+<? endif; ?>
 <div class="card z-depth-0" id="app">
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
@@ -190,7 +195,7 @@
     </div>
   </div>
   <div class="card-block" style="padding: 10px;">
-    <form id="form-keluar" name="form-wizard" action="" method="" style="padding-top: 20px;">
+    <form id="form-wizard" name="form-wizard"  method="POST" action="<?= base_url()?>linenkeluar/savesignature" style="padding-top: 20px;">
       <input type="hidden" name="mode" id="mode" value="<?= $mode ?>">
       <input type="hidden" id="status" name="status" value="<?= $mode=="new" ? "INPUT" : $keluar['STATUS'] ?>">
       
@@ -309,7 +314,7 @@
       <div class="form-group row pd-t-15">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">Nama Penerima</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control form-bg-inverse" id="penerima" name="penerima" value="" required >
+          <input type="text" class="form-control form-bg-inverse" id="penerima" name="penerima" value="<?= $keluar['penerima'] ?>" required >
         </div>
       </div>
       <div class="row">
@@ -319,7 +324,10 @@
             <div id="sig" ></div>
             <br/>
             <button id="clear">Clear Signature</button>
-            <textarea id="signature64" name="signed" style="display: none"></textarea>
+            <textarea id="signature64" name="signed" style="display: none"></textarea><br>
+            <? if(!empty($keluar['signature'])): ?>
+              <img src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>">
+            <? endif; ?>
         </div>
       </div>
       <button class="btn btn-success btn-rounded btn-sm btn-block mg-t-15" id="btnSave" ><i class="fa fa-save"></i> Submit</button>

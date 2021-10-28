@@ -531,6 +531,51 @@ class LinenKeluar extends CI_Controller {
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }
 
+  public function savesignature(){
+
+    // print("<pre>".print_r($_POST['signed'],true)."</pre>");
+    //   $config['upload_path']          = FCPATH.'/upload/Signature/';
+    //   $config['allowed_types']        = 'gif|jpg|jpeg|png';
+    //   $config['file_name']            = $file_name;
+    //   $config['overwrite']            = true;
+    //   $config['max_size']             = 1024; // 1MB
+    //   $config['max_width']            = 1080;
+    //   $config['max_height']           = 1080;
+
+    //   $this->load->library('upload', $config);
+
+    //   if (!$this->upload->do_upload('avatar')) {
+    //     $data['error'] = $this->upload->display_errors();
+    //   } else {
+    //     $uploaded_data = $this->upload->data();
+    
+    //     $this->session->set_flashdata('message', 'Avatar updated!');
+    //     redirect(site_url('admin/setting'));
+        
+    //   }
+      $folderPath = FCPATH.'/upload/signature/';
+      $image_parts = explode(";base64,", $_POST['signed']);
+      $image_type_aux = explode("image/", $image_parts[0]);   
+      $image_type = $image_type_aux[1];  
+      $image_base64 = base64_decode($image_parts[1]); 
+      $imgfile = $this->input->post('id_keluar') . '.'.$image_type;
+      $file = $folderPath . $imgfile;
+      
+      file_put_contents($file, $image_base64);
+
+      $data['signature'] = $imgfile;
+      $data['penerima'] = $this->input->post('penerima');
+
+      $this->db->set($data);
+      $this->db->where(
+        array( 
+          "id" => $this->input->post('id_keluar') ,
+        ));
+      $this->db->update('linen_keluar');
+      $this->session->set_flashdata('message', 'Berhasil disimpan!');
+      redirect(site_url('LinenKeluar/detail/'. $this->input->post('id_keluar')));
+  }
+
   public function delete()
   {
       $response = [];

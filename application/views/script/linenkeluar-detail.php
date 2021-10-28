@@ -92,39 +92,39 @@
     });
    	
 
-    $('#btnSave').on('click', function (event) {
-    	event.preventDefault();
-		var valid = false;
-    	var sParam = $('#form-keluar').serialize() + "&scan=" + JSON.stringify(app.list_scan) + "&request=" + JSON.stringify(app.list_request);
-    	var validator = $('#form-keluar').validate({
-							rules: {
-									no_transaksi: {
-							  			required: true
-									},
-									tanggal: {
-							  			required: true
-									},
-								}
-							});
-	 	validator.valid();
-	 	$status = validator.form();
-	 	if($status) {
-	 		if(validateBarang()){
-	 			if (confirm("Lanjutkan menyimpan data?")) {
-			 		var link = '<?= base_url(); ?>linenkeluar/Save';
-			 		$.post(link,sParam, function(data){
-						if(data.error==false){	
-							alert('Data Sukses Tersimpan');
-							window.location.href = '<?= base_url(); ?>linenkeluar';
-						}else{	
-							alertError(data.message);				  	
-						}
-					},'json');
-				} 
-		 	}
-	 	}
+  //   $('#btnSave').on('click', function (event) {
+  //   	event.preventDefault();
+		// var valid = false;
+  //   	var sParam = $('#form-keluar').serialize() + "&scan=" + JSON.stringify(app.list_scan) + "&request=" + JSON.stringify(app.list_request);
+  //   	var validator = $('#form-keluar').validate({
+		// 					rules: {
+		// 							no_transaksi: {
+		// 					  			required: true
+		// 							},
+		// 							tanggal: {
+		// 					  			required: true
+		// 							},
+		// 						}
+		// 					});
+	 // 	validator.valid();
+	 // 	$status = validator.form();
+	 // 	if($status) {
+	 // 		if(validateBarang()){
+	 // 			if (confirm("Lanjutkan menyimpan data?")) {
+		// 	 		var link = '<?= base_url(); ?>linenkeluar/Save';
+		// 	 		$.post(link,sParam, function(data){
+		// 				if(data.error==false){	
+		// 					alert('Data Sukses Tersimpan');
+		// 					window.location.href = '<?= base_url(); ?>linenkeluar';
+		// 				}else{	
+		// 					alertError(data.message);				  	
+		// 				}
+		// 			},'json');
+		// 		} 
+		//  	}
+	 // 	}
         
-    });
+  //   });
 
 
 	function validateBarang(){
