@@ -573,7 +573,7 @@ class LinenKeluar extends CI_Controller {
         ));
       $this->db->update('linen_keluar');
       $this->session->set_flashdata('message', 'Berhasil disimpan!');
-      redirect(site_url('LinenKeluar/detail/'. $this->input->post('id_keluar')));
+      redirect(site_url('linenkeluar/detail/'. $this->input->post('id_keluar')));
   }
 
   public function delete()
