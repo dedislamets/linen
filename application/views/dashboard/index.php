@@ -9,7 +9,19 @@
     margin-top: 5px;
   }
 </style>
-<div class="row">
+
+<div class="row" >
+  <? if(!empty($notifikasi)){ ?>
+    <div class="col-md-12" id="card-notifikasi">
+        <div class="alert alert-info" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <strong>Notifikasi</strong> <span id="msg_notif">Anda mempunyai <?= count($notifikasi) ?> notifikasi yang belum dibaca.</span>
+        </div>
+    </div>
+
+  <? } ?>
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body ">

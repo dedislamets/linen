@@ -21,7 +21,7 @@ class Users extends CI_Controller {
 			$data['main'] = 'users/list';
 			$data['js'] = 'script/users';
 			$data['modal'] = 'modal/users';
-      // $data['group'] = $this->admin->getmaster('tb_group_role');
+      $data['group'] = $this->admin->getmaster('tb_group_role');
 			$this->load->view('dashboard',$data,FALSE); 
 
     }else{
@@ -62,7 +62,6 @@ class Users extends CI_Controller {
             2=>'email',
             3=>'department',
             4=>'jenis_kelamin',
-            5=>'cabang',
         );
         $valid_sort = array(
             0=>'id_user',
@@ -70,7 +69,6 @@ class Users extends CI_Controller {
             2=>'email',
             3=>'department',
             4=>'jenis_kelamin',
-            5=>'cabang',
         );
         if(!isset($valid_sort[$col]))
         {
@@ -115,7 +113,6 @@ class Users extends CI_Controller {
                         $r->email,
                         $r->jenis_kelamin,
                         $r->department,
-                        $r->cabang,
                         $r->status,
                         '<button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->id_user.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
@@ -183,11 +180,10 @@ class Users extends CI_Controller {
           'nama_user'   => $this->input->post('nama_user',TRUE),
           'email'       => $this->input->post('email',TRUE),
           'department'  => $this->input->post('department',TRUE),
-          'cabang'      => $this->input->post('cabang',TRUE),
           'jenis_kelamin'      => $this->input->post('jenis_kelamin',TRUE),
     );
     if(!empty($this->input->post('password',TRUE))){
-        $new_password = Acak($this->input->post('password', TRUE), "goldenginger");
+        $new_password = $this->Acak($this->input->post('password', TRUE), "goldenginger");
         $data['password'] = $new_password;
     }
     if(!empty($this->input->post('status',TRUE))){
@@ -233,4 +229,47 @@ class Users extends CI_Controller {
 
       $this->output->set_content_type('application/json')->set_output(json_encode($response)); 
   	}
+
+    function Acak($varMsg,$strKey) {
+      try {
+          $Msg = $varMsg;
+          $char_replace="";
+          $intLength = strlen($Msg);
+          $intKeyLength = strlen($strKey);
+          $intKeyOffset = $intKeyLength;
+          $intKeyChar = ord(substr($strKey, -1));
+          for ($n=0; $n < $intLength ; $n++) { 
+              $intKeyOffset = $intKeyOffset + 1;
+
+              if($intKeyOffset > $intKeyLength) {
+                  $intKeyOffset = 1;
+              }
+              $intAsc = ord(substr($Msg,$n, 1));
+
+              if($intAsc > 32 && $intAsc < 127){
+                  $intAsc = $intAsc - 32;
+                  $intAsc = $intAsc + $intKeyChar;
+
+                  while ( $intAsc > 94) {
+                     $intAsc = $intAsc - 94;
+                  }
+
+                  $intSkip = $n+1 % 94;
+                  $intAsc = $intAsc + $intSkip;
+                  if($intAsc > 94){
+                      $intAsc = $intAsc - 94;
+                  }
+
+                  $char_replace .= chr($intAsc + 32);
+                  
+                  $Msg = $char_replace . substr($varMsg, $n+1) ;
+              }
+
+              $intKeyChar = ord(substr($strKey, $intKeyOffset-1));
+          }
+          return $Msg;
+      } catch (Exception $e) {
+          
+      }
+  }
 }

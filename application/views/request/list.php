@@ -14,65 +14,69 @@
         </div>
     </div>
     <div class="card-block" style="padding: 10px;">
-        <div class="dt-responsive table-responsive">
-            <table id="ViewTable" class="table table-striped" width="100%">
-                <thead class="text-primary">
-                    <tr>
-                        <th>
-                          No Request
-                        </th>
-                        <th>
-                          Tanggal
-                        </th>
-                        <th>
-                          Requestor
-                        </th>
-                        <th>
-                          Ruangan
-                        </th>
-                        <th>
-                          Total
-                        </th>
-                        <th>
-                          Status
-                        </th>
-                        <th>
-                          Aksi
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-            </table>
-            <table id="ViewTableDetail" class="table table-striped" width="100%">
-                <thead class="text-primary">
-                    <tr>
-                        <th>
-                          Tanggal
-                        </th>
-                        <th>
-                          Ruangan
-                        </th>
-                        <th>
-                          No Request
-                        </th>
-                        <th>
-                          Requestor
-                        </th>
-                        <th>
-                          Jenis
-                        </th>
-                        <th>
-                          Qty
-                        </th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                  
-                </tbody>
-            </table>
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="table-responsive">
+                    <table id="ViewTable" class="table table-striped dt-responsive display nowrap"  style="width: 100%">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>
+                                  No Request
+                                </th>
+                                <th>
+                                  Tanggal
+                                </th>
+                                <th>
+                                  Requestor
+                                </th>
+                                <th>
+                                  Ruangan
+                                </th>
+                                <th>
+                                  Total
+                                </th>
+                                <th>
+                                  Status
+                                </th>
+                                <th>
+                                  Aksi
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                    <table id="ViewTableDetail" class="table table-striped" width="100%">
+                        <thead class="text-primary">
+                            <tr>
+                                <th>
+                                  Tanggal
+                                </th>
+                                <th>
+                                  Ruangan
+                                </th>
+                                <th>
+                                  No Request
+                                </th>
+                                <th>
+                                  Requestor
+                                </th>
+                                <th>
+                                  Jenis
+                                </th>
+                                <th>
+                                  Qty
+                                </th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

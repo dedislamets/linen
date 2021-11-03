@@ -2,6 +2,7 @@
 
 	$(document).ready(function(){  
 		$('#ViewTable').DataTable({
+			responsive: true,
 			dom: 'frtip',
 			ajax: {		            
 	            "url": "linenkotor/dataTable",
@@ -10,8 +11,6 @@
 	        processing	: true,
 			serverSide	: true,			
 			"bPaginate": true,	
-			// "ordering": false,
-			"autoWidth": true,
 			order: [
 	            [0, 'asc'],[5, 'asc']
 	        ], 

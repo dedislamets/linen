@@ -201,4 +201,17 @@ function tgl_waktu_indo($tanggal){
     setlocale(LC_ALL, 'id-ID', 'id_ID');
     echo strftime("%A, %d %B %Y %T", strtotime($tanggal)) . "\n";
 }
+function notifikasi(){
+    $arr = array();
+    $ci =& get_instance();
+    $ci->load->database();
+    $ci->load->library('session');
+
+    $ci->db->from('tb_notifikasi');
+    $ci->db->where('read',0);
+    $query = $ci->db->where('sent_to', $ci->session->userdata('user_id'))->get();
+    $arr['notifikasi'] = $query->result();
+    $arr['notifikasi_count'] = $query->num_rows();
+    return $arr;
+}
 

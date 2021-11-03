@@ -67,6 +67,7 @@ class ComposerStaticInit53c0bf2c9e62145849dc2008a5acb201
         '4888a6f58c08148ebe17682f9ce9b2a8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/divideby.php',
         'eef6fa3879d3efa347cd24d5eb348f85' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/divideinto.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -90,7 +91,9 @@ class ComposerStaticInit53c0bf2c9e62145849dc2008a5acb201
         ),
         'P' => 
         array (
+            'Pusher\\' => 7,
             'Psr\\SimpleCache\\' => 16,
+            'Psr\\Log\\' => 8,
             'Prophecy\\' => 9,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
         ),
@@ -141,9 +144,17 @@ class ComposerStaticInit53c0bf2c9e62145849dc2008a5acb201
         array (
             0 => __DIR__ . '/..' . '/phenx/php-svg-lib/src/Svg',
         ),
+        'Pusher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pusher/pusher-php-server/src',
+        ),
         'Psr\\SimpleCache\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/simple-cache/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Prophecy\\' => 
         array (

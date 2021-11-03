@@ -292,6 +292,8 @@
           </div>
         </div>
       </div>
+      <input type="hidden" name="id_keluar" id="id_keluar" value="<?= empty($keluar) ? "" : $keluar['id'] ?>">
+      <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
       <div class="form-group row" style="margin-top: 10px;">
         <? if(empty($keluar['signature'])): ?>
           <div class="col-sm-2">
@@ -302,15 +304,15 @@
             <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
           </div>
           <? endif; ?>
+        
+          <div class="col-sm-2">
+            
+            <button class="btn btn-success btn-sm btn-block" id="btnSave" ><i class="fa fa-save"></i> Simpan</button>
+          </div>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
+          </div>
         <? endif; ?>
-        <div class="col-sm-2">
-          <input type="hidden" name="id_keluar" id="id_keluar" value="<?= empty($keluar) ? "" : $keluar['id'] ?>">
-          <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
-          <button class="btn btn-success btn-sm btn-block" id="btnSave" ><i class="fa fa-save"></i> Simpan</button>
-        </div>
-        <div class="col-sm-6">
-          <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
-        </div>
 
       </div>
       <div class="row" id="barang">

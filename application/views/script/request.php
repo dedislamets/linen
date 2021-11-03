@@ -2,7 +2,7 @@
 	var mode = 1;
 	$(document).ready(function(){  
 
-		$('#ViewTable').DataTable({
+		var table = $('#ViewTable').DataTable({
 			responsive: true,
 			ajax: {		            
 	            "url": "listrequest/dataTable",

@@ -32,8 +32,7 @@
 
 	    }
 	})
-	var elemsingle = document.querySelector('.js-single');
-	var switchery = new Switchery(elemsingle, { color: '#4680ff', jackColor: '#fff' });
+	
 
 	$(document).ready(function(){  
 		
@@ -54,12 +53,6 @@
 
 	})
 
-	function changeSwitchery(element, checked) {
-	  if ( ( element.is(':checked') && checked == false ) || ( !element.is(':checked') && checked == true ) ) {
-	    element.parent().find('.switchery').trigger('click');
-	  }
-	}
-
 	function editmodal(val){
 
 		$.get('users/edit', { id: $(val).data('id') }, function(data){ 
@@ -68,15 +61,15 @@
 				$("#email").val(data['parent'][0]['email']);
 
 				$("#department").val(data['parent'][0]['department']);
-				$("#cabang").val(data['parent'][0]['cabang']);
 				$("#jenis_kelamin").val(data['parent'][0]['jenis_kelamin']);
 
 				$("#password").val('');
 				$("#id_role").val(data['parent'][0]['id_role']);
-				if(data['parent'][0]['status'] == 0){
-					changeSwitchery($('#status'), false);
+
+				if(data['parent'][0]['status'] == 1){
+					$("#status").attr("checked","checked");
 				}else{
-					changeSwitchery($('#status'), true);
+					$("#status").removeAttr("checked");
 				}
 				$("#id").val(data['parent'][0]['id_user']);
 

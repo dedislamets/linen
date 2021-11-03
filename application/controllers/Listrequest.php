@@ -297,7 +297,7 @@ class Listrequest extends CI_Controller {
 
 
   public function edit($id){
-  
+      
       $data['title'] = 'Edit Linen Request';
       $data['main'] = 'request/create';
       $data['js'] = 'script/request-create';

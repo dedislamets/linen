@@ -1,9 +1,9 @@
 <div class="modal" id="ModalAdd">
   	<div class="modal-dialog" role="document" style="margin: 10% auto;max-width: 900px;">
 	    <div class="modal-content" id="app">
-	      	<div class="modal-header" style="background-color: #404E67;color:#fff">
+	      	<div class="modal-header" style="background-color: green;color:#fff">
 	        	
-	        	<h4 class="modal-title" id="myModalLabel"><label id="lbl-title"></label> <label> Users</label></h4>
+	        	<h4 class="modal-title" id="myModalLabel" style="color: #fff"><label id="lbl-title"></label> <label> Users</label></h4>
 	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -27,27 +27,17 @@
 								<input type="password" id="password" name="password" class="form-control" />
 							</div>	
 							<div class="form-group">
-								<label>Department<span style="color:red"> *</span></label>
+								<label>Bagian<span style="color:red"> *</span></label>
 								<select name="department" id="department" class="form-control">
-									<option value="HR">HR</option>
-									<option value="Operational">Operational</option>
-									<option value="Finance">Finance</option>
-									<option value="Kurir">Kurir</option>
 			                      <?php 
 			                      foreach($group as $row)
 			                      { 
-			                      	echo '<option value="'.$row->id.'">'.$row->group.'</option>';
+			                      	echo '<option value="'.$row->group.'">'.$row->group.'</option>';
 			                      }
 			                      ?>
 			                    </select>
 							</div>	
-							<div class="form-group">
-								<label>Regional<span style="color:red"> *</span></label>
-								<select name="cabang" id="cabang" class="form-control">
-									<option value="JAKARTA">JAKARTA</option>
-									<option value="SURABAYA">SURABAYA</option>
-			                    </select>
-							</div>
+							
 							<div class="form-group">
 								<label>Jenis Kelamin</label>
 								<select name="jenis_kelamin" id="jenis_kelamin" class="form-control">
@@ -57,7 +47,7 @@
 							</div>	
 							<div class="form-group">
 								<label>Aktif</label><br>
-								<input type="checkbox" id="status" name="status" class="js-single" checked />
+								<input type="checkbox" id="status" name="status" />
 							</div>
 						</div>
 						

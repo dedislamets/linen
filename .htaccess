@@ -1,7 +1,7 @@
 RewriteEngine On
-RewriteCond $1 !^(index\.php|robots\.txt)
-RewriteCond %{HTTP_HOST} !^www\.(.*)
-RewriteRule (.*) http://www.%{HTTP_HOST}/$1 [R=301,L]
+#RewriteCond $1 !^(index\.php|robots\.txt)
+#RewriteCond %{HTTP_HOST} !^www\.(.*)
+#RewriteRule (.*) http://www.%{HTTP_HOST}/$1 [R=301,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php?/$1 [L]

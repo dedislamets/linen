@@ -6,8 +6,8 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card">
-      <div class="card-header">
-        <h4 class="card-title"> List Users <button  id="btnGo" class="btn btn-purple" style="float: right;">Tambah</button>
+      <div class="card-header" >
+        <h4 class="card-title"> List Users <button  id="btnAdd" class="btn btn-purple" style="float: right;">Tambah</button>
 
         </h4>
       </div>
@@ -31,9 +31,7 @@
                 <th>
                   Dept
                 </th>
-                <th>
-                  Cabang
-                </th>
+       
                 <th>
                   Status
                 </th>

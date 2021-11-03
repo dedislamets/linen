@@ -351,6 +351,13 @@ class LinenKeluar extends CI_Controller {
   }
 
   public function detail($id){
+      if(!empty($this->input->get('rd',TRUE))){
+        if($this->input->get('rd',TRUE) == 'yes'){
+          $this->db->set(array( "read" => 1));
+          $this->db->where(array( "id" => $this->input->get('id',TRUE)  ));
+          $this->db->update('tb_notifikasi');
+        }
+      }
       $data['title'] = 'Edit Keluar';
       $data['main'] = 'linen/keluar-detail';
       $data['js'] = 'script/linenkeluar-detail';
@@ -400,7 +407,7 @@ class LinenKeluar extends CI_Controller {
     
 
     $this->db->trans_begin();
-
+    $last_id = "";
     if($this->input->post('id_keluar') != "") {
 
         $this->db->set($data);
@@ -527,7 +534,36 @@ class LinenKeluar extends CI_Controller {
       ));
     $this->db->update('request_linen');
 
-    $this->db->trans_complete();                      
+    $this->db->trans_complete();       
+
+    
+    //Hit Notifikasi
+    if(!empty($this->input->post('no_referensi'))){
+      $msg = 'Permintaan Linen #'. $this->input->post('no_referensi') .' akan segera dikirimkan ke ruangan ' . $this->input->post('ruangan');
+      $data['message'] = $msg;
+
+      $data_notif = array(
+        'short_msg'   => $msg,
+        'long_msg'    => $msg,
+        'url'         => 'linenkeluar/detail/'. $last_id,
+        'sent_to'     => 1,      
+      );
+      $this->db->insert('tb_notifikasi', $data_notif);
+
+      require_once(APPPATH.'../vendor/autoload.php');
+
+      $options = array(
+          'cluster' => 'ap1',
+          'useTLS' => false
+      );
+      $pusher = new Pusher\Pusher(
+          '3d5d9fdecf424e5c99f4',
+          '34d575d4d038aed1bf82',
+          '1289927',
+          $options
+      );
+      $pusher->trigger('linen', 'my-event', $data['message']);  
+    }             
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }
 

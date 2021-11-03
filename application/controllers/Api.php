@@ -55,7 +55,24 @@ class Api extends RestController  {
     }
 
     public function koneksi_get()
-    {
+    {   
+        require_once(APPPATH.'../vendor/autoload.php');
+
+        $options = array(
+            'cluster' => 'ap1',
+            'useTLS' => false,
+            // 'encrypted' => true
+        );
+        $pusher = new Pusher\Pusher(
+            '3d5d9fdecf424e5c99f4',
+            '34d575d4d038aed1bf82',
+            '1289927',
+            $options
+        );
+
+        $data['message'] = 'hello world';
+        $pusher->trigger('linen', 'my-event', $data);
+
         $this->response([
                 'status' => true,
             ], 200 );
@@ -63,6 +80,24 @@ class Api extends RestController  {
     public function room_get()
     {
         $shift = $this->admin->api_array('tb_ruangan');
+
+        if ($shift != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $shift
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No users were found'
+            ], 404 );
+        }
+    }
+
+    public function notifikasi_get()
+    {
+        $shift = $this->admin->api_array('tb_notifikasi');
 
         if ($shift != FALSE) {
             $this->response([
@@ -911,6 +946,81 @@ class Api extends RestController  {
         }
         
         $this->response($response);
+    }
+
+    public function send_notif_app_get(){
+        error_reporting(-1);
+        ini_set('display_errors', 'On');
+
+ 
+        $type = isset($_GET['type']) ? $_GET['type'] : 'single';
+        
+        $fields = NULL;
+        $token = isset($_GET['token']) ? $_GET['token'] : 'fTKXljadx9s:APA91bEwo-clqK49JkKnxknvsjIMt8gYrEOhKC8PYMi_dVMgN04Anlv5QG9GkLU2WJUQEElPFqZGqk6LhKqAxD8-cO2eu9uAdyb009gibh78wE2fw7KMcOwE2G-PxZfxb6udFp3iDuMD';
+        
+        if($type == "single") {
+        // echo $token; exit();
+            
+            $message = isset($_GET['message']) ? $_GET['message'] : '';
+            
+            $res = array();
+            $res['body'] = $message;
+            
+            $fields = array(
+                'to' => $token,
+                'notification' => $res,
+            );
+            echo json_encode($fields);
+            // echo 'FCM Reg Id : '. $token . '<br/>Message : ' . $message;
+        }else if($type == "topics") {
+            $topics = isset($_GET['topics']) ? $_GET['topics'] : '';
+            $message = isset($_GET['message']) ? $_GET['message'] : '';
+            
+            $res = array();
+            $res['body'] = $message;
+            
+            $fields = array(
+                'to' => '/topics/' . $topics,
+                'notification' => $res,
+            );
+            
+            echo json_encode($fields);
+            echo 'Topics : '. $topics . '<br/>Message : ' . $message . '<br>';
+        }
+        
+        // Set POST variables
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $server_key = "AAAA-XXzNh4:APA91bFtdWD6MfsRH3PeYz62vYQdCNFNoXZdi5BaOyZ6AiEdIqQpYjuBplob5baO7RCU6iw-ElrX6GH60g95fTE6ltK2ejbC9XXPcfFOby4BMuVTSi2LEnPMHAxgMforeOFnJN_gCu7l";
+        
+        $headers = array(
+            'Authorization: key=' . $server_key,
+            'Content-Type: application/json'
+        );
+        // Open connection
+        $ch = curl_init();
+ 
+        // Set the url, number of POST vars, POST data
+        curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+ 
+        // Disabling SSL Certificate support temporarly
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+ 
+        // Execute post
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            echo 'Curl failed: ' . curl_error($ch);
+        }else{
+            echo "<br>Curl Berhasil";
+        }
+ 
+        // Close connection
+        curl_close($ch);
     }
        
 }

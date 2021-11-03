@@ -11,15 +11,16 @@ class Monitoring extends CI_Controller {
 	public function index()
 	{		
 		if($this->admin->logged_id())
-    {
+    	{
 			$data['title'] = 'Monitoring';
+			
 
 			$this->load->view('monitoring',$data,FALSE); 
 
-    }else{
-        redirect("login");
+	    }else{
+	        redirect("login");
 
-    }				  
+	    }				  
 						
 	}
 

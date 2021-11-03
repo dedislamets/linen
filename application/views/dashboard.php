@@ -1,4 +1,10 @@
-
+<?
+  if(empty($notifikasi)){
+    $arr_notif = notifikasi();
+    $notifikasi = $arr_notif['notifikasi'];
+    $notifikasi_count= $arr_notif['notifikasi_count'];
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,10 +35,27 @@
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/animate.min.css"/>
   <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
   <link href="<?= base_url(); ?>assets/signature/css/jquery.signature.css" rel="stylesheet">
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/jquery.gritter.min.css">
   <!--<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-tagsinput.css"> -->
   <!-- <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/jstree/css/style.min.css"> -->
   <style type="text/css">
-    
+    mark {
+      -webkit-border-radius: 20px;
+      -moz-border-radius: 20px;
+      border-radius: 20px;
+      border: 2px solid #FFF;
+      width: 20px;
+      height: 20px;
+      background-color: #ed1f1f;
+      position: absolute;
+      top: -5px;
+      left: 14px;
+      font-size: 9px;
+      line-height: 14px;
+      color: #FFF;
+      font-weight: 700;
+      text-align: center;
+    }
     .icon-big {
       font-size: 45px;
     }
@@ -222,6 +245,43 @@
       </div>
       <div class="az-header-right">
         <a href="#" class="az-header-search-link"><?php echo $this->session->userdata('nama'); ?></a>  
+
+        <div class="dropdown az-header-notification">
+          <a href="#" class="<?= $notifikasi_count == 0 ? '': 'new' ?>">
+            <i class="typcn typcn-bell" id="mark">
+                <? if($notifikasi_count > 0 ) : ?>
+                  <mark><?= $notifikasi_count ?></mark>
+                <? endif; ?>
+            </i>
+          </a>
+          <div class="dropdown-menu">
+            <div class="az-dropdown-header mg-b-20 d-sm-none">
+              <a href="#" class="az-header-arrow"><i class="fa fa-times"></i></a>
+            </div>
+            <h6 class="az-notification-title">Notifikasi</h6>
+            <? if($notifikasi_count == 0 ) : ?>
+              <p class="az-notification-text">Tidak ada notifikasi baru</p>
+            <? endif; ?>
+            <div class="az-notification-list">
+            
+              <?php 
+              foreach($notifikasi as $row)
+              { ?>
+                <a href="<?= base_url().$row->url ?>?rd=yes&id=<?= $row->id ?>">
+                  <div class="media new">
+                    <div class="media-body">
+                      <p><strong><?= $row->short_msg ?></strong></p>
+                      <span><?= tgl_waktu_indo( $row->insert_date ) ?></span>
+                    </div>
+                  </div>
+                </a>
+              <?php
+              }
+              ?>
+            </div><!-- az-notification-list -->
+            <div class="dropdown-footer"><a href="<?= base_url() ?>notifikasi">Lihat semua</a></div>
+          </div><!-- dropdown-menu -->
+        </div>
         <div class="dropdown az-profile-menu">
           <a href="#" class="az-img-user">
             <img src='<?= base_url() ?>assets/images/avaco.png'/>
@@ -236,6 +296,7 @@
               </div>
               <h6><?= $this->session->userdata('user_name') ?></h6>
               <span><?= $this->session->userdata('role_name') ?></span>
+              <input type="hidden" name="id_user" id="id_user" value="<?= $this->session->userdata('user_id') ?>">
             </div>
 
             <!-- <a href="#" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>
@@ -288,6 +349,7 @@
   <script src="<?= base_url(); ?>assets/azia/lib/datatables.net-dt/js/dataTables.dataTables.min.js"></script>
   <script src="<?= base_url(); ?>assets/azia/lib/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
   <script src="<?= base_url(); ?>assets/azia/lib/datatables.net-responsive-dt/js/responsive.dataTables.min.js"></script>
+
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/dataTables.buttons.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/plugins/moment.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/sweetalert2.js"></script>
@@ -298,6 +360,8 @@
   <script type="text/javascript" src="<?= base_url(); ?>assets\switchery\js\switchery.min.js"></script>
   <script src="<?= base_url(); ?>assets/signature/js/jquery.signature.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/signature/js/jquery.ui.touch-punch.min.js"></script>
+  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/jquery.gritter.min.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script> -->
    <!-- <script src="<?= base_url(); ?>assets/js/plugins/sweetalert2.min.js"></script> -->
    <script type="text/javascript">
@@ -323,16 +387,49 @@
       //       timer: 2000,
       //     })
       // }
+      Pusher.logToConsole = true;
+      var pusher = new Pusher('3d5d9fdecf424e5c99f4', {
+        cluster: 'ap1'
+      });
+
+      var channel = pusher.subscribe('linen');
+      channel.bind('my-event', function(data) {
+        addNotif(JSON.stringify(data));
+      });
    </script>
-  <?php
+      <?php
       $this->load->view($js); 
-    ?>
+      ?>
   <script>
     $.ajaxSetup({
         data: {
             csrf_token: <?php echo "'". $this->security->get_csrf_hash()."'" ?>
         }
     });
+    function addNotif(message) {
+      $.get('<?= base_url() ?>dashboard/notifikasi/' + $("#id_user").val(), { }, function(data){ 
+        if(data.notifikasi.length > 0)             
+          $.gritter.add({
+            title   : 'Notification',   
+            text    : message,      
+            time    : 5000,    
+          });
+          $("#card-notifikasi").html('');
+          $(".az-notification-list").html('');
+          $("#mark").html('');
+          var alert = "<div class='alert alert-info' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>×</span></button><strong>Notifikasi</strong> <span id='msg_notif'>Anda mempunyai " + data.notifikasi.length +" notifikasi yang belum dibaca.</span></div>";
+          $(alert).appendTo("#card-notifikasi");
+          alert="";
+          $.each(data['notifikasi'], function(index, obj) {
+            alert += "<a href='<?= base_url()?>"+obj.url+"?rd=yes&id="+ obj.id +"'><div class='media new'><div class='media-body'><p><strong>"+ obj.short_msg +"</strong></p><span>"+ obj.insert_date+"</span></div></div></a>";
+          })
+          $(alert).appendTo(".az-notification-list");
+          if(data['notifikasi_count'] > 0){
+            $("<mark>"+data['notifikasi_count']+"</mark>").appendTo("#mark");
+          }
+
+      });
+    }
     function showloader(val){
       $(val).append('<div style="" id="loadingDiv"><div class="loader">Loading...</div></div>');
     }

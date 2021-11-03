@@ -66,4 +66,5 @@ return array(
     '4888a6f58c08148ebe17682f9ce9b2a8' => $vendorDir . '/markbaker/matrix/classes/src/Operations/divideby.php',
     'eef6fa3879d3efa347cd24d5eb348f85' => $vendorDir . '/markbaker/matrix/classes/src/Operations/divideinto.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+    '3109cb1a231dcd04bee1f9f620d46975' => $vendorDir . '/paragonie/sodium_compat/autoload.php',
 );
