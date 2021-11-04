@@ -294,6 +294,70 @@ class Api extends RestController  {
             ], 404 );
         }
     }
+    public function login_get()
+    {
+        $data =array(
+            "email"=>$this->get('email'),
+            "password"=> $this->Acak($this->input->get('password', TRUE), "goldenginger"),
+        );
+
+        $shift = $this->admin->get_row('tb_user',$data);
+
+        if ($shift != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $shift
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No users were found'
+            ], 404 );
+        }
+    }
+    function Acak($varMsg,$strKey) {
+        try {
+            $Msg = $varMsg;
+            $char_replace="";
+            $intLength = strlen($Msg);
+            $intKeyLength = strlen($strKey);
+            $intKeyOffset = $intKeyLength;
+            $intKeyChar = ord(substr($strKey, -1));
+            for ($n=0; $n < $intLength ; $n++) { 
+                $intKeyOffset = $intKeyOffset + 1;
+
+                if($intKeyOffset > $intKeyLength) {
+                    $intKeyOffset = 1;
+                }
+                $intAsc = ord(substr($Msg,$n, 1));
+
+                if($intAsc > 32 && $intAsc < 127){
+                    $intAsc = $intAsc - 32;
+                    $intAsc = $intAsc + $intKeyChar;
+
+                    while ( $intAsc > 94) {
+                       $intAsc = $intAsc - 94;
+                    }
+
+                    $intSkip = $n+1 % 94;
+                    $intAsc = $intAsc + $intSkip;
+                    if($intAsc > 94){
+                        $intAsc = $intAsc - 94;
+                    }
+
+                    $char_replace .= chr($intAsc + 32);
+                    
+                    $Msg = $char_replace . substr($varMsg, $n+1) ;
+                }
+
+                $intKeyChar = ord(substr($strKey, $intKeyOffset-1));
+            }
+            return $Msg;
+        } catch (Exception $e) {
+            
+        }
+    }
 
     public function linen_kotor_all_get()
     {
@@ -956,7 +1020,7 @@ class Api extends RestController  {
         $type = isset($_GET['type']) ? $_GET['type'] : 'single';
         
         $fields = NULL;
-        $token = isset($_GET['token']) ? $_GET['token'] : 'fTKXljadx9s:APA91bEwo-clqK49JkKnxknvsjIMt8gYrEOhKC8PYMi_dVMgN04Anlv5QG9GkLU2WJUQEElPFqZGqk6LhKqAxD8-cO2eu9uAdyb009gibh78wE2fw7KMcOwE2G-PxZfxb6udFp3iDuMD';
+        $token = isset($_GET['token']) ? $_GET['token'] : 'e43L4r8kMHg:APA91bHwwbFR-IPVecNGBJaUIZqdtrwtxzKuAFwg4OsUB7gZrfDh1OBxCJf7qoM7ydAFYMW5w44KW2JlpirsJfd7oUmuu23KtjZJT79wCZNS7m8u0DL-Nu9QemGka9cqs5Ot5F8ufQ3a';
         
         if($type == "single") {
         // echo $token; exit();
