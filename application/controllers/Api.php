@@ -304,10 +304,7 @@ class Api extends RestController  {
         $shift = $this->admin->get_row('tb_user',$data);
 
         if ($shift != FALSE) {
-            $this->response([
-                'status' => true,
-                'data' => $shift
-            ], 200 );
+            $this->response([$shift], 200 );
         }else{
 
             $this->response( [
