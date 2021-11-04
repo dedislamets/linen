@@ -294,11 +294,11 @@ class Api extends RestController  {
             ], 404 );
         }
     }
-    public function login_get()
+    public function login_post()
     {
         $data =array(
-            "email"=>$this->get('email'),
-            "password"=> $this->Acak($this->input->get('password', TRUE), "goldenginger"),
+            "email"=>$this->post('email'),
+            "password"=> $this->Acak($this->input->post('password', TRUE), "goldenginger"),
         );
 
         $shift = $this->admin->get_row('tb_user',$data);
