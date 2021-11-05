@@ -755,6 +755,27 @@ class Api extends RestController  {
         $this->response($response);
     }
 
+    public function token_post()
+    {
+        $data =array(
+            "id_user"=>$this->post('id_user'),
+            "token"=>$this->post('token'),
+            
+        );
+        $insert = $this->db->insert("tb_token_push", $data);
+        if($insert){
+            $response['status']=200;
+            $response['error']=false;
+            $response['message']='Data berhasil ditambahkan.';
+        }else{
+            // $response['status']=502;
+            $response['error']=true;
+            $response['message']='Data gagal ditambahkan.';
+
+        }
+        $this->response($response);
+    }
+
     public function linen_kotor_post()
     {
         $data =array(
