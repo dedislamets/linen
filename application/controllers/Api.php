@@ -301,7 +301,11 @@ class Api extends RestController  {
             "password"=> $this->Acak($this->input->post('password', TRUE), "goldenginger"),
         );
 
-        $shift = $this->admin->get_row('tb_user',$data);
+        $this->db->from('tb_user');
+        $this->db->join('tb_group_user','tb_group_user.id_user=tb_user.id_user');
+        $this->db->join('tb_group_role','tb_group_role.id=tb_group_user.id_group_role');
+        $this->db->where($data);
+        $shift = $this->db->get()->row();
 
         if ($shift != FALSE) {
             $this->response($shift, 200 );
