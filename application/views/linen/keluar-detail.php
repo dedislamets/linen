@@ -326,7 +326,7 @@
             <button id="clear">Clear Signature</button>
             <textarea id="signature64" name="signed" style="display: none"></textarea><br>
             <? if(!empty($keluar['signature'])): ?>
-              <img class="img-fluid"> src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>">
+              <img class="img-fluid" src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>">
             <? endif; ?>
         </div>
       </div>
