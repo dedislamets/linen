@@ -323,7 +323,7 @@
             <br/>
             <div id="sig" style="<?= (empty($keluar['signature']) ? '' : 'display: none;' ) ?>" ></div>
             <br/>
-            <button id="clear">Clear Signature</button>
+            <button id="clear" style="<?= (empty($keluar['signature']) ? '' : 'display: none;' ) ?>">Clear Signature</button>
             <textarea id="signature64" name="signed" style="display: none"></textarea><br>
             <? if(!empty($keluar['signature'])): ?>
               <img class="img-fluid" src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>">
