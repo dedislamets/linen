@@ -321,7 +321,7 @@
         <div class="col-md-12">
             <label class="" for="" style="font-weight: bold;">Tanda Tangan Penerima:</label>
             <br/>
-            <div id="sig" ></div>
+            <div id="sig" style="<?= (empty($keluar['signature']) ? '' : 'display: none;' )" ></div>
             <br/>
             <button id="clear">Clear Signature</button>
             <textarea id="signature64" name="signed" style="display: none"></textarea><br>
