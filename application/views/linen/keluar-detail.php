@@ -326,11 +326,13 @@
             <button id="clear">Clear Signature</button>
             <textarea id="signature64" name="signed" style="display: none"></textarea><br>
             <? if(!empty($keluar['signature'])): ?>
-              <img src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>">
+              <img class="img-fluid"> src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>">
             <? endif; ?>
         </div>
       </div>
+      <? if(empty($keluar['penerima'])): ?>
       <button class="btn btn-success btn-rounded btn-sm btn-block mg-t-15" id="btnSave" ><i class="fa fa-save"></i> Submit</button>
+    <? endif; ?>
     </form>
 
   </div>
