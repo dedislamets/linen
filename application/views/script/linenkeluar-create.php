@@ -360,7 +360,7 @@
 			 		$.post(link,sParam, function(data){
 						if(data.error==false){	
 							alert('Data Sukses Tersimpan');
-							window.location.href = '<?= base_url(); ?>linenkeluar';
+							// window.location.href = '<?= base_url(); ?>linenkeluar';
 						}else{	
 							alertError(data.message);				  	
 						}

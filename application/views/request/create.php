@@ -1,4 +1,8 @@
 <style type="text/css">
+  select[readonly]
+  {
+      pointer-events: none;
+  }
   .left-view-card {
     display: block;
     position: relative;
@@ -81,11 +85,12 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">REQUESTOR</label>
         <div class="col-sm-10">
-          <select name="requestor" id="requestor" class="form-control">
+          <select name="requestor" id="requestor" class="form-control" readonly>
           <?php 
             foreach($user as $row)
             { 
-              if( empty($data) ? "" : $data['requestor'] === $row->nama_user){
+              echo $this->session->userdata('nama');
+              if( empty($data) ? ($this->session->userdata('nama') === $row->nama_user ) : $data['requestor'] === $row->nama_user){
                 echo '<option value="'.$row->nama_user.'" selected >'.$row->nama_user.'</option>';
               }else{
                 echo '<option value="'.$row->nama_user.'">'.$row->nama_user.'</option>';

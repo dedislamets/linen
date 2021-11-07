@@ -409,7 +409,7 @@ class LinenKeluar extends CI_Controller {
     $this->db->trans_begin();
     $last_id = "";
     if($this->input->post('id_keluar') != "") {
-
+        $last_id = $this->input->post('id_keluar');
         $this->db->set($data);
         $this->db->where('id', $this->input->post('id_keluar'));
         $result  =  $this->db->update('linen_keluar');  
@@ -472,8 +472,6 @@ class LinenKeluar extends CI_Controller {
         $result  = $this->db->insert('linen_keluar', $data);
         $last_id = $this->db->insert_id();
         $response['id']= $last_id;
-
-        
 
         if(!$result){
             print("<pre>".print_r($this->db->error(),true)."</pre>");
@@ -542,11 +540,14 @@ class LinenKeluar extends CI_Controller {
       $msg = 'Permintaan Linen #'. $this->input->post('no_referensi') .' akan segera dikirimkan ke ruangan ' . $this->input->post('ruangan');
       $data['message'] = $msg;
 
+      $request_data = $this->admin->get_array('request_linen',array( 'no_request' => $this->input->post('no_referensi')));
+      $user_data = $this->admin->get_array('tb_user',array( 'nama_user' => $request_data['requestor']));
+
       $data_notif = array(
         'short_msg'   => $msg,
         'long_msg'    => $msg,
         'url'         => 'linenkeluar/detail/'. $last_id,
-        'sent_to'     => 1,      
+        'sent_to'     => $user_data['id_user'],      
       );
       $this->db->insert('tb_notifikasi', $data_notif);
 
@@ -562,7 +563,7 @@ class LinenKeluar extends CI_Controller {
           '1289927',
           $options
       );
-      $pusher->trigger('linen', 'my-event', $data['message']);  
+      $pusher->trigger('linen', 'my-event', $data_notif);  
     }             
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }

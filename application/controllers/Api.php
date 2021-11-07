@@ -56,22 +56,6 @@ class Api extends RestController  {
 
     public function koneksi_get()
     {   
-        require_once(APPPATH.'../vendor/autoload.php');
-
-        $options = array(
-            'cluster' => 'ap1',
-            'useTLS' => false,
-            // 'encrypted' => true
-        );
-        $pusher = new Pusher\Pusher(
-            '3d5d9fdecf424e5c99f4',
-            '34d575d4d038aed1bf82',
-            '1289927',
-            $options
-        );
-
-        $data['message'] = 'hello world';
-        $pusher->trigger('linen', 'my-event', $data);
 
         $this->response([
                 'status' => true,
@@ -1042,7 +1026,7 @@ class Api extends RestController  {
         $type = isset($_GET['type']) ? $_GET['type'] : 'single';
         
         $fields = NULL;
-        $token = isset($_GET['token']) ? $_GET['token'] : 'e43L4r8kMHg:APA91bHwwbFR-IPVecNGBJaUIZqdtrwtxzKuAFwg4OsUB7gZrfDh1OBxCJf7qoM7ydAFYMW5w44KW2JlpirsJfd7oUmuu23KtjZJT79wCZNS7m8u0DL-Nu9QemGka9cqs5Ot5F8ufQ3a';
+        $token = isset($_GET['token']) ? $_GET['token'] : 'cUzamsGi3pA:APA91bFUmb-zNoPWXvn8RgVtDhExlX8d6yPDMMWBOXVTaLjEZuOWiViZRT_h63qWJ0StNPv3bwUR6FikfSNua89gH7GlRS5wiZrifcriljsB9BIs3frmfad1Xo7-mzqxOYtc_xk23D2Y';
         
         if($type == "single") {
         // echo $token; exit();

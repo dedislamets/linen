@@ -107,7 +107,9 @@ class Listrequest extends CI_Controller {
       $this->db->limit($length,$start);
       $this->db->from("request_linen");
       $this->db->join("request_linen_detail","request_linen.no_request=request_linen_detail.no_request");
-
+      if($this->session->userdata('role') != "Administrator"){
+        $this->db->where("requestor", $this->session->userdata('nama'));
+      }
       $pengguna = $this->db->get();
       $data = array();
       foreach($pengguna->result() as $r)
@@ -235,7 +237,9 @@ class Listrequest extends CI_Controller {
       }
       $this->db->limit($length,$start);
       $this->db->from("request_linen");
-
+      if($this->session->userdata('role') != "Administrator"){
+        $this->db->where("requestor", $this->session->userdata('nama'));
+      }
       $pengguna = $this->db->get();
       $data = array();
       foreach($pengguna->result() as $r)
