@@ -42,7 +42,7 @@
 	        			qty: obj.qty,
 	        			ready: obj.ready
 					}); 
-	    		}
+	    		})
 				$.each(data['data_detail_keluar'], function(index, obj) {
 					
 
