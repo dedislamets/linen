@@ -187,16 +187,15 @@
             if(arr_epc.indexOf(EPC) > -1){
            		
            		if(arr_epc_scan.indexOf(EPC) > -1){
-           			// TUHF2000.RFID_Beep(0);
            			$("#status_koneksi").val("Waiting for scanning...");
            		}else{
-           			// TUHF2000.RFID_Beep(1);
            			arr_epc_scan.push(EPC);
-
+           			arr_epc.push(EPC);
            			$("#status_koneksi").val(EPC + " compare success...");
 
 			        var params = { epc: EPC};
 		        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+
 		        		var last_status = data.history;
 		        		var last = (last_status != null ? last_status.STATUS : 'BARU');
 		        		if(data['data_detail'].length == 0){
@@ -228,13 +227,11 @@
 		        		
 		        	})
            		}
-
            	//JIka tidak exist di listview
             }else{
-            	
-
            		// TUHF2000.RFID_Beep(1);
            		arr_epc.push(EPC);
+           		arr_epc_scan.push(EPC);
 	        	var params = { epc: EPC};
 	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 		            if(data.status == 'success'){
@@ -270,10 +267,10 @@
 
 						
 						
-						arr_epc_scan.push(EPC);
+						
 		            }
 		    	})
-           }
+            }
         }
 
         // doclose();
