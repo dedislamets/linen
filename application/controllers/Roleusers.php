@@ -20,7 +20,7 @@ class Roleusers extends CI_Controller {
 			$data['js'] = 'script/role-users';
 			$data['modal'] = 'modal/role';	
 			$data['group_role'] = $this->admin->get('tb_group_role');
-			$this->load->view('Dashboard',$data,FALSE); 
+			$this->load->view('dashboard',$data,FALSE); 
 
     }else{
       redirect("login");
