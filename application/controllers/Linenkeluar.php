@@ -684,6 +684,7 @@ class LinenKeluar extends CI_Controller {
     $id= $this->input->get("id",TRUE);
     $data['keluar'] = $this->admin->get_array('linen_keluar',array( 'id' => $id));;
     $data['data_detail_keluar'] = $this->admin->get_result_array('linen_keluar_detail',array( 'no_transaksi' => $data['keluar']['NO_TRANSAKSI']));
+    $data['request'] = $this->admin->get_result_array('request_linen_detail',array( 'no_request' => $data['keluar']['NO_REFERENSI']));
     foreach ($data['data_detail_keluar'] as $key => $value) {
       $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
       $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
@@ -694,9 +695,15 @@ class LinenKeluar extends CI_Controller {
       $data['data_detail_keluar'][$key]['qty'] = $request['qty'];
       $data['data_detail_keluar'][$key]['ready'] = $request['qty_keluar'];
       $data['data_detail_keluar'][$key]['id_request'] = $request['id'];
+
+      foreach ($data['request'] as $k => $v) {
+        if($v['jenis'] == $jenis['jenis']){
+          $data['request'][$k]['ready'] = $request['qty_keluar'];
+        }
+      }
     }
 
-    $data['request'] = $this->admin->get_result_array('request_linen_detail',array( 'no_request' => $data['keluar']['NO_REFERENSI']));
+
 
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
       
