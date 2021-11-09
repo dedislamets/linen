@@ -696,7 +696,7 @@ class LinenKeluar extends CI_Controller {
       $data['data_detail_keluar'][$key]['id_request'] = $request['id'];
     }
 
-    $data['request'] = $this->admin->get_array('request_linen_detail',array( 'no_request' => $data['keluar']['NO_REFERENSI']));
+    $data['request'] = $this->admin->get_result_array('request_linen_detail',array( 'no_request' => $data['keluar']['NO_REFERENSI']));
 
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
       
