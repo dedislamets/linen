@@ -36,15 +36,15 @@
 	    if($("#mode").val() == 'edit') {
 	    	app.mode = 'edit';
 	    	$.get('<?= base_url()?>linenkeluar/getDetail', { id: $("#id_keluar").val() }, function(data){ 
-				$.each(data['data_detail_keluar'], function(index, obj) {
-					app.list_request.push({
-						id_detail: obj.id_request,
-	        			no_request:obj.no_transaksi,
+	    		$.each(data['request'], function(index, obj) {
+	    			app.list_request.push({
 	        			jenis: obj.jenis,
-	        			epc: obj.epc,
 	        			qty: obj.qty,
 	        			ready: obj.ready
 					}); 
+	    		}
+				$.each(data['data_detail_keluar'], function(index, obj) {
+					
 
 					app.list_scan.push({
 						id:obj.id,
