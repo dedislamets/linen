@@ -1,6 +1,6 @@
  <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Inspeksi extends CI_Controller {
+class Pengawasan extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,7 +12,7 @@ class Inspeksi extends CI_Controller {
 	{		
 		if($this->admin->logged_id())
 	    {
-			$data['title'] = 'Inspeksi Sheet';
+			$data['title'] = 'Pengawasan Sheet';
 			$data['main'] = 'inspeksi/index';
 			$data['js'] = 'script/inspeksi';
 			$data['soal'] = $this->admin->getmaster('tb_soal');

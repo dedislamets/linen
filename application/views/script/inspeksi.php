@@ -21,7 +21,7 @@
 		    getSoal: function(id){
 		    	var that = this;
 		    	that.list_soal = [];
-		    	var link = '<?= base_url(); ?>inspeksi/soal/'+ id;
+		    	var link = '<?= base_url(); ?>pengawasan/soal/'+ id;
 		 		$.get(link,null, function(data){
 					that.list_soal = data['soal'];
 					that.judul_soal = data['deskripsi'];
@@ -29,7 +29,7 @@
 		    },
 		    loadJQ: function(event){
 		    	// $("#accordion").accordion({ collapsible: true, active: false });
-		    	
+
 		    	$(".file").fileinput({
 		    		theme: 'fa',
 		    		autoReplace: false,
