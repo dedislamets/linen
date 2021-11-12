@@ -1,201 +1,113 @@
 <style type="text/css">
-	/*.cards{
-	  background:#fff;
-	  border-radius:15px;
-	  box-shadow:0px 10px 20px 20px rgba(0,0,0,0.17);
-	  display:inline-block;
-	  padding:30px 35px;
-	  -webkit-perspective:1800px;
-	  perspective:1800px;
-	  text-align:left;
-	  -webkit-transform-origin:50% 50%;
-	  transform-origin:50% 50%;
-	  -webkit-transform-style:preserve-3d;
-	  transform-style:preserve-3d;
-	  -webkit-transform:rotateX(11deg) rotateY(16.5deg);
-	  transform:rotateX(11deg) rotateY(16.5deg);
-	  min-width:595px;
+	.az-content .container {
+	    display: block;
 	}
-	.card{
-	  border-radius:15px;
-	  box-shadow:5px 5px 20px -5px rgba(0,0,0,0.6);
-	  display:inline-block;
-	  height:250px;
-	  overflow:hidden;
-	  -webkit-perspective:1200px;
-	  perspective:1200px;
-	  position:relative;
-	  -webkit-transform-style:preserve-3d;
-	  transform-style:preserve-3d;
-	  -webkit-transition:-webkit-transform 200ms ease-out;
-	  transition:-webkit-transform 200ms ease-out;
-	  transition: transform 200ms ease-out;
-	  transition: transform 200ms ease-out, -webkit-transform 200ms ease-out;
-	  width:100%;
-	  text-align: center;
-	}
-	.card:not(:last-child){
-	  margin-right:30px;
-	}
-	.card__img{
-	  position:relative;
-	  height:100%;
-	}
-	.card__bg{
-	  bottom:-50px;
-	  left:-50px;
-	  right:-50px;
-	  top:-50px;
-	  position:absolute;
-	  -webkit-transform-origin:50% 50%;
-	  transform-origin:50% 50%;
-	  -webkit-transform:translateZ(-50px);
-	  transform:translateZ(-50px);
-	  z-index:-1;
-	}
-	.card__one .card__img{
-	  top:14px;
-	  right:-10px;
-	  height:110%;
-	}
-	.card__one .card__bg{
-	  background: url('<?= base_url() ?>assets/img/damir-bosnjak.jpg') center/cover no-repeat;
-	}
-
-	.card__two .card__img{
-	  top:25px;
-	}
-	.card__two .card__bg{
-	  background: url('../images/3dr_spirited.jpg') center/cover no-repeat;
-	}
-
-	.card__three .card__img{
-	  top:5px;
-	  left:-4px;
-	  height:110%;
-	}
-	.card__three .card__bg{
-	  background: url('../images/3dr_howlbg.jpg') center/cover no-repeat;
-	}
-	.card__text{
-	  -webkit-box-align:center;
-	  align-items:center;
-	  background:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.55)));
-	  background:linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.55) 100%);
-	  bottom:0;
-	  display:-webkit-box;
-	  display:flex;
-	  -webkit-box-orient:vertical;
-	  -webkit-box-direction:normal;
-	  flex-direction: column;
-	  bottom: 50%;
-    	top: 50%;
-	  -webkit-box-pack:center;
-	  justify-content:center;
-	  position:absolute;
-	  width:100%;
-	  z-index:2;
-	}
-	.card__title{
-	  color:#fff;
-	  font-size:18px;
-	  font-weight:700;
-	  padding:0 10px;
-	  margin-bottom:3px;
-	}*/
-	.heading {
-	    margin: 20px 0;
-	}
-
 	.heading {
 	    clear: both;
-	    font-size: 22px;
+	    font-size: 2rem;
 	    padding: 8px 0;
 	    font-weight: 600;
-	    border-bottom: 3px solid rgba(0,0,0,.08);
 	}
 	.project-list-showcase {
 	     margin-left: -10px; 
 	     margin-right: -10px; 
 	     margin-bottom: -10px; 
 	}
-	.cardi {
-	    background: #fff;
-	    border-radius: 4px;
-	    border: 2px solid gray;
-	    max-width: 400px;
-	    display: flex;
-	    flex-direction: row;
-	    border-radius: 25px;
+	
+	ul.item-list {
+	    border-top: 1px solid rgba(0,0,0,.08);
+	    width: 100%;
+	    display: inline-block;
+	    list-style: none;
+	    clear: both;
+	    margin: 0;
+	    padding: 10px;
+	}
+
+	ul.item-list li {
+	    border-bottom: 1px solid rgba(0,0,0,.08);
+	    padding: 20px 10px;
+	    margin: 0;
 	    position: relative;
-	    margin-left: 5px;
-	    margin-right: 5px;
-	    margin-top: 4px;
-	    margin-bottom: 10px;
+	    list-style: none;
+	    clear: both;
+	    display: block;
 	}
-	.cardi h2 {
-	  margin: 0;
-	  padding: 0 1rem;
+	ul.item-list li .item-avatar {
+	    text-align: center;
+	    overflow: hidden;
 	}
-	.cardi .title {
-	  padding: 1rem;
-	  text-align: right;
-	  color: green;
-	  font-weight: bold;
-	  font-size: 12px;
+	.item-desc {
+		padding: 10px;
+	    background-color: #e0ffc3;
+	    text-align: center;
+	    font-weight: 500;
+	    font-size: 28px;
 	}
-	.cardi .desc {
-	  padding: 0.5rem 1rem;
-	  font-size: 12px;
-	}
-	.cardi .actions {
-	  display: grid;
-	  grid-template-columns: repeat(3, 1fr);
-	  align-items: center;
-	  padding: 0.5rem 1rem;
-	}
-	.cardi svg {
-	    width: 67px;
-    	height: 71px;
-	  margin: 0 auto;
+	.item-desc-small {
+		padding: 10px;
+	    background-color: #d6ffaf;
+	    text-align: center;
+	    font-weight: 500;
+	    font-size: 18px;
 	}
 
-	.img-avatar {
-	  width: 80px;
-	  height: 80px;
-	  position: absolute;
-	  border-radius: 50%;
-	  border: 6px solid white;
-	  background-image: linear-gradient(-60deg, #16a085 0%, #f4d03f 100%);
-	  top: 15px;
-	  left: 85px;
+	ul.item-list li a {
+	    font-weight: 600;
+	    color: #000;
+    	padding-left: 10px;
+	}
+	.item-avatar a {
+	    width: 100%;
 	}
 
-	.cardi-text {
-	  display: grid;
-	  grid-template-columns: 1fr 2fr;
+	ul.item-list li .item-avatar img {
+	    border-radius: 4px;
+	    -webkit-transition: all .5s ease-in-out;
+	    transition: all .5s ease-in-out;
 	}
-
-	.title-total {
-	  padding: 2.5em 1.5em 1.5em 1.5em;
+	ul.item-list li div.item-title, ul.item-list li h4 {
+	    margin: 0;
+	    font-weight: 600;
+	    font-size: 25px;
+	    background-color: #a3ff4d;
 	}
-
-	path {
-	  fill: white;
+	li .item-meta {
+	    display: block;
+	    margin-top: 5px;
+	    font-size: 11px;
+	    line-height: 1.6;
+	    color: #bbb;
 	}
-
-	.img-portada {
-	  width: 100%;
+	.heading-sheet {
+		border-bottom: 5px solid rgba(0, 0, 0, 0.08);
+	    text-align: center;
+	    margin-bottom: 20px;
 	}
-
-	.portada {
-	  width: 100%;
-	  height: 100%;
-	  border-top-left-radius: 20px;
-	  border-bottom-left-radius: 20px;
-	  background-image: url("https://m.media-amazon.com/images/S/aplus-media/vc/cab6b08a-dd8f-4534-b845-e33489e91240._CR75,0,300,300_PT0_SX300__.jpg");
-	  background-position: bottom center;
-	  background-size: cover;
+	.h4-title{
+		font-size: 1.1rem;
+		font-weight: 500
+	}
+	@media (max-width: 767px){
+		ul.item-list li div.item-desc {
+		    clear: both;
+		    margin: 10px 0 0;
+			font-size: 14px;
+		}
+		ul.item-list li div.item-title, ul.item-list li h4 {
+		    font-size: 20px;
+		}
+		.h3-title{
+			font-size: 1rem;
+		}
+		.h4-title{
+			font-size: 0.8rem;
+			font-weight: 500
+		}
+		.heading {
+		    font-size: 1.3rem;
+		    padding: 10px 20px 0px 20px;
+		}
 	}
 
 	button {
@@ -207,60 +119,87 @@
 	  transition:.5s;
 	  &:hover{
 	    color: #4CAF50  ;
-	    transform: rotate(22deg)
+	    transform: rotate(22deg);
 	  }
+	}
 	.project-list-showcase .project-grid .project-grid-inner {
 		height: 150px;
 	}
 	.judul{
-		font-family: "Roboto", serif;
 	    font-size: 36px;
 	    color: #222222;
-	    margin-bottom: 12px
+	    margin-bottom: 12px;
 	}
-	
+	.accordion .card .card-header a {
+	    background-color: #e0ffc3;
+	    color: #000;
+	}
+	.accordion .card-header a.collapsed:hover, .accordion .card-header a.collapsed:focus {
+	    color: #1c273c;
+	    background-color: #71ea00;
+	}
+	.btn-file {
+	    padding: 3px 20px;
+	}
+
 </style>
-<div class="row" id="app">
-  	<div class="col-lg-12">
-    	<div class="" >
-      		<div class="" >
-      			<h2 class="heading">Silahkan pilih Judul dibawah ini</h2>
-                <div class="row project-list-showcase">
-                	<?php 
-              		foreach($soal as $row): ?>
-	                    <div class="cardi">
-						  
-						  <div class="cardi-text">
-						    <div class="portada">
-						    	
-						    </div>
-						    <div class="title-total">   
-						    	<h3><?= $row->judul ?></h3>
-						  		<div class="desc"><?= $row->deskripsi ?></div>
-								<button class="btn btn-success btn-rounded btn-block" v-on:click="getSoal(<?= $row->id ?>)">Mulai</button>
-							</div>
-						 
-						  </div>
+<div class="row" id="app" style="display: block;">
+	<h2 class="heading">Formulir Pengawasan</h2>
+	<ul id="course-list" class="item-list" role="main">
+	<?php 
+		foreach($soal as $row): ?>
+        <li class="course_single_item course_id_5073 course_status_publish course_author_103"  v-on:click="getSoal(<?= $row->id ?>)">
+	   			<div class="row">
+	   				<div class="col-md-4 col-sm-4">
+						<div class="item-avatar" data-id="5073">
+							<a class="" href="#" title="Time Management (Call Center)">
+								<img src="http://academy.modena.com/wp-content/uploads/2020/09/Cover-Course-Time-Management.jpg" class="attachment-full size-full wp-post-image" style="max-height: 200px;">
+							</a>					
 						</div>
-                    <? endforeach; ?>
-                  </div>
+					</div>
+					<div class="col-md-8 col-sm-8">
+						<div class="item">
+							<div class="item-title" style="padding-left: 10px;">
+								<a href="#"><?= $row->judul ?>
+								</a>
+							</div>
+							
+		
+	                 		<div class="item-desc">
+	                 			<?= $row->deskripsi ?>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+		</li>	
+    <? endforeach; ?>
+	</ul>
 
-                  <h2 class="heading">Silahkan isi pertanyaan dibawah ini</h2>
-                  	<template v-for="(log, index) in list_soal">
-	                  	<div class="col-md-12 mg-t-20 mg-md-t-0">
-			              <div class="card bd-0">
-			                <div class="card-header tx-medium bd-0 tx-white bg-gray-800">
-			                  Soal {{ (index+1) }}
-			                </div>
-			                <div class="card-body bd bd-t-0">
-			                	<h3>{{ log.soal }}</h3>
-			                  <p class="mg-b-0">{{ log.keterangan }}</p>
-			                </div>
-			              </div>
-			           	</div>
-            		</template>
+    <h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
+    <form id="frm" method="post" class="needs-validation" novalidate="">
+      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
+          <div class="card mg-b-20">
+            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
+            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) ">
+                  Soal {{ (index+1) }}
+                </a>
+            </div>
+            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
+	            <div class="card-body bd bd-t-0" >
+	            	<h3 class="h3-title" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;">{{ log.soal }}</h3>
+	            	<h4 class="mg-t-10 h4-title">Dokumen yang harus disiapkan</h4>
+	              	<div class="item-desc-small">{{ log.keterangan }}</div>
+	              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
+	              	<textarea name="catatan" id="catatan" rows="3" class="form-control" placeholder="" style="height: 50px;" ></textarea>
+	         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
+		
+				    <input id="file-demo" type="file" class="file" multiple=true data-preview-file-type="any">
 
-      		</div>
-  		</div>
-  	</div>
+	            </div>
+            </div>
+          </div>
+       	</div>
+       	<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''">Simpan</button>
+    </form>
 </div>

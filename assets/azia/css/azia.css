@@ -97,6 +97,8 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900");
 @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700,800");
 @import url("https://fonts.googleapis.com/css?family=Raleway:400,500,600,700,800");
+@import url('https://fonts.googleapis.com/css2?family=Mohave:wght@300&family=Poppins:wght@200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400&display=swap');
 /* ############### BOOTSTRAP FRAMEWORK ############### */
 /*!
  * Bootstrap v4.5.2 (https://getbootstrap.com/)
@@ -104,6 +106,8 @@
  * Copyright 2011-2020 Twitter, Inc.
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
+
+
 :root {
   --blue: #3366ff;
   --indigo: #5b47fb;
@@ -150,7 +154,7 @@ article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Poppins",-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.5;
@@ -11055,10 +11059,6 @@ textarea.parsley-success:focus {
 .az-footer-app .container-lg,
 .az-footer-app .container-xl {
   border-top-width: 0; }
-
-/* ###### 6.3 Global  ###### */
-body {
-  font-family: "Roboto", sans-serif; }
 
 .az-body,
 .az-dashboard {

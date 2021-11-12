@@ -31,6 +31,9 @@ class Inspeksi extends CI_Controller {
       	$arr_par = array('id_judul' => $id);
       	$row = $this->admin->getmaster('tb_soal_detail',$arr_par);
       	$data['soal'] = $row;
+
+      	$soal = $this->admin->get_array('tb_soal',array( 'id' => $id));
+      	$data['deskripsi'] = $soal['deskripsi'];
       	
       	$this->output->set_content_type('application/json')->set_output(json_encode($data));
   	}
