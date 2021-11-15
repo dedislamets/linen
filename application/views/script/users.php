@@ -61,7 +61,9 @@
 			$("#nama_user").val('');
 			$("#email").val('');
 			$("#password").val('');
-			
+			$("#status").prop('checked', false);
+			$("#data-bawahan").css('display','none');
+
 			$("#id").val('');
 
 			$('#ModalAdd').modal({ keyboard: false}) ;
