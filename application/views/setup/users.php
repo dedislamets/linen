@@ -1,3 +1,11 @@
+<style type="text/css">
+  .modal:nth-of-type(even) {
+    z-index: 1052 !important;
+  }
+  .modal-backdrop.show:nth-of-type(even) {
+      z-index: 1051 !important;
+  }
+</style>
 <div class="row">
   <div class="col-md-12">
     <div class="card">

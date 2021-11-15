@@ -10,32 +10,36 @@
 	    },
 	    data: {
 	      history: [],
-	      alamat:'',
-	      totalrow: 1
+	      show: false,
+	      totalrow: 1,
+	      id_atasan: '',
+	      myTable2: '',
+	      myTable:''
 	    },
 	    methods: {
-	    	// loadHistory: function () {
-		    //     var that = this;
+	    	loadData: function(id){
+		    	var that = this;
 
-		    //     jQuery.ajax({
-		    //       type: "GET",
-		    //       cache:false,
-		    //       url: '<?= base_url() ?>customer/edit',
-		    //       data: {id: $("#id").val()},
-		    //       success: function(response) {          
-		    //           	that.history = response['child'];
-		    //           	that.totalrow = response['total'];
-		    //           	that.alamat= response['parent'][0]['cust_address']
-		    //       },
-		    //     });
-		    // },
-
+		    }
 	    }
 	})
 	
 
 	$(document).ready(function(){  
-		
+		var modal_lv = 0;
+		$('.modal').on('shown.bs.modal', function (e) {
+		    $('.modal-backdrop:last').css('zIndex',1051+modal_lv);
+		    $(e.currentTarget).css('zIndex',1052+modal_lv);
+		    modal_lv++
+		});
+
+		$('.modal').on('hidden.bs.modal', function (e) {
+		    modal_lv--
+		});
+		$(document).on('hidden.bs.modal', function (event) {
+		  
+		})
+
 		$('#ViewTable').DataTable({
 			dom: 'frtip',
 			ajax: {		            
@@ -63,9 +67,19 @@
 
 	})
 
+	$("#ada_bawahan").change(function() {
+	    if(this.checked) {
+	    	$("#data-bawahan").css('display','block');
+	    }
+	    else{
+	    	$("#data-bawahan").css('display','none');
+	    }
+	});
+
 	function editmodal(val){
 
 		$.get('users/edit', { id: $(val).data('id') }, function(data){ 
+				app.id_atasan = $(val).data('id');
 				$("#lbl-title").text("Edit");
          		$("#nama_user").val(data['parent'][0]['nama_user']);
 				$("#email").val(data['parent'][0]['email']);
@@ -77,11 +91,47 @@
 				$("#id_role").val(data['parent'][0]['id_role']);
 
 				if(data['parent'][0]['status'] == 1){
-					$("#status").attr("checked","checked");
+					$("#status").prop('checked', true);
 				}else{
 					$("#status").removeAttr("checked");
 				}
+
+				if(data['parent'][0]['ada_bawahan'] == 1){
+					$("#ada_bawahan").prop('checked', true);
+					app.show = false;
+				}else{
+					$("#ada_bawahan").removeAttr("checked");
+				}
+
 				$("#id").val(data['parent'][0]['id_user']);
+
+				app.myTable = $('#ViewTableUser').DataTable({
+					dom: 'frtip',
+					ajax: {		            
+			            "url": "users/dataTableModalBahawan?id=" + $(val).data('id'),
+			            "type": "GET"
+			        },
+			        processing	: true,
+					serverSide	: true,			
+					"bPaginate": true,	
+					"autoWidth": true,
+					"destroy": true,
+		            
+			    });
+
+				app.myTable2 = $('#ModalTableUser').DataTable({
+					dom: 'frtip',
+					ajax: {		            
+			            "url": "users/dataTableModal",
+			            "type": "GET"
+			        },
+			        processing	: true,
+					serverSide	: true,			
+					"bPaginate": true,	
+					"autoWidth": true,
+					"destroy": true,
+		            
+			    });
 
            		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
            
@@ -89,6 +139,56 @@
 
 	}
 
+	function removeRole(val) {
+		var r = confirm("Yakin dihapus?");
+		if (r == true) {
+			
+			$.post('users/delete_bawahan', { id: $(val).data('id') }, function(data){ 
+				app.myTable.ajax.url("users/dataTableModalBahawan?id=" + app.id_atasan).load();
+			})
+		
+		}
+	}
+
+	$('#btnpilih').on('click', function (event) {
+
+        var checked_courses = $('#ModalTableUser').find('input[name="selected_courses[]"]:checked').length;
+        if (checked_courses != 0) {
+            CheckedTrue();
+            
+        } else {
+            alert("Silahkan pilih terlebih dahulu");
+        }
+
+    });
+
+    function CheckedTrue() {
+        var b = $("#txtSelected");
+        b.val('');
+        var str = "";
+        var rowcollection = app.myTable2.$(':checkbox', { "page": "all" });
+        rowcollection.each(function () {
+            if (this.checked) {
+                str += this.value + ";";
+            }
+        });
+        b.val(str);                        
+        $.ajax({
+            type: "POST",
+            url: 'users/add',
+            data: {id_user: str, id_atasan: app.id_atasan},
+            dataType: "json",
+            traditional: true,	            
+           	beforeSend: function(){
+				
+			},
+		    success: function (data) {
+		    	app.myTable.ajax.url("users/dataTableModalBahawan?id=" + app.id_atasan).load();
+				$('#ModalUser').modal('hide');
+	        },
+        });
+        
+    }
 	
 	$('#btnSubmit').on('click', function (e) {
 		var valid = false;
