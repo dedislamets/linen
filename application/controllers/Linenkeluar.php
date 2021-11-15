@@ -564,6 +564,13 @@ class LinenKeluar extends CI_Controller {
           $options
       );
       $pusher->trigger('linen', 'my-event', $data_notif);  
+
+      $data_token = $this->admin->api_array('tb_token_push',array( 'id_user' => $user_data['id_user'] ));
+      if(!empty($data_token)){
+          foreach ($data_token as $key => $value) {
+            $this->admin->send_notif_app_get('single',$value['token'], $msg);
+          }
+      }
     }             
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }

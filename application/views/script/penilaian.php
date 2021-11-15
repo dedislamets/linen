@@ -153,7 +153,12 @@
     });
 
     $(document).ready(function() {
-    	
+    	$('.fc-datepicker').datepicker({
+          	showOtherMonths: true,
+          	onSelect: function(date) {
+            	window.location.href = "<?= base_url() ?>pengawasan/penilaian?tanggal=" + date;
+        	},
+        });
 	});
 
 

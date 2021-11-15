@@ -205,4 +205,63 @@ class Admin extends CI_Model
         return $this->db->query($sql)->row_array()['jml'];
     }
 
+    function send_notif_app_get($type = 'single', $token = '', $message = '' ,$topics = ''){
+        error_reporting(-1);
+        ini_set('display_errors', 'On');
+        
+        $fields = NULL;
+        
+        if($type == "single") {
+    
+            $res = array();
+            $res['body'] = $message;
+            
+            $fields = array(
+                'to' => $token,
+                'notification' => $res,
+            );
+            // echo json_encode($fields);
+            
+        }else if($type == "topics") {
+            $res = array();
+            $res['body'] = $message;
+            
+            $fields = array(
+                'to' => '/topics/' . $topics,
+                'notification' => $res,
+            );
+            
+            // echo json_encode($fields);
+            // echo 'Topics : '. $topics . '<br/>Message : ' . $message . '<br>';
+        }
+        
+        // Set POST variables
+        $url = 'https://fcm.googleapis.com/fcm/send';
+        $server_key = "AAAA-XXzNh4:APA91bFtdWD6MfsRH3PeYz62vYQdCNFNoXZdi5BaOyZ6AiEdIqQpYjuBplob5baO7RCU6iw-ElrX6GH60g95fTE6ltK2ejbC9XXPcfFOby4BMuVTSi2LEnPMHAxgMforeOFnJN_gCu7l";
+        
+        $headers = array(
+            'Authorization: key=' . $server_key,
+            'Content-Type: application/json'
+        );
+        $ch = curl_init();
+ 
+        curl_setopt($ch, CURLOPT_URL, $url);
+ 
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+ 
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
+        
+        $result = curl_exec($ch);
+        if ($result === FALSE) {
+            // echo 'Curl failed: ' . curl_error($ch);
+        }else{
+            // echo "<br>Curl Berhasil";
+        }
+ 
+        curl_close($ch);
+    }
+
 }

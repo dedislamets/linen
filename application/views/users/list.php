@@ -6,9 +6,9 @@
 <div class="row">
   <div class="col-md-12">
     <div class="card">
-      <div class="card-header" >
-        <h4 class="card-title"> List Users <button  id="btnAdd" class="btn btn-purple" style="float: right;">Tambah</button>
-
+      <div class="card-header"  style="color:#fff;background-color: green;">
+        <h4 class="card-title" style="color: #fff;"> List Users 
+          <button id="btnAdd" class="btn btn-outline-warning" style="float: right;">Tambah</button>
         </h4>
       </div>
       <div class="card-body">

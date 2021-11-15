@@ -42,7 +42,8 @@
 	    background-color: #e0ffc3;
 	    text-align: center;
 	    font-weight: 500;
-	    font-size: 28px;
+	    font-size: 24px;
+	    margin-bottom: 10px;
 	}
 	.item-desc-small {
 		padding: 10px;
@@ -82,7 +83,7 @@
 	.heading-sheet {
 		border-bottom: 5px solid rgba(0, 0, 0, 0.08);
 	    text-align: center;
-	    margin-bottom: 20px;
+	    margin-bottom: 5px;
 	}
 	.h4-title{
 		font-size: 1.1rem;
@@ -107,6 +108,9 @@
 		.heading {
 		    font-size: 1.3rem;
 		    padding: 10px 20px 0px 20px;
+		}
+		.h3-soal{
+			display: none;
 		}
 	}
 
@@ -133,6 +137,10 @@
 	.accordion .card .card-header a {
 	    background-color: #e0ffc3;
 	    color: #000;
+	    padding-right: 27px;
+	}
+	.accordion .card-body {
+	    background-color: #f6f8fd;
 	}
 	.accordion .card-header a.collapsed:hover, .accordion .card-header a.collapsed:focus {
 	    color: #1c273c;
@@ -141,65 +149,87 @@
 	.btn-file {
 	    padding: 3px 20px;
 	}
+	[class*=btn-outline-] {
+	    line-height: 1;
+	}
+	.accordion .card {
+	    border-radius: .55rem;
+	}
 
 </style>
 <div class="row" id="app" style="display: block;">
-	<h2 class="heading">Formulir Pengawasan</h2>
-	<ul id="course-list" class="item-list" role="main">
-	<?php 
-		foreach($soal as $row): ?>
-        <li class="course_single_item course_id_5073 course_status_publish course_author_103"  v-on:click="getSoal(<?= $row->id ?>)">
-	   			<div class="row">
-	   				<div class="col-md-4 col-sm-4">
-						<div class="item-avatar" data-id="5073">
-							<a class="" href="#" title="Time Management (Call Center)">
-								<img src="http://academy.modena.com/wp-content/uploads/2020/09/Cover-Course-Time-Management.jpg" class="attachment-full size-full wp-post-image" style="max-height: 200px;">
-							</a>					
-						</div>
-					</div>
-					<div class="col-md-8 col-sm-8">
-						<div class="item">
-							<div class="item-title" style="padding-left: 10px;">
-								<a href="#"><?= $row->judul ?>
-								</a>
+	<form id="frm" method="post" class="needs-validation" enctype='multipart/form-data'>
+		<section id="section-judul" v-if="section_judul">
+			<h2 class="heading">Formulir Pengawasan</h2>
+			<ul id="course-list" class="item-list" role="main">
+			<?php 
+				foreach($soal as $row): ?>
+		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>)">
+			   			<div class="row">
+			   				<div class="col-md-4 col-sm-4">
+								<div class="item-avatar" data-id="5073">
+									<a class="" href="#" title="Time Management (Call Center)">
+										<img src="<?= base_url() ?>assets/images/checklist.png" class="attachment-full size-full wp-post-image" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
+									</a>					
+								</div>
 							</div>
-							
-		
-	                 		<div class="item-desc">
-	                 			<?= $row->deskripsi ?>
+							<div class="col-md-8 col-sm-8">
+								<div class="item" style="padding: 10px;">
+									<div class="item-title" style="text-align: center;">
+										<a href="#"><?= $row->judul ?>
+										</a>
+									</div>
+				
+			                 		<div class="item-desc">
+			                 			<?= $row->deskripsi ?>
+									</div>
+									<input type="hidden" name="tanggal" id="tanggal" value="tanggal">
+									<? if(!empty($row->current_date)): ?>
+										<p style="background-color: yellow;padding: 5px 10px;display: inline;font-style: italic;">Terakhir diubah : <?= tgl_waktu_indo($row->current_date) ?></p>
+									<? endif; ?>
+								</div>
 							</div>
-							
 						</div>
-					</div>
-				</div>
-		</li>	
-    <? endforeach; ?>
-	</ul>
+				</li>	
+		    <? endforeach; ?>
+			</ul>
+		</section>
+		<section id="section-isi" v-if="section_isi">
+		    <h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
+		    	<p style="margin-bottom: 5px;text-align: center;font-weight: 300;" v-html="task"></p>
+		    	<input type="hidden" name="id_soal" id="id_soal" :value="id_soal">
+		      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
+		          <div class="card mg-b-20">
+		            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
+		            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) ">
+		                 <span v-if="log.flag" class="fa fa-check" style="font-size: 25px"></span> {{ log.soal }}
+		                </a>
+		            </div>
+		            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
+			            <div class="card-body bd bd-t-0" >
+			            	<h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;">{{ log.soal }}</h3>
+			            	<h4 class="mg-t-10 h4-title">Dokumen yang harus disiapkan</h4>
+			              	<div class="item-desc-small">{{ log.keterangan }}</div>
+			              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
+			              	<input type="hidden" name="id_soal_detail[]" :value="log.id" >
+			              	<textarea name="catatan[]" id="catatan" rows="3" class="form-control" placeholder="" style="height: 50px;" :value="log.catatan" ></textarea>
+			         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
+				
+						    <input :id="'filefoto'+ (index+1)" name="filefoto[]" type="file" class="file" multiple=true accept=".jpg,.gif,.png,.jpeg,.xls,.xlsx,.pdf,.mp4">
 
-    <h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
-    <form id="frm" method="post" class="needs-validation" novalidate="">
-      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
-          <div class="card mg-b-20">
-            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
-            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) ">
-                  Soal {{ (index+1) }}
-                </a>
-            </div>
-            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
-	            <div class="card-body bd bd-t-0" >
-	            	<h3 class="h3-title" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;">{{ log.soal }}</h3>
-	            	<h4 class="mg-t-10 h4-title">Dokumen yang harus disiapkan</h4>
-	              	<div class="item-desc-small">{{ log.keterangan }}</div>
-	              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
-	              	<textarea name="catatan" id="catatan" rows="3" class="form-control" placeholder="" style="height: 50px;" ></textarea>
-	         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
-		
-				    <input id="file-demo" type="file" class="file" multiple=true data-preview-file-type="any">
-
-	            </div>
-            </div>
-          </div>
-       	</div>
-       	<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''">Simpan</button>
+			            </div>
+		            </div>
+		          </div>
+		       	</div>
+		       	<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
+		       	<div class="row">
+		       		<div class="col-3">
+			       		<button class="btn btn-info btn-rounded btn-block" v-on:click="kembali($event)"><< Kembali</button>  
+			       	</div>
+			       	<div class="col-9">
+		       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)">Simpan</button> 
+		       		</div> 
+		       	</div>
+	    </section>
     </form>
 </div>

@@ -47,9 +47,19 @@
 			"bPaginate": true,	
 			// "ordering": false,
 			"autoWidth": true,
-			// "order": [[ 4, "desc" ]],
 			
 	    });
+
+	    $('#btnAdd').on('click', function (event) {
+			$("#lbl-title").text('Tambah');
+			$("#nama_user").val('');
+			$("#email").val('');
+			$("#password").val('');
+			
+			$("#id").val('');
+
+			$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
+		});
 
 	})
 
@@ -79,16 +89,7 @@
 
 	}
 
-	$('#btnAdd').on('click', function (event) {
-		$("#lbl-title").text('Tambah');
-		$("#nama_user").val('');
-		$("#email").val('');
-		$("#password").val('');
-		
-		$("#id").val('');
-
-		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
-	});
+	
 	$('#btnSubmit').on('click', function (e) {
 		var valid = false;
     	var sParam = $('#Form').serialize();
