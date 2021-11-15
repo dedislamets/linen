@@ -11,6 +11,7 @@
 	    data: {
 	      history: [],
 	      show: false,
+	      mode : 'new',
 	      totalrow: 1,
 	      id_atasan: '',
 	      myTable2: '',
@@ -55,6 +56,7 @@
 	    });
 
 	    $('#btnAdd').on('click', function (event) {
+	    	app.mode = 'new';
 			$("#lbl-title").text('Tambah');
 			$("#nama_user").val('');
 			$("#email").val('');
@@ -62,13 +64,13 @@
 			
 			$("#id").val('');
 
-			$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
+			$('#ModalAdd').modal({ keyboard: false}) ;
 		});
 
 	})
 
 	$("#ada_bawahan").change(function() {
-	    if(this.checked) {
+	    if(this.checked && app.mode == 'edit') {
 	    	$("#data-bawahan").css('display','block');
 	    }
 	    else{
@@ -80,6 +82,7 @@
 
 		$.get('users/edit', { id: $(val).data('id') }, function(data){ 
 				app.id_atasan = $(val).data('id');
+				app.mode = 'edit';
 				$("#lbl-title").text("Edit");
          		$("#nama_user").val(data['parent'][0]['nama_user']);
 				$("#email").val(data['parent'][0]['email']);
