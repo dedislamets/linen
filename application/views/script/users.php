@@ -101,9 +101,10 @@
 
 				if(data['parent'][0]['ada_bawahan'] == 1){
 					$("#ada_bawahan").prop('checked', true);
-					app.show = false;
+					$("#data-bawahan").css('display','block');
 				}else{
 					$("#ada_bawahan").removeAttr("checked");
+					$("#data-bawahan").css('display','none');
 				}
 
 				$("#id").val(data['parent'][0]['id_user']);
