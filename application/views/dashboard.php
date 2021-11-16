@@ -390,16 +390,16 @@
       //       timer: 2000,
       //     })
       // }
-      Pusher.logToConsole = true;
-      var pusher = new Pusher('3d5d9fdecf424e5c99f4', {
-        cluster: 'ap1'
-      });
+      // Pusher.logToConsole = true;
+      // var pusher = new Pusher('3d5d9fdecf424e5c99f4', {
+      //   cluster: 'ap1'
+      // });
 
-      var channel = pusher.subscribe('linen');
-      channel.bind('my-event', function(data) {
-        addNotif(JSON.stringify(data));
-        // alert(JSON.stringify(data));
-      });
+      // var channel = pusher.subscribe('linen');
+      // channel.bind('my-event', function(data) {
+      //   addNotif(JSON.stringify(data));
+      //   // alert(JSON.stringify(data));
+      // });
    </script>
       <?php
       $this->load->view($js); 
