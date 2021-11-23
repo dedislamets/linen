@@ -60,7 +60,8 @@ class Barang extends CI_Controller {
           2=>'nama_ruangan',
           3=>'fmedis',
           4=>'berat',
-          5 => 'harga'
+          5 => 'harga',
+          6 => 'spesifikasi'
       );
       $valid_sort = array(
           0=>'serial',
@@ -68,7 +69,8 @@ class Barang extends CI_Controller {
           2=>'nama_ruangan',
           3=>'fmedis',
           4=>'berat',
-          5 => 'harga'
+          5 => 'harga',
+          6 => 'spesifikasi'
       );
       if(!isset($valid_sort[$col]))
       {
@@ -100,7 +102,7 @@ class Barang extends CI_Controller {
           }                 
       }
       $this->db->limit($length,$start);
-      $this->db->select("barang.*,jenis,berat,harga,fmedis");
+      $this->db->select("barang.*,jenis,berat,harga,fmedis,spesifikasi");
       $this->db->from("barang");
       $this->db->join('jenis_barang', 'barang.id_jenis = jenis_barang.id');
 
