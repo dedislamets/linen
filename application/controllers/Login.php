@@ -40,6 +40,7 @@ class Login extends CI_Controller {
                         $session_data = array(
                             'user_id'   => $apps->id_user,
                             'username'   => $apps->nama_user,
+                            'id_atasan'   => $apps->id_atasan,
                             'nama'   => $apps->nama_user,
                             'role'  => $role[0]->group,
                             'role_id'  => $role[0]->id_group_role,

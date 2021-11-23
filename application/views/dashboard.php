@@ -220,17 +220,7 @@
 </head>
 
 <body >
-  <OBJECT
-    id=TUHF2000 
-    codebase="UHF2000.ocx"
-    classid="clsid:FACF7D39-9E21-40F7-A30A-80BDE4558AE3"
-      width=0
-      height=0
-      align=center
-      hspace=0
-      vspace=0
-    >
-  </OBJECT>
+  
   <div class="az-header">
     <div class="container">
       <div class="az-header-left">
@@ -328,7 +318,17 @@
     </div>
   </div>
 
-  
+  <OBJECT
+    id=TUHF2000 
+    codebase="UHF2000.ocx"
+    classid="clsid:FACF7D39-9E21-40F7-A30A-80BDE4558AE3"
+      width=0
+      height=0
+      align=center
+      hspace=0
+      vspace=0
+    >
+  </OBJECT>
   <script src="<?= base_url(); ?>assets/js/core/jquery.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/core/popper.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/core/bootstrap.min.js"></script>
@@ -390,16 +390,16 @@
       //       timer: 2000,
       //     })
       // }
-      // Pusher.logToConsole = true;
-      // var pusher = new Pusher('3d5d9fdecf424e5c99f4', {
-      //   cluster: 'ap1'
-      // });
+      Pusher.logToConsole = true;
+      var pusher = new Pusher('3d5d9fdecf424e5c99f4', {
+        cluster: 'ap1'
+      });
 
-      // var channel = pusher.subscribe('linen');
-      // channel.bind('my-event', function(data) {
-      //   addNotif(JSON.stringify(data));
-      //   // alert(JSON.stringify(data));
-      // });
+      var channel = pusher.subscribe('linen');
+      channel.bind('my-event', function(data) {
+        addNotif(JSON.stringify(data));
+        // alert(JSON.stringify(data));
+      });
    </script>
       <?php
       $this->load->view($js); 

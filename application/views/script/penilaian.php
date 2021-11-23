@@ -41,7 +41,15 @@
 					that.section_isi= true;
 					for (let index = 0; index < data['soal'].length; ++index) {
 					    const element = that.list_soal[index];
-					    that.loadJQ(element['id'], index+1);
+					    that.loadJQ(element['id']);
+					    if(element['sub'] != undefined){
+					    	for (var key in element["sub"]) {
+					    		for (var k in element["sub"][key]['data']) {
+									that.loadJQ(element["sub"][key]['data'][k]['id']);
+									
+								}
+							}
+					    }
 					}
 				},'json');
 		    },
@@ -68,10 +76,9 @@
 
 				$.ajax({
 				    type: 'POST',
-				    url: '<?= base_url(); ?>pengawasan/save',
+				    url: '<?= base_url(); ?>pengawasan/savesv',
 				    data: $("#frm").serialize() ,
 				    success:function(data){
-				    	$('.file').fileinput('upload'); 
 				     	Swal.fire({ title: "Berhasil disimpan..!",
 			             text: "Berhasil tersimpan",
 			             timer: 2000,
@@ -89,13 +96,12 @@
 				  });
 		  		
 		    },
-		    loadJQ: function(id_soal_detail, urut){	
+		    loadJQ: function(id_soal_detail){	
 		    	var data_arr = [];
-		    	var link = '<?= base_url(); ?>pengawasan/getimages/' + id_soal_detail;
+		    	var link = '<?= base_url(); ?>pengawasan/getimagessp/' + id_soal_detail;
 		 		$.get(link,null, function(data){
 					data_arr= data;
-					
-			    	$("#filefoto"+ urut).fileinput({
+			    	$("#filefoto"+ id_soal_detail).fileinput({
 			    		theme: 'fa',
 			    		autoReplace: false,
 						showCaption: true,
@@ -105,41 +111,17 @@
 						maxFileCount: 5,
 						showUpload: false,
 						showRemove: false,
-						uploadUrl: "<?=base_url()?>pengawasan/upload",
+						showBrowse: false,
+						showClose: false,
 						uploadAsync: false,
 						initialPreviewAsData: true, 
 						initialPreviewDownloadUrl: "<?=base_url()?>upload/pengawasan/{filename}",
-						// previewFileIconSettings: { // configure your icon file extensions
-					 //        'doc': '<i class="fa fa-file-word text-primary"></i>',
-					 //        'xls': '<i class="fa fa-file-excel text-success"></i>',
-					 //    },
-						// previewFileExtSettings: { // configure the logic for determining icon file extensions
-					 //        'doc': function(ext) {
-					 //            return ext.match(/(doc|docx)$/i);
-					 //        },
-					 //        'xls': function(ext) {
-					 //            return ext.match(/(xls|xlsx)$/i);
-					 //        },
-					 //    },
-					    uploadExtraData : function (previewId, index) {
-						    return {
-					            id_soal: app.id_soal,
-					            id_soal_detail: id_soal_detail
-					        };
-					    },
-					    deleteExtraData : function (previewId, index) {
-						    return {
-					            id_soal: app.id_soal,
-					            id_soal_detail: id_soal_detail
-					        };
-					    },
+					
 					    initialPreview: data_arr['caption'],
 				        initialPreviewConfig: data_arr['data']
 					}).on('filebeforedelete', function() {
-						var abort = true;
-				        if (confirm("Are you sure you want to delete this image?")) {
-				            abort = false;
-				        }
+						var abort = false;
+				        alert('anda tidak diijinkan menghapus file');
 				        return abort;
 					}).on('filedeleted', function() {
 				        setTimeout(function() {
@@ -147,6 +129,8 @@
 				        }, 900);
 				    });
 				},'json');
+
+
 
 		    }
         }

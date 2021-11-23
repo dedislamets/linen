@@ -134,7 +134,7 @@
            		}else{
            			// TUHF2000.RFID_Beep(1);
            			arr_epc_scan.push(EPC);
-
+           			arr_epc.push(EPC);
            			$("#status_koneksi").val(EPC + " compare success...");
 
 			        var params = { epc: EPC};

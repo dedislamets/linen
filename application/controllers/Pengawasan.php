@@ -13,9 +13,9 @@ class Pengawasan extends CI_Controller {
 	{		
 		if($this->admin->logged_id())
 	    {
-	    	// if(CheckMenuRole('pengawasan')){
-		    //     redirect("errors");
-		    // }
+	    	if(CheckMenuRole('pengawasan')){
+		        redirect("errors");
+		    }
 			$data['title'] = 'Pengawasan Sheet';
 			$data['main'] = 'inspeksi/index';
 			$data['js'] = 'script/inspeksi';
@@ -82,7 +82,6 @@ class Pengawasan extends CI_Controller {
 		      	));
 			$this->db->group_by("tb_soal.id,nama_user, judul, class,deskripsi");
 			$data['soal'] = $this->db->get()->result();
-			// echo $this->db->last_query(); exit();
 			
 			$total_flag=0;
 			foreach ($data['soal'] as $key => $value) {
@@ -102,6 +101,38 @@ class Pengawasan extends CI_Controller {
 			      	}
       			}
       			$data['soal'][$key]->task = "Selesai <b>". $total_flag ."</b> dari <b>". count($row)."</b> Task";
+	      	}
+
+
+	      	$this->db->select("tb_soal.id as id_judul,nama_user, judul, class, MAX(`current_date`) AS last_update,deskripsi");
+			$this->db->from("tb_inspeksi");
+			$this->db->join("tb_soal","tb_soal.id=tb_inspeksi.id_soal");
+			$this->db->join("tb_user","tb_user.id_user=tb_inspeksi.id_pengawas");
+			$this->db->where(array( 
+		      		'id_inspektor' => 14 
+		      	));
+			$this->db->where('nilai = 0');
+			$this->db->group_by("tb_soal.id,nama_user, judul, class,deskripsi");
+			$data['pending'] = $this->db->get()->result();
+			
+			$total_flag=0;
+			foreach ($data['pending'] as $key => $value) {
+	      		$data['pending'][$key]->jam = date("H:i", strtotime($value->last_update));
+
+	      		$arr_par = array('id_judul' => $value->id_judul);
+      			$row = $this->admin->getmaster('tb_soal_detail',$arr_par);
+
+      			foreach ($row as $k => $val) {
+		      		$arr_par = array( 
+			      		'id_soal_detail' => $val->id ,
+			      		'tanggal' => $tanggal
+			      	);
+		      		$inspeksi_image = $this->admin->api_array('tb_inspeksi_image',$arr_par);
+			      	if(!empty($inspeksi_image)){
+			      		$total_flag++;
+			      	}
+      			}
+      			$data['pending'][$key]->task = "Selesai <b>". $total_flag ."</b> dari <b>". count($row)."</b> Task";
 	      	}
 			
 			$this->load->view('dashboard',$data,FALSE); 
@@ -149,16 +180,63 @@ class Pengawasan extends CI_Controller {
 		        	'short_msg'   => $msg,
 		        	'long_msg'    => $msg,
 		        	'url'         => 'pengawasan',
-		        	'sent_to'     => 1,      
+		        	'sent_to'     => $this->session->userdata('id_atasan'),      
 		      	);
 		      	$this->db->insert('tb_notifikasi', $data_notif);
 
 		    	$data_token = $this->admin->api_array('tb_token_push',array( 'id_user' => $this->session->userdata('user_id') ));
 		        if(!empty($data_token)){
 		            foreach ($data_token as $key => $value) {
-		            	$this->admin->send_notif_app_get('single',$value['token'], "Dedi melakukan submit data pengawasan checksheet A hari ini.");
+		            	$this->admin->send_notif_app_get('single',$value['token'], $this->session->userdata('username') ." melakukan submit data pengawasan checksheet A hari ini.");
 		            }
 		        }
+	    	} catch (Exception $e) {
+	    		$data['error'] = $this->db->error();
+	    	}
+	    	
+
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	    }
+	}
+	public function savesv(){
+		if($this->admin->logged_id())
+	    {
+	    	try {
+
+	    		$tanggal = date("Y-m-d");
+		  		if(!empty(htmlspecialchars($this->input->post('tanggal', true)))){
+		  			$tanggal = date("Y-m-d", strtotime(htmlspecialchars($this->input->post('tanggal', true)))) ;
+		  		}
+	    		foreach ($this->input->post('id_soal_detail') as $key => $value) {
+			    	
+	            	$arr = [
+		                'nilai' => htmlspecialchars($this->input->post('nilai', true)[$key]),
+	            	];
+	            	$this->db->set($arr);
+			        $this->db->where(array( 'id_soal_detail' => $value, 'tanggal' => $tanggal));
+			        $result  =  $this->db->update('tb_inspeksi');  
+
+		    	}
+
+		    	$data['success'] = TRUE;
+
+		    	$msg = $this->session->userdata('username') .'  melakukan submit data pengawasan checksheet A hari ini.';
+		      	$data['message'] = $msg;
+
+		     //  	$data_notif = array(
+		     //    	'short_msg'   => $msg,
+		     //    	'long_msg'    => $msg,
+		     //    	'url'         => 'pengawasan',
+		     //    	'sent_to'     => $this->session->userdata('id_atasan'),      
+		     //  	);
+		     //  	$this->db->insert('tb_notifikasi', $data_notif);
+
+		    	// $data_token = $this->admin->api_array('tb_token_push',array( 'id_user' => $this->session->userdata('user_id') ));
+		     //    if(!empty($data_token)){
+		     //        foreach ($data_token as $key => $value) {
+		     //        	$this->admin->send_notif_app_get('single',$value['token'], "Dedi melakukan submit data pengawasan checksheet A hari ini.");
+		     //        }
+		     //    }
 	    	} catch (Exception $e) {
 	    		$data['error'] = $this->db->error();
 	    	}
@@ -170,23 +248,36 @@ class Pengawasan extends CI_Controller {
 
 	public function soal($id){
 		$tanggal = date("Y-m-d");
-  		if(!empty(htmlspecialchars($this->input->post('tanggal', true)))){
-  			$tanggal = htmlspecialchars($this->input->post('tanggal', true));
+  		if(!empty(htmlspecialchars($this->input->get('tanggal', true)))){
+  			$tanggal = htmlspecialchars($this->input->get('tanggal', true));
   		}
-      	$arr_par = array('id_judul' => $id);
+      	$arr_par = array(
+      		'id_judul' => $id,
+      		'parent_id' => NULL
+      	);
       	$row = $this->admin->getmaster('tb_soal_detail',$arr_par);
 
       	unset($arr_par);
       	$data['soal'] = $row;
       	$total_flag=0;
+      	$total_skor = 0;
       	foreach ($row as $key => $value) {
+      		$total_skor += $value->skor_max;
+
       		$arr_par = array( 
 	      		'id_soal_detail' => $value->id ,
 	      		'tanggal' => $tanggal
 	      	);
+	      	$data['soal'][$key]->nilai = 0;
 	      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
 	      	if(!empty($inspeksi)){
 	      		$data['soal'][$key]->catatan = $inspeksi['catatan'];
+	      		$data['soal'][$key]->nilai = $inspeksi['nilai'];
+	      		if($inspeksi['nilai'] > 0){
+	      			$data['soal'][$key]->flag_done = TRUE;
+	      		}else{
+	      			$data['soal'][$key]->flag_done = FALSE;
+	      		}
 	      	}
 
 	      	$arr_par = array( 
@@ -200,7 +291,49 @@ class Pengawasan extends CI_Controller {
 	      	}else{
 	      		$data['soal'][$key]->flag = FALSE;
 	      	}
+
+	      	$data['soal'][$key]->jml = 0;
+	      	$arr_par = array( 
+	      		'parent_id' => $value->id ,
+      			"IFNULL(parent_id,'')<>''" => NULL
+	      	);
+	      	$sub_komponen = $this->admin->api_array('tb_soal_detail',$arr_par);
+	      	if(!empty($sub_komponen)){
+	      		$data['soal'][$key]->count_sub = count($sub_komponen);
+
+	      		$this->db->from("tb_soal_detail A");
+	      		$this->db->join("tb_inspeksi_image B","A.id=B.id_soal_detail");
+	      		$this->db->where("parent_id",$value->id);
+	      		$this->db->where("tanggal",$tanggal);
+	      		$sub_submit = $this->db->get()->result_array();  
+	      		$data['soal'][$key]->count_sub_submit = count($sub_submit);
+	      		$bobot = 0;
+	      		foreach ($sub_komponen as $k => $val) {
+	      			$arr_par = array( 
+			      		'id_soal_detail' => $val['id'] ,
+			      		'tanggal' => $tanggal
+			      	);
+			      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+			      	if(!empty($inspeksi)){
+			      		$val['catatan'] = $inspeksi['catatan'];
+			      		$val['nilai'] = $inspeksi['nilai'];
+			      	}
+
+	      			$data['soal'][$key]->sub[$val['title_sub']]['data'][] = $val;
+	      			$bobot = (
+	      				empty($data['soal'][$key]->sub[$val['title_sub']]['total_bobot']) ? 0 : $data['soal'][$key]->sub[$val['title_sub']]['total_bobot']) + $val['bobot'];
+	      			$total_skor += $val['skor_max'];
+	      			$data['soal'][$key]->sub[$val['title_sub']]['total_bobot'] =  $bobot ;
+
+	      		
+	      		}
+	      		if(!empty(htmlspecialchars($this->input->get('f', true)))){
+	      			$data['soal'][$key]->count_sub += count($data['soal'][$key]->sub);
+		  		}
+
+	      	}
       	}
+      	$data['total_skor'] = $total_skor ;
       	$data['task'] = "Task Selesai <b>". $total_flag ."</b> dari <b>". count($row)."</b> Komponen";
       	if($total_flag == count($row))
       		$data['task'] = "Task completed";
@@ -229,6 +362,49 @@ class Pengawasan extends CI_Controller {
       			'key' => $value->id,
       			'width' => '120px',
       			'url' => base_url()."pengawasan/delete",
+      			'caption' => $value->filename,
+      		);
+
+      		$tipe = explode(".", $value->filename)[1];
+      		if(in_array($tipe,array("xls","xlsx"))){
+      			$arr['type'] = "office";
+      		}
+      		if(in_array($tipe,array("mp4"))){
+      			$arr['type'] = "video";
+      		}
+      		if(in_array($tipe,array("pdf"))){
+      			$arr['type'] = "pdf";
+      		}
+      		
+      		$arr_data[] = $arr;
+
+      		$arr_caption[] = base_url()."upload/pengawasan/". $value->filename; 
+
+      	}
+      	$data['data'] = $arr_data;
+      	$data['caption'] = $arr_caption;
+      	
+      	$this->output->set_content_type('application/json')->set_output(json_encode($data));
+  	}
+  	public function getImagessp($id_soal_detail){
+  		$tanggal = date("Y-m-d");
+  		if(!empty(htmlspecialchars($this->input->post('tanggal', true)))){
+  			$tanggal = htmlspecialchars($this->input->post('tanggal', true));
+  		}
+      	$arr_par = array( 
+      		'id_soal_detail' => $id_soal_detail ,
+      		'tanggal' => $tanggal
+      	);
+      	$row = $this->admin->getmaster('tb_inspeksi_image',$arr_par);
+      	$arr_data=array();
+      	$arr_caption = array();
+      	foreach ($row as $key => $value) {
+
+      		$arr = array(
+      			// 'type'=> $tipe, 
+      			'key' => $value->id,
+      			'width' => '120px',
+      			// 'url' => base_url()."pengawasan/delete",
       			'caption' => $value->filename,
       		);
 

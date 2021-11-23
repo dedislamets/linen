@@ -432,61 +432,61 @@ class Users extends CI_Controller {
   	public function Save()
   	{       
       
-    $response = [];
-    $response['error'] = TRUE; 
-    $response['msg']= "Gagal menyimpan.. Terjadi kesalahan pada sistem";
-    $recLogin = $this->session->userdata('user_id');
-    $data = array(
-          'nama_user'   => $this->input->post('nama_user',TRUE),
-          'email'       => $this->input->post('email',TRUE),
-          'department'  => $this->input->post('department',TRUE),
-          'jenis_kelamin'      => $this->input->post('jenis_kelamin',TRUE)
-    );
-    if(!empty($this->input->post('password',TRUE))){
-        $new_password = $this->Acak($this->input->post('password', TRUE), "goldenginger");
-        $data['password'] = $new_password;
-    }
-    if(!empty($this->input->post('ada_bawahan',TRUE))){
-        $data['ada_bawahan'] = 1;
-    }else{
-        $data['ada_bawahan'] = 0;
-
-        $this->db->set(array('id_atasan' => NULL));
-        $this->db->where('id_atasan', $this->input->post('id',TRUE));
-        $this->db->update('tb_user');
-    }
-
-    if(!empty($this->input->post('status',TRUE))){
-        $data['status'] = 1;
-    }else{
-        $data['status'] = 0;
-    }
-
-    $this->db->trans_begin();
-
-    if($this->input->post('id') != "") {
-        $this->db->set($data);
-        $this->db->where('id_user', $this->input->post('id',TRUE));
-        $result  =  $this->db->update('tb_user');  
-
-        if(!$result){
-              print("<pre>".print_r($this->db->error(),true)."</pre>");
-        }else{
-              $response['error']= FALSE;
+        $response = [];
+        $response['error'] = TRUE; 
+        $response['msg']= "Gagal menyimpan.. Terjadi kesalahan pada sistem";
+        $recLogin = $this->session->userdata('user_id');
+        $data = array(
+              'nama_user'   => $this->input->post('nama_user',TRUE),
+              'email'       => $this->input->post('email',TRUE),
+              'department'  => $this->input->post('department',TRUE),
+              'jenis_kelamin'      => $this->input->post('jenis_kelamin',TRUE)
+        );
+        if(!empty($this->input->post('password',TRUE))){
+            $new_password = $this->Acak($this->input->post('password', TRUE), "goldenginger");
+            $data['password'] = $new_password;
         }
-    }else{  
-
-        $result  = $this->db->insert('tb_user', $data);
-          
-        if(!$result){
-              print("<pre>".print_r($this->db->error(),true)."</pre>");
+        if(!empty($this->input->post('ada_bawahan',TRUE))){
+            $data['ada_bawahan'] = 1;
         }else{
-              $response['error']= FALSE;
-        }
-      }
+            $data['ada_bawahan'] = 0;
 
-    $this->db->trans_complete();                      
-    $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            $this->db->set(array('id_atasan' => NULL));
+            $this->db->where('id_atasan', $this->input->post('id',TRUE));
+            $this->db->update('tb_user');
+        }
+
+        if(!empty($this->input->post('status',TRUE))){
+            $data['status'] = 1;
+        }else{
+            $data['status'] = 0;
+        }
+
+        $this->db->trans_begin();
+
+        if($this->input->post('id') != "") {
+            $this->db->set($data);
+            $this->db->where('id_user', $this->input->post('id',TRUE));
+            $result  =  $this->db->update('tb_user');  
+
+            if(!$result){
+                  print("<pre>".print_r($this->db->error(),true)."</pre>");
+            }else{
+                  $response['error']= FALSE;
+            }
+        }else{  
+
+            $result  = $this->db->insert('tb_user', $data);
+              
+            if(!$result){
+                  print("<pre>".print_r($this->db->error(),true)."</pre>");
+            }else{
+                  $response['error']= FALSE;
+            }
+          }
+
+        $this->db->trans_complete();                      
+        $this->output->set_content_type('application/json')->set_output(json_encode($response));
   	}
 
   	public function delete()

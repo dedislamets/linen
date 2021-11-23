@@ -41,7 +41,14 @@
 					that.section_isi= true;
 					for (let index = 0; index < data['soal'].length; ++index) {
 					    const element = that.list_soal[index];
-					    that.loadJQ(element['id'], index+1);
+					    that.loadJQ(element['id']);
+					    if(element['sub'] != undefined){
+					    	for (var key in element["sub"]) {
+					    		for (var k in element["sub"][key]['data']) {
+									that.loadJQ(element["sub"][key]['data'][k]['id']);
+								}
+							}
+					    }
 					}
 				},'json');
 		    },
@@ -89,13 +96,13 @@
 				  });
 		  		
 		    },
-		    loadJQ: function(id_soal_detail, urut){	
+		    loadJQ: function(id_soal_detail){	
 		    	var data_arr = [];
 		    	var link = '<?= base_url(); ?>pengawasan/getimages/' + id_soal_detail;
 		 		$.get(link,null, function(data){
 					data_arr= data;
 					
-			    	$("#filefoto"+ urut).fileinput({
+			    	$("#filefoto"+ id_soal_detail).fileinput({
 			    		theme: 'fa',
 			    		autoReplace: false,
 						showCaption: true,

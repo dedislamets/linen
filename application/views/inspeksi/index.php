@@ -1,4 +1,11 @@
 <style type="text/css">
+	.title-sub {
+		padding: 5px 10px;
+	    background: green;
+	    color: #fff;
+	    font-size: 15pt;
+	    margin-bottom: 0;
+	}
 	.az-content .container {
 	    display: block;
 	}
@@ -23,6 +30,9 @@
 	    margin: 0;
 	    padding: 10px;
 	}
+	.tab2 {
+      padding-left: 30px !important;
+  	}
 
 	ul.item-list li {
 	    border-bottom: 1px solid rgba(0,0,0,.08);
@@ -47,10 +57,18 @@
 	}
 	.item-desc-small {
 		padding: 10px;
-	    background-color: #d6ffaf;
+	    background-color: #feffaf;;
 	    text-align: center;
 	    font-weight: 500;
 	    font-size: 18px;
+	}
+	.item-desc-small-sub  {
+	    padding: 5px;
+	    background-color: #feffaf;
+	    text-align: center;
+	    font-weight: 500;
+	    font-size: 18px;
+	    display: inline;
 	}
 
 	ul.item-list li a {
@@ -155,6 +173,18 @@
 	.accordion .card {
 	    border-radius: .55rem;
 	}
+	.title-sub-sub {
+		border-bottom: 2px solid;
+		padding-bottom: 10px;
+	    padding-top: 15px;
+	    background-color: yellow;
+	    padding-left: 10px;
+	    font-size: 15pt;
+	}
+	.ganti-sukses{
+		background-color: green !important;
+		color: #fff !important;
+	}
 
 </style>
 <div class="row" id="app" style="display: block;">
@@ -167,8 +197,8 @@
 		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>)">
 			   			<div class="row">
 			   				<div class="col-md-4 col-sm-4">
-								<div class="item-avatar" data-id="5073">
-									<a class="" href="#" title="Time Management (Call Center)">
+								<div class="item-avatar" >
+									<a class="" href="#" title="">
 										<img src="<?= base_url() ?>assets/images/checklist.png" class="attachment-full size-full wp-post-image" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
 									</a>					
 								</div>
@@ -196,40 +226,70 @@
 		</section>
 		<section id="section-isi" v-if="section_isi">
 		    <h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
-		    	<p style="margin-bottom: 5px;text-align: center;font-weight: 300;" v-html="task"></p>
-		    	<input type="hidden" name="id_soal" id="id_soal" :value="id_soal">
-		      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
-		          <div class="card mg-b-20">
-		            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
-		            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) ">
-		                 <span v-if="log.flag" class="fa fa-check" style="font-size: 25px"></span> {{ log.soal }}
-		                </a>
-		            </div>
-		            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
-			            <div class="card-body bd bd-t-0" >
-			            	<h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;">{{ log.soal }}</h3>
-			            	<h4 class="mg-t-10 h4-title">Dokumen yang harus disiapkan</h4>
-			              	<div class="item-desc-small">{{ log.keterangan }}</div>
-			              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
-			              	<input type="hidden" name="id_soal_detail[]" :value="log.id" >
-			              	<textarea name="catatan[]" id="catatan" rows="3" class="form-control" placeholder="" style="height: 50px;" :value="log.catatan" ></textarea>
-			         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
-				
-						    <input :id="'filefoto'+ (index+1)" name="filefoto[]" type="file" class="file" multiple=true accept=".jpg,.gif,.png,.jpeg,.xls,.xlsx,.pdf,.mp4">
+	    	<p style="margin-bottom: 5px;text-align: center;font-weight: 300;" v-html="task"></p>
+	    	<input type="hidden" name="id_soal" id="id_soal" :value="id_soal">
+	      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
+	          <div class="card mg-b-20">
+	            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
+	            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) " :class="`${log.flag ? 'ganti-sukses' : ''}`">
+	            		<table>
+	            			<tr>
+	            				<td width="30" style="vertical-align: top;">{{(index+1)}}. </td>
+	            				<td>{{ log.soal }} <span v-if="log.flag" class="fa fa-check" style="font-size: 25px"></span></td>
+	            			</tr>
+	            		</table>
+	                 
+	                 
+	                 
+	                 <br v-if="log.count_sub > 0">
+	                 <span v-if="log.count_sub > 0">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                </a>
+	            </div>
+	            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
+	            	<div class="card-body bd bd-t-0" v-if="log.punya_sub != '1'" >
+		            	<!-- <h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;">{{ log.soal }}</h3> -->
+		            	<h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;"></h3>
+		            	<h4 class="mg-t-10 h4-title">Dokumen yang harus disiapkan</h4>
+		              	<div class="item-desc-small">{{ log.keterangan }}</div>
+		              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
+		              	<input type="hidden" name="id_soal_detail[]" :value="log.id" >
+		              	<textarea name="catatan[]" id="catatan" rows="3" class="form-control" placeholder="" style="height: 50px;" :value="log.catatan" ></textarea>
+		         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
+			
+					    <input :id="'filefoto'+ log.id" name="filefoto[]" type="file" class="file" multiple=true accept=".jpg,.gif,.png,.jpeg,.xls,.xlsx,.pdf,.mp4">
 
-			            </div>
 		            </div>
-		          </div>
+	            	<template v-for="(lo, ind) in log.sub">
+	            		<h2 class="title-sub">{{ ind }}</h2>
+	            		<template v-for="l in lo.data">
+				            <div class="card-body bd bd-t-0" style="margin-bottom: 10px;">
+				            	<h3 class="h3-title h3-soal title-sub-sub" >{{ l.soal }}</h3>
+				            	<h4 class="mg-t-10 h4-title" style="border-bottom: solid 2px;padding-bottom: 15px;padding-top: 10px;">Dokumen yang harus disiapkan : 
+				            		<div class="item-desc-small-sub">{{ log.keterangan }}</div>
+				            	</h4>
+				              	
+				              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
+				              	<input type="hidden" name="id_soal_detail[]" :value="l.id" >
+				              	<textarea name="catatan[]" :id="'catatan'+ l.id" rows="3" class="form-control" placeholder="" style="height: 50px;" :value="l.catatan" >{{l.catatan}}</textarea>
+				         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
+					
+							    <input :id="'filefoto'+ l.id" name="filefoto[]" type="file" class="file" multiple=true accept=".jpg,.gif,.png,.jpeg,.xls,.xlsx,.pdf,.mp4">
+
+				            </div>
+				        </template>
+		            </template>
+	            </div>
+	          </div>
+	       	</div>
+	       	<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
+	       	<div class="row">
+	       		<div class="col-3">
+		       		<button class="btn btn-info btn-rounded btn-block" v-on:click="kembali($event)"><< Kembali</button>  
 		       	</div>
-		       	<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
-		       	<div class="row">
-		       		<div class="col-3">
-			       		<button class="btn btn-info btn-rounded btn-block" v-on:click="kembali($event)"><< Kembali</button>  
-			       	</div>
-			       	<div class="col-9">
-		       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)">Simpan</button> 
-		       		</div> 
-		       	</div>
+		       	<div class="col-9">
+	       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)">Simpan</button> 
+	       		</div> 
+	       	</div>
 	    </section>
     </form>
 </div>
