@@ -133,7 +133,7 @@
            			$("#status_koneksi").val("Waiting for scanning...");
            		}else{
            			// TUHF2000.RFID_Beep(1);
-           			arr_epc_scan.push(EPC);
+           			arr_epc_scan.push(ECP);
            			arr_epc.push(EPC);
            			$("#status_koneksi").val(EPC + " compare success...");
 
@@ -166,6 +166,7 @@
 
            		// TUHF2000.RFID_Beep(1);
            		arr_epc.push(EPC);
+           		arr_epc_scan.push(EPC);
 	        	var params = { epc: EPC};
 	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 		            if(data.status == 'success'){
@@ -192,7 +193,7 @@
 
 						
 						
-						arr_epc_scan.push(EPC);
+						
 		            }
 		    	})
            }
