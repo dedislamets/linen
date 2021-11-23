@@ -59,13 +59,14 @@ class Jenis extends CI_Controller {
             1=>'berat',
             2=>'harga',
             3=>'fmedis',
-
+            4=>'spesifikasi',
         );
         $valid_sort = array(
             0=>'jenis',
             1=>'berat',
             2=>'harga',
             3=>'fmedis',
+            4=>'spesifikasi',
 
         );
         if(!isset($valid_sort[$col]))
@@ -105,6 +106,7 @@ class Jenis extends CI_Controller {
 
             $data[] = array( 
                         $r->jenis,
+                        $r->spesifikasi,
                         floatval($r->berat),
                         number_format($r->harga),
                         $r->fmedis,

@@ -19,6 +19,9 @@
                           Nama
                         </th>
                         <th>
+                          Spesifikasi
+                        </th>
+                        <th>
                           Berat (Kg)
                         </th>
                         <th>
