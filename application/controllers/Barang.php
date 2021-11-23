@@ -114,6 +114,7 @@ class Barang extends CI_Controller {
           $data[] = array( 
                       $r->serial,
                       $r->jenis,
+                      $r->spesifikasi,
                       $r->nama_ruangan,
                       $r->fmedis,
                       $r->berat,
