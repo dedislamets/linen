@@ -22,6 +22,9 @@
                           Nama Barang
                         </th>
                         <th>
+                          Spesifikasi
+                        </th>
+                        <th>
                           Ruangan
                         </th>
                         <th>
