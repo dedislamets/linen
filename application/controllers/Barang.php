@@ -235,7 +235,7 @@ class Barang extends CI_Controller {
   {
       $response = [];
       $response['error'] = TRUE; 
-      if($this->admin->deleteTable("id_barang",$this->input->get('id'), 'barang' )){
+      if($this->admin->deleteTable("serial",$this->input->get('id'), 'barang' )){
         $response['error'] = FALSE;
       } 
 
