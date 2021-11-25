@@ -77,17 +77,20 @@ class Pengawasan extends CI_Controller {
 			$this->db->join("tb_soal","tb_soal.id=tb_inspeksi.id_soal");
 			$this->db->join("tb_user","tb_user.id_user=tb_inspeksi.id_pengawas");
 			$this->db->where(array( 
-		      		'id_inspektor' => 14 ,
+		      		'id_inspektor' => $this->session->userdata('user_id') ,
 		      		'tanggal' => $tanggal
+		      		// 'parent_id' => NULL
 		      	));
 			$this->db->group_by("tb_soal.id,nama_user, judul, class,deskripsi");
 			$data['soal'] = $this->db->get()->result();
 			
-			$total_flag=0;
+			$total_flag = $pending = $done = 0;
+			$total_flag_sub = $pending_sub = $done_sub = 0;
 			foreach ($data['soal'] as $key => $value) {
 	      		$data['soal'][$key]->jam = date("H:i", strtotime($value->last_update));
 
-	      		$arr_par = array('id_judul' => $value->id_judul);
+	      		//cari soal tanpa sub
+	      		$arr_par = array('id_judul' => $value->id_judul, 'parent_id' => NULL);
       			$row = $this->admin->getmaster('tb_soal_detail',$arr_par);
 
       			foreach ($row as $k => $val) {
@@ -99,27 +102,68 @@ class Pengawasan extends CI_Controller {
 			      	if(!empty($inspeksi_image)){
 			      		$total_flag++;
 			      	}
+
+			      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+			      	if(!empty($inspeksi)){
+			      		if($inspeksi['nilai'] > 0){
+			      			$done++;
+			      			$total_flag--;
+			      		}
+			      	}
       			}
-      			$data['soal'][$key]->task = "Selesai <b>". $total_flag ."</b> dari <b>". count($row)."</b> Task";
+
+      			//cari soal yg ada sub nya
+      			$arr_par = array( 
+		      		'id_judul' => $value->id_judul ,
+	      			"IFNULL(parent_id,'')<>''" => NULL
+		      	);
+		      	$sub_komponen = $this->admin->api_array('tb_soal_detail',$arr_par);
+		      	if(!empty($sub_komponen)){
+		      		foreach ($sub_komponen as $k => $val) {
+			      		$arr_par = array( 
+				      		'id_soal_detail' => $val['id'] ,
+				      		'tanggal' => $tanggal
+				      	);
+				      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+				      	if(!empty($inspeksi)){
+				      		if($inspeksi['nilai'] > 0){
+				      			$total_flag_sub++;
+				      		}
+				      	}
+
+				      	$arr_par = array( 
+				      		'id_soal_detail' => $val['id'] ,
+				      		'tanggal' => $tanggal
+				      	);
+				      	$inspeksi_image = $this->admin->api_array('tb_inspeksi_image',$arr_par);
+				      	if(!empty($inspeksi_image)){
+				      		$done_sub++;
+			      			$total_flag_sub--;
+				      	}
+			      	}
+		      	}
+      			$data['soal'][$key]->task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b><br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". $total_flag_sub ."</b>";
 	      	}
 
-
+	      	// Data Pending
 	      	$this->db->select("tb_soal.id as id_judul,nama_user, judul, class, MAX(`current_date`) AS last_update,deskripsi");
 			$this->db->from("tb_inspeksi");
 			$this->db->join("tb_soal","tb_soal.id=tb_inspeksi.id_soal");
 			$this->db->join("tb_user","tb_user.id_user=tb_inspeksi.id_pengawas");
 			$this->db->where(array( 
-		      		'id_inspektor' => 14 
+		      		'id_inspektor' => $this->session->userdata('user_id') 
 		      	));
 			$this->db->where('nilai = 0');
 			$this->db->group_by("tb_soal.id,nama_user, judul, class,deskripsi");
 			$data['pending'] = $this->db->get()->result();
 			
-			$total_flag=0;
+			$total_flag = $pending = $done = 0;
+			$total_flag_sub = $pending_sub = $done_sub = 0;
 			foreach ($data['pending'] as $key => $value) {
 	      		$data['pending'][$key]->jam = date("H:i", strtotime($value->last_update));
 
-	      		$arr_par = array('id_judul' => $value->id_judul);
+	      		//cari soal tanpa sub
+	      		$arr_par = array('id_judul' => $value->id_judul, 'parent_id' => NULL);
       			$row = $this->admin->getmaster('tb_soal_detail',$arr_par);
 
       			foreach ($row as $k => $val) {
@@ -131,8 +175,47 @@ class Pengawasan extends CI_Controller {
 			      	if(!empty($inspeksi_image)){
 			      		$total_flag++;
 			      	}
+
+			      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+			      	if(!empty($inspeksi)){
+			      		if($inspeksi['nilai'] > 0){
+			      			$done++;
+			      			$total_flag--;
+			      		}
+			      	}
       			}
-      			$data['pending'][$key]->task = "Selesai <b>". $total_flag ."</b> dari <b>". count($row)."</b> Task";
+
+      			//cari soal yg ada sub nya
+      			$arr_par = array( 
+		      		'id_judul' => $value->id_judul ,
+	      			"IFNULL(parent_id,'')<>''" => NULL
+		      	);
+		      	$sub_komponen = $this->admin->api_array('tb_soal_detail',$arr_par);
+		      	if(!empty($sub_komponen)){
+		      		foreach ($sub_komponen as $k => $val) {
+			      		$arr_par = array( 
+				      		'id_soal_detail' => $val['id'] ,
+				      		'tanggal' => $tanggal
+				      	);
+				      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+				      	if(!empty($inspeksi)){
+				      		if($inspeksi['nilai'] > 0){
+				      			$total_flag_sub++;
+				      		}
+				      	}
+
+				      	$arr_par = array( 
+				      		'id_soal_detail' => $val['id'] ,
+				      		'tanggal' => $tanggal
+				      	);
+				      	$inspeksi_image = $this->admin->api_array('tb_inspeksi_image',$arr_par);
+				      	if(!empty($inspeksi_image)){
+				      		$done_sub++;
+			      			$total_flag_sub--;
+				      	}
+			      	}
+		      	}
+      			$data['pending'][$key]->task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b><br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". $total_flag_sub ."</b>";
 	      	}
 			
 			$this->load->view('dashboard',$data,FALSE); 
@@ -317,6 +400,22 @@ class Pengawasan extends CI_Controller {
 			      	if(!empty($inspeksi)){
 			      		$val['catatan'] = $inspeksi['catatan'];
 			      		$val['nilai'] = $inspeksi['nilai'];
+			      		if($inspeksi['nilai'] > 0){
+			      			$val['flag_done'] = TRUE;
+			      		}else{
+			      			$val['flag_done']  = FALSE;
+			      		}
+			      	}
+
+			      	$arr_par = array( 
+			      		'id_soal_detail' => $val['id'] ,
+			      		'tanggal' => $tanggal
+			      	);
+			      	$inspeksi_image = $this->admin->api_array('tb_inspeksi_image',$arr_par);
+			      	if(!empty($inspeksi_image)){
+			      		$val['flag'] = TRUE;
+			      	}else{
+			      		$val['flag'] = FALSE;
 			      	}
 
 	      			$data['soal'][$key]->sub[$val['title_sub']]['data'][] = $val;

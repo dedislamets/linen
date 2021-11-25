@@ -222,6 +222,7 @@
 
     $('#btnSave').on('click', function (event) {
     	event.preventDefault();
+    	doclose();
 		var valid = false;
     	var sParam = $('#form-barang').serialize() + "&scan=" + JSON.stringify(app.list_scan) ;
     	var validator = $('#form-barang').validate({

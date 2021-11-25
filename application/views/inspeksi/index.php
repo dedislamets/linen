@@ -240,9 +240,7 @@
 	            		</table>
 	                 
 	                 
-	                 
-	                 <br v-if="log.count_sub > 0">
-	                 <span v-if="log.count_sub > 0">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                 <span v-if="log.count_sub > 0" style="color: #d66e14;">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
 	                </a>
 	            </div>
 	            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">

@@ -245,7 +245,7 @@
 		border-bottom: 2px solid;
 		padding-bottom: 10px;
 	    padding-top: 15px;
-	    background-color: yellow;
+	    /*background-color: yellow;*/
 	    padding-left: 10px;
 	    font-size: 15pt;
 	}
@@ -313,7 +313,7 @@
 			<?php 
 			foreach($pending as $row): ?>
 			      	<div class="col-12 col-md-6 col-xl-6">
-						<div class="card <?= $row->class ?>">
+						<div class="card carder <?= $row->class ?>">
 					      	<p class="card__number"><?= $row->nama_user ?></p>
 					      	<div class="row">
 						      	<div class="col-4">
@@ -353,11 +353,7 @@
 	            				<td>{{ log.soal }} <span v-if="log.flag_done" class="fa fa-check" style="font-size: 25px"></span></td>
 	            			</tr>
 	            		</table>
-	                 
-	                 
-	                 
-	                 <br v-if="log.count_sub > 0">
-	                 <span v-if="log.count_sub > 0">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                 <span v-if="log.count_sub > 0" style="color: #d66e14;">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
 	                </a>
 	            </div>
 	            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
@@ -387,7 +383,7 @@
 		            		</div>
 		            		<div class="col-6">
 		            			<h4 class="mg-t-10 h4-title">Berikan Point Penilaian Anda</h4>
-		            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="log.nilai" min="0" :max="log.nilai_max">
+		            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="log.nilai" min="0" :max="log.nilai_max" :readonly="log.nilai==0">
 		            		</div>
 		            	</div>
 		              	<h4 class="mg-t-10 h4-title">Catatan/Keterangan pendukung</h4>
@@ -402,7 +398,7 @@
 	            		<h2 class="title-sub">{{ ind }}</h2>
 	            		<template v-for="l in lo.data">
 				            <div class="card-body bd bd-t-0" style="margin-bottom: 10px;">
-				            	<h3 class="h3-title h3-soal title-sub-sub" >{{ l.soal }}</h3>
+				            	<h3 :class="`${l.flag ? (l.flag_done ?  'h3-title h3-soal title-sub-sub ganti-sukses' : 'h3-title h3-soal title-sub-sub ganti-pending') : 'h3-title h3-soal title-sub-sub'}`">{{ l.soal }} <span v-if="l.flag_done" class="fa fa-check" style="font-size: 25px"></span></h3>
 				            	<!-- <h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;"></h3> -->
 				            	<div class="row">
 				            		
@@ -418,9 +414,9 @@
 				            				</thead>
 				            				<tbody>
 				            					<tr>
-						            				<th>{{log.bobot}}</th>
-						            				<th>{{log.nilai_max}}</th>
-						            				<th>{{log.skor_max}}</th>
+						            				<th>{{l.bobot}}</th>
+						            				<th>{{l.nilai_max}}</th>
+						            				<th>{{l.skor_max}}</th>
 						            				<th>{{log.keterangan}}</th>
 					            				</tr>
 				            				</tbody>
@@ -428,12 +424,12 @@
 				            		</div>
 				            		<div class="col-6">
 				            			<h4 class="mg-t-10 h4-title">Berikan Point Penilaian Anda</h4>
-				            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="log.nilai" min="0" :max="log.nilai_max" >
+				            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="l.nilai" min="0" :max="log.nilai_max" >
 				            		</div>
 				            	</div>
 				              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
 				              	<input type="hidden" name="id_soal_detail[]" :value="l.id" >
-				              	<textarea name="catatan[]" :id="'catatan'+ l.id" rows="3" class="form-control" placeholder="" style="height: 50px;" :value="l.catatan" >{{l.catatan}}</textarea>
+				              	<textarea name="catatan[]" :id="'catatan'+ l.id" rows="3" class="form-control" placeholder="" style="height: 50px;" :value="l.catatan" readonly>{{l.catatan}}</textarea>
 				         		<h4 class="mg-t-10 h4-title">Lampirkan dokumen pendukung</h4>
 					
 							    <input :id="'filefoto'+ l.id" name="filefoto[]" type="file" class="file" multiple=true accept=".jpg,.gif,.png,.jpeg,.xls,.xlsx,.pdf,.mp4">
