@@ -50,6 +50,7 @@
 
     $("#btnScan").on('click', function(e) {
     	e.preventDefault();
+    	doclose();
     	// arr_epc = [];
     	$("#status_koneksi").removeClass("error-text");
     	$("#status_koneksi").addClass("scan-text");
