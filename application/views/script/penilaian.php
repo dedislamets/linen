@@ -28,11 +28,14 @@
         },
         methods: {
         	
-		    getSoal: function(id){
+		    getSoal: function(id, tanggal = ''){
 		    	var that = this;
 		    	that.list_soal = [];
 		    	that.id_soal = id;
 		    	var link = '<?= base_url(); ?>pengawasan/soal/'+ id;
+		    	if(tanggal !=''){
+		    		link += '?tanggal='+ tanggal;
+		    	}
 		 		$.get(link,null, function(data){
 					that.list_soal = data['soal'];
 					that.judul_soal = data['deskripsi'];
@@ -41,11 +44,11 @@
 					that.section_isi= true;
 					for (let index = 0; index < data['soal'].length; ++index) {
 					    const element = that.list_soal[index];
-					    that.loadJQ(element['id']);
+					    that.loadJQ(element['id'], element['tanggal']);
 					    if(element['sub'] != undefined){
 					    	for (var key in element["sub"]) {
 					    		for (var k in element["sub"][key]['data']) {
-									that.loadJQ(element["sub"][key]['data'][k]['id']);
+									that.loadJQ(element["sub"][key]['data'][k]['id'], element["sub"][key]['data'][k]['tanggal']);
 									
 								}
 							}
@@ -96,9 +99,12 @@
 				  });
 		  		
 		    },
-		    loadJQ: function(id_soal_detail){	
+		    loadJQ: function(id_soal_detail, tanggal = ''){	
 		    	var data_arr = [];
 		    	var link = '<?= base_url(); ?>pengawasan/getimagessp/' + id_soal_detail;
+		    	if(tanggal !=''){
+		    		link += '?tanggal='+ tanggal;
+		    	}
 		 		$.get(link,null, function(data){
 					data_arr= data;
 			    	$("#filefoto"+ id_soal_detail).fileinput({

@@ -146,7 +146,7 @@ class Pengawasan extends CI_Controller {
 	      	}
 
 	      	// Data Pending
-	      	$this->db->select("tb_soal.id as id_judul,nama_user, judul, class, MAX(`current_date`) AS last_update,deskripsi");
+	      	$this->db->select("tb_soal.id as id_judul,nama_user, judul, class, MAX(`current_date`) AS last_update,deskripsi, tanggal");
 			$this->db->from("tb_inspeksi");
 			$this->db->join("tb_soal","tb_soal.id=tb_inspeksi.id_soal");
 			$this->db->join("tb_user","tb_user.id_user=tb_inspeksi.id_pengawas");
@@ -169,7 +169,7 @@ class Pengawasan extends CI_Controller {
       			foreach ($row as $k => $val) {
 		      		$arr_par = array( 
 			      		'id_soal_detail' => $val->id ,
-			      		'tanggal' => $tanggal
+			      		'tanggal' => $value->tanggal
 			      	);
 		      		$inspeksi_image = $this->admin->api_array('tb_inspeksi_image',$arr_par);
 			      	if(!empty($inspeksi_image)){
@@ -195,7 +195,7 @@ class Pengawasan extends CI_Controller {
 		      		foreach ($sub_komponen as $k => $val) {
 			      		$arr_par = array( 
 				      		'id_soal_detail' => $val['id'] ,
-				      		'tanggal' => $tanggal
+				      		'tanggal' => $value->tanggal
 				      	);
 				      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
 				      	if(!empty($inspeksi)){
@@ -206,7 +206,7 @@ class Pengawasan extends CI_Controller {
 
 				      	$arr_par = array( 
 				      		'id_soal_detail' => $val['id'] ,
-				      		'tanggal' => $tanggal
+				      		'tanggal' => $value->tanggal
 				      	);
 				      	$inspeksi_image = $this->admin->api_array('tb_inspeksi_image',$arr_par);
 				      	if(!empty($inspeksi_image)){
@@ -356,6 +356,7 @@ class Pengawasan extends CI_Controller {
 	      	if(!empty($inspeksi)){
 	      		$data['soal'][$key]->catatan = $inspeksi['catatan'];
 	      		$data['soal'][$key]->nilai = $inspeksi['nilai'];
+	      		$data['soal'][$key]->tanggal = $inspeksi['tanggal'];
 	      		if($inspeksi['nilai'] > 0){
 	      			$data['soal'][$key]->flag_done = TRUE;
 	      		}else{
@@ -400,6 +401,7 @@ class Pengawasan extends CI_Controller {
 			      	if(!empty($inspeksi)){
 			      		$val['catatan'] = $inspeksi['catatan'];
 			      		$val['nilai'] = $inspeksi['nilai'];
+			      		$val['tanggal'] = $inspeksi['tanggal'];
 			      		if($inspeksi['nilai'] > 0){
 			      			$val['flag_done'] = TRUE;
 			      		}else{
@@ -487,8 +489,8 @@ class Pengawasan extends CI_Controller {
   	}
   	public function getImagessp($id_soal_detail){
   		$tanggal = date("Y-m-d");
-  		if(!empty(htmlspecialchars($this->input->post('tanggal', true)))){
-  			$tanggal = htmlspecialchars($this->input->post('tanggal', true));
+  		if(!empty(htmlspecialchars($this->input->get('tanggal', true)))){
+  			$tanggal = htmlspecialchars($this->input->get('tanggal', true));
   		}
       	$arr_par = array( 
       		'id_soal_detail' => $id_soal_detail ,
