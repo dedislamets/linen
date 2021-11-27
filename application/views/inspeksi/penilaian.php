@@ -109,7 +109,25 @@
 		font-size: 1.1rem;
 		font-weight: 500
 	}
+	.status-sign-left{
+		margin-bottom: 5px;
+		text-align: left;
+		font-size: 18px;
+		font-weight: 300;
+	}
+	.status-sign-right{
+		margin-bottom: 5px;
+		text-align: right;
+		font-size: 18px;
+		font-weight: bold;
+	}
 	@media (max-width: 767px){
+		.status-sign-left{
+			text-align: center;
+		}
+		.status-sign-right{
+			text-align: center;
+		}
 		ul.item-list li div.item-desc {
 		    clear: both;
 		    margin: 10px 0 0;
@@ -147,10 +165,7 @@
 		.deskripsi {
 			display: none;
 		}
-		.col-6 {
-		    flex: 0 0 100%;
-		    max-width: 100%;
-		}
+		
 	}
 
 	.carder{
@@ -328,7 +343,7 @@
 							      	<p class="card__owner"><?= $row->task ?></p>
 							      	<p class="card__owner deskripsi"  style="font-size: 13px"><?= $row->deskripsi ?></p>
 							      	<div class="card__info">
-							        	<p class="card__integral">Waktu Inspeksi : <?= $row->jam ?></p>
+							        	<p class="card__integral">Waktu Inspeksi : <?= $row->last_update ?></p>
 							      	</div>
 							      	<div style="padding-bottom: 10px;" class="row">
 										<div class="col-12">
@@ -345,19 +360,28 @@
 	<section id="section-isi" v-if="section_isi">
 		<form id="frm" method="post" class="needs-validation" enctype='multipart/form-data'>
 			<h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
-	    	<p style="margin-bottom: 5px;text-align: center;font-weight: 300;" v-html="task"></p>
+			<div class="row">
+				<div class="col-sm-6 col-12">
+					<p class="status-sign-left" v-html="task"></p>
+				</div>
+				<div class="col-sm-6 col-12">
+					<p class="status-sign-right">Skor : {{ total_penilaian }}</p>
+				</div>
+			</div>
+	    	
 	    	<input type="hidden" name="id_soal" id="id_soal" :value="id_soal">
 	      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
 	          <div class="card mg-b-20">
 	            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
-	            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) " :class="`${log.flag ? (log.flag_done ?  'ganti-sukses' : 'ganti-pending') : ''}`">
+	            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) " :class="`${log.flag || (log.count_sub > 0 && (log.count_sub_dinilai == log.count_sub)) ? (log.flag_done ?  'ganti-sukses' : 'ganti-pending') : ''}`">
 	            		<table>
 	            			<tr>
 	            				<td width="30" style="vertical-align: top;">{{(index+1)}}. </td>
 	            				<td>{{ log.soal }} <span v-if="log.flag_done" class="fa fa-check" style="font-size: 25px"></span></td>
 	            			</tr>
 	            		</table>
-	                 <span v-if="log.count_sub > 0" style="color: #d66e14;">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                 <span v-if="log.count_sub > 0 && (log.count_sub_dinilai < log.count_sub)" style="color: #d66e14;">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                 <span v-if="log.count_sub > 0 && (log.count_sub_dinilai == log.count_sub)" style="color: rgb(68 240 8);">Task Completed</span>
 	                </a>
 	            </div>
 	            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
@@ -365,7 +389,7 @@
 		            	<h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;"></h3>
 		            	<div class="row">
 		            		
-		            		<div class="col-6" style="padding-top: 10px;">
+		            		<div class="col-sm-12 col-md-6 col-12" style="padding-top: 10px;">
 		            			<table class="table table-bordered">
 		            				<thead>
 			            				<tr>
@@ -385,9 +409,14 @@
 		            				</tbody>
 		            			</table>
 		            		</div>
-		            		<div class="col-6">
-		            			<h4 class="mg-t-10 h4-title">Berikan Point Penilaian Anda</h4>
-		            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="log.nilai" min="0" :max="log.nilai_max" :readonly="log.nilai==0">
+		            		<div class="col-sm-12 col-md-3 col-6">
+		            			<h4 class="mg-t-10 h4-title">Penilaian Anda</h4>
+		            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="log.nilai" min="0" :max="log.nilai_max" v-bind:readonly="!log.flag">
+		            			
+		            		</div>
+		            		<div class="col-sm-12 col-md-3 col-6">
+		            			<h4 class="mg-t-10 h4-title">Skor</h4>
+				            	<input type="number" name="skor[]" class="form-control" :value="log.skor" readonly>
 		            		</div>
 		            	</div>
 		              	<h4 class="mg-t-10 h4-title">Catatan/Keterangan pendukung</h4>
@@ -429,6 +458,8 @@
 				            		<div class="col-6">
 				            			<h4 class="mg-t-10 h4-title">Berikan Point Penilaian Anda</h4>
 				            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="l.nilai" min="0" :max="log.nilai_max" >
+				            			<h4 class="mg-t-10 h4-title">Skor</h4>
+				            			<input type="number" name="skor[]" class="form-control " :value="l.skor" readonly>
 				            		</div>
 				            	</div>
 				              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
@@ -445,12 +476,13 @@
 	          </div>
 	       	</div>
 	       	<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
+	       	
 	       	<div class="row">
-	       		<div class="col-3">
+	       		<div class="col-sm-6 col-md-3 col-6">
 		       		<button class="btn btn-info btn-rounded btn-block" v-on:click="kembali($event)"><< Kembali</button>  
 		       	</div>
-		       	<div class="col-9">
-	       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)">Simpan</button> 
+		       	<div class="col-sm-6 col-md-9 col-6">
+	       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)"><span class="fa fa-save"></span>&nbsp;&nbsp;Simpan</button> 
 	       		</div> 
 	       	</div>
        	</form>

@@ -110,6 +110,15 @@ class Pengawasan extends CI_Controller {
 			      			$total_flag--;
 			      		}
 			      	}
+			      	
+			      	$this->db->from("tb_soal_detail A");
+		      		$this->db->join("tb_inspeksi B","A.id=B.id_soal_detail");
+		      		$this->db->where("parent_id",$val->id);
+		      		$this->db->where("tanggal",$tanggal);
+		      		$this->db->where("nilai > 0");
+		      		$sub_dinilai = $this->db->get()->result_array();
+		      		$data['soal'][$key]->count_sub_submit = count($sub_dinilai);
+		      		
       			}
 
       			//cari soal yg ada sub nya
@@ -120,6 +129,9 @@ class Pengawasan extends CI_Controller {
 		      	$sub_komponen = $this->admin->api_array('tb_soal_detail',$arr_par);
 		      	if(!empty($sub_komponen)){
 		      		foreach ($sub_komponen as $k => $val) {
+
+		      			
+
 			      		$arr_par = array( 
 				      		'id_soal_detail' => $val['id'] ,
 				      		'tanggal' => $tanggal
@@ -142,7 +154,19 @@ class Pengawasan extends CI_Controller {
 				      	}
 			      	}
 		      	}
-      			$data['soal'][$key]->task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b><br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". $total_flag_sub ."</b>";
+
+		      	if(count($sub_komponen) == count($sub_dinilai)){
+		      		$data['soal'][$key]->flag_done = TRUE;
+	      			$done++;
+	      		}
+
+
+      			$task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b>";
+      			if(count($sub_komponen)>0){
+      				$task .="<br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". abs($total_flag_sub) ."</b>";
+      			}
+      			$data['soal'][$key]->task =  $task;
+      			$done_sub = $total_flag_sub =0;
 	      	}
 
 	      	// Data Pending
@@ -154,6 +178,7 @@ class Pengawasan extends CI_Controller {
 		      		'id_inspektor' => $this->session->userdata('user_id') 
 		      	));
 			$this->db->where('nilai = 0');
+			$this->db->where('tanggal <>', date("Y-m-d"));
 			$this->db->group_by("tb_soal.id,nama_user, judul, class,deskripsi");
 			$data['pending'] = $this->db->get()->result();
 			
@@ -215,6 +240,7 @@ class Pengawasan extends CI_Controller {
 				      	}
 			      	}
 		      	}
+
       			$data['pending'][$key]->task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b><br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". $total_flag_sub ."</b>";
 	      	}
 			
@@ -334,6 +360,7 @@ class Pengawasan extends CI_Controller {
   		if(!empty(htmlspecialchars($this->input->get('tanggal', true)))){
   			$tanggal = htmlspecialchars($this->input->get('tanggal', true));
   		}
+  		$data['tanggal'] = $tanggal;
       	$arr_par = array(
       		'id_judul' => $id,
       		'parent_id' => NULL
@@ -344,6 +371,7 @@ class Pengawasan extends CI_Controller {
       	$data['soal'] = $row;
       	$total_flag=0;
       	$total_skor = 0;
+      	$total_penilaian = 0;
       	foreach ($row as $key => $value) {
       		$total_skor += $value->skor_max;
 
@@ -355,7 +383,9 @@ class Pengawasan extends CI_Controller {
 	      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
 	      	if(!empty($inspeksi)){
 	      		$data['soal'][$key]->catatan = $inspeksi['catatan'];
-	      		$data['soal'][$key]->nilai = $inspeksi['nilai'];
+	      		$data['soal'][$key]->nilai = intval($inspeksi['nilai']);
+	      		$data['soal'][$key]->skor = $inspeksi['nilai'] * $value->bobot;
+	      		$total_penilaian += $inspeksi['nilai'] * $value->bobot;
 	      		$data['soal'][$key]->tanggal = $inspeksi['tanggal'];
 	      		if($inspeksi['nilai'] > 0){
 	      			$data['soal'][$key]->flag_done = TRUE;
@@ -391,7 +421,22 @@ class Pengawasan extends CI_Controller {
 	      		$this->db->where("tanggal",$tanggal);
 	      		$sub_submit = $this->db->get()->result_array();  
 	      		$data['soal'][$key]->count_sub_submit = count($sub_submit);
-	      		$bobot = 0;
+	      		if(count($sub_komponen) == count($sub_submit)){
+	      			$data['soal'][$key]->flag_done = TRUE;
+	      			$total_flag++;
+	      		}
+
+
+	      		$this->db->from("tb_soal_detail A");
+	      		$this->db->join("tb_inspeksi B","A.id=B.id_soal_detail");
+	      		$this->db->where("parent_id",$value->id);
+	      		$this->db->where("tanggal",$tanggal);
+	      		$this->db->where("nilai > 0");
+	      		$sub_dinilai = $this->db->get()->result_array(); 
+	      		$data['soal'][$key]->count_sub_dinilai = count($sub_dinilai);
+
+
+	      		$bobot = 0; 
 	      		foreach ($sub_komponen as $k => $val) {
 	      			$arr_par = array( 
 			      		'id_soal_detail' => $val['id'] ,
@@ -400,7 +445,9 @@ class Pengawasan extends CI_Controller {
 			      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
 			      	if(!empty($inspeksi)){
 			      		$val['catatan'] = $inspeksi['catatan'];
-			      		$val['nilai'] = $inspeksi['nilai'];
+			      		$val['nilai'] = intval($inspeksi['nilai']);
+			      		$val['skor'] = $inspeksi['nilai'] * $val['bobot'];
+			      		$total_penilaian += $inspeksi['nilai'] * $val['bobot'];
 			      		$val['tanggal'] = $inspeksi['tanggal'];
 			      		if($inspeksi['nilai'] > 0){
 			      			$val['flag_done'] = TRUE;
@@ -434,6 +481,7 @@ class Pengawasan extends CI_Controller {
 
 	      	}
       	}
+      	$data['total_penilaian'] = $total_penilaian;
       	$data['total_skor'] = $total_skor ;
       	$data['task'] = "Task Selesai <b>". $total_flag ."</b> dari <b>". count($row)."</b> Komponen";
       	if($total_flag == count($row))

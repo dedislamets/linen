@@ -107,7 +107,25 @@
 		font-size: 1.1rem;
 		font-weight: 500
 	}
+	.status-sign-left{
+		margin-bottom: 5px;
+		text-align: left;
+		font-size: 18px;
+		font-weight: 300;
+	}
+	.status-sign-right{
+		margin-bottom: 5px;
+		text-align: right;
+		font-size: 18px;
+		font-weight: bold;
+	}
 	@media (max-width: 767px){
+		.status-sign-left{
+			text-align: center;
+		}
+		.status-sign-right{
+			text-align: center;
+		}
 		ul.item-list li div.item-desc {
 		    clear: both;
 		    margin: 10px 0 0;
@@ -185,7 +203,6 @@
 		background-color: green !important;
 		color: #fff !important;
 	}
-
 </style>
 <div class="row" id="app" style="display: block;">
 	<form id="frm" method="post" class="needs-validation" enctype='multipart/form-data'>
@@ -226,12 +243,19 @@
 		</section>
 		<section id="section-isi" v-if="section_isi">
 		    <h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
-	    	<p style="margin-bottom: 5px;text-align: center;font-weight: 300;" v-html="task"></p>
+	    	<div class="row">
+				<div class="col-sm-6 col-12">
+					<p class="status-sign-left" v-html="task"></p>
+				</div>
+				<div class="col-sm-6 col-12">
+					<p class="status-sign-right">Skor : {{ total_penilaian }}</p>
+				</div>
+			</div>
 	    	<input type="hidden" name="id_soal" id="id_soal" :value="id_soal">
 	      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
 	          <div class="card mg-b-20">
 	            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
-	            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) " :class="`${log.flag ? 'ganti-sukses' : ''}`">
+	            	<a data-toggle="collapse" :href="'#collapseOne'+ (index+1) " aria-expanded="false" :aria-controls="'collapseOne'+ (index+1) " :class="`${log.flag || (log.count_sub > 0 && (log.count_sub_submit == log.count_sub)) ? 'ganti-sukses' : ''}`">
 	            		<table>
 	            			<tr>
 	            				<td width="30" style="vertical-align: top;">{{(index+1)}}. </td>
@@ -240,7 +264,8 @@
 	            		</table>
 	                 
 	                 
-	                 <span v-if="log.count_sub > 0" style="color: #d66e14;">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                 <span v-if="log.count_sub > 0 && (log.count_sub_submit < log.count_sub)" style="color: #d66e14;">{{ log.count_sub_submit }} Task submit dari {{ log.count_sub }} Task</span>
+	                 <span v-if="log.count_sub > 0 && (log.count_sub_submit == log.count_sub)" style="color: rgb(68 240 8);">Task Completed</span>
 	                </a>
 	            </div>
 	            <div :id="'collapseOne'+ (index+1) " data-parent="#accordion" class="collapse" role="tabpanel" :aria-labelledby="'headingOne'+ (index+1)">
@@ -281,11 +306,11 @@
 	       	</div>
 	       	<input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
 	       	<div class="row">
-	       		<div class="col-3">
+	       		<div class="col-sm-6 col-md-3 col-6">
 		       		<button class="btn btn-info btn-rounded btn-block" v-on:click="kembali($event)"><< Kembali</button>  
 		       	</div>
-		       	<div class="col-9">
-	       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)">Simpan</button> 
+		       	<div class="col-sm-6 col-md-9 col-6">
+	       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)"><span class="fa fa-save"></span>&nbsp;&nbsp;Simpan</button> 
 	       		</div> 
 	       	</div>
 	    </section>

@@ -24,7 +24,9 @@
         	section_isi: false,
         	id_soal:'',
         	tanggal:'',
-        	task:''
+        	task:'',
+        	total_penilaian:'',
+        	tgl:''
         },
         methods: {
         	
@@ -40,6 +42,8 @@
 					that.list_soal = data['soal'];
 					that.judul_soal = data['deskripsi'];
 					that.task = data['task'];
+					that.tgl = data['tanggal'];
+					that.total_penilaian = data['total_penilaian'];
 					that.section_judul = false;
 					that.section_isi= true;
 					for (let index = 0; index < data['soal'].length; ++index) {
@@ -88,7 +92,7 @@
 			             icon: 'success',
 			             showConfirmButton: false,
 			             willClose: () => {
-			               app.getSoal(app.id_soal);
+			               app.getSoal(app.id_soal,app.tgl);
 			             }
 			          	});
 				    },
