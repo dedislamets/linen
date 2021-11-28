@@ -13,6 +13,28 @@ class Pengawasan extends CI_Controller {
 	{		
 		if($this->admin->logged_id())
 	    {
+	    	if(!empty($this->input->post('user_id', true))){
+	    		$checking = $this->admin->check_login('tb_user', array('id_user' => $this->input->post('user_id', true)));
+	    		if (!empty($checking)) {
+                    foreach ($checking as $apps) {
+                        $role = ChangeRole($apps->id_user);
+                        $session_data = array(
+                            'user_id'   => $apps->id_user,
+                            'username'   => $apps->nama_user,
+                            'id_atasan'   => $apps->id_atasan,
+                            'nama'   => $apps->nama_user,
+                            'role'  => $role[0]->group,
+                            'role_id'  => $role[0]->id_group_role,
+                            'email' => $apps->email,
+                            'cabang' => $apps->cabang,
+                            'gender' => $apps->jenis_kelamin
+                        );
+                        $this->session->set_userdata($session_data);
+                        
+
+                    }
+                }
+	    	}
 	    	if(CheckMenuRole('pengawasan')){
 		        redirect("errors");
 		    }
@@ -110,7 +132,7 @@ class Pengawasan extends CI_Controller {
 			      			$total_flag--;
 			      		}
 			      	}
-			      	
+
 			      	$this->db->from("tb_soal_detail A");
 		      		$this->db->join("tb_inspeksi B","A.id=B.id_soal_detail");
 		      		$this->db->where("parent_id",$val->id);
@@ -266,7 +288,7 @@ class Pengawasan extends CI_Controller {
 			                'tanggal' => date("Y-m-d"),
 			                'catatan' => htmlspecialchars($this->input->post('catatan', true)[$key]),
 			                'id_pengawas' => $this->session->userdata('user_id'),
-			                'id_inspektor' => 14,
+			                'id_inspektor' => $this->session->userdata('id_atasan'),
 		            	];
 
 			        		$this->db->insert('tb_inspeksi', $arr);
