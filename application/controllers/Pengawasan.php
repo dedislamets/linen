@@ -11,30 +11,31 @@ class Pengawasan extends CI_Controller {
 	}
 	public function index()
 	{		
+    	if(!empty($this->input->get('user_id', true))){
+    		$checking = $this->admin->getmaster('tb_user', array('id_user' => $this->input->get('user_id', true)));
+    		if (!empty($checking)) {
+                foreach ($checking as $apps) {
+                    $role = ChangeRole($apps->id_user);
+                    $session_data = array(
+                        'user_id'   => $apps->id_user,
+                        'username'   => $apps->nama_user,
+                        'id_atasan'   => $apps->id_atasan,
+                        'nama'   => $apps->nama_user,
+                        'role'  => $role[0]->group,
+                        'role_id'  => $role[0]->id_group_role,
+                        'email' => $apps->email,
+                        'cabang' => $apps->cabang,
+                        'gender' => $apps->jenis_kelamin
+                    );
+                    $this->session->set_userdata($session_data);
+                    
+
+                }
+            }
+    	}
 		if($this->admin->logged_id())
 	    {
-	    	if(!empty($this->input->get('user_id', true))){
-	    		$checking = $this->admin->check_login('tb_user', array('id_user' => $this->input->get('user_id', true)));
-	    		if (!empty($checking)) {
-                    foreach ($checking as $apps) {
-                        $role = ChangeRole($apps->id_user);
-                        $session_data = array(
-                            'user_id'   => $apps->id_user,
-                            'username'   => $apps->nama_user,
-                            'id_atasan'   => $apps->id_atasan,
-                            'nama'   => $apps->nama_user,
-                            'role'  => $role[0]->group,
-                            'role_id'  => $role[0]->id_group_role,
-                            'email' => $apps->email,
-                            'cabang' => $apps->cabang,
-                            'gender' => $apps->jenis_kelamin
-                        );
-                        $this->session->set_userdata($session_data);
-                        
 
-                    }
-                }
-	    	}
 	    	if(CheckMenuRole('pengawasan')){
 		        redirect("errors");
 		    }
