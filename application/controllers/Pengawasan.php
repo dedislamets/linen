@@ -13,8 +13,8 @@ class Pengawasan extends CI_Controller {
 	{		
 		if($this->admin->logged_id())
 	    {
-	    	if(!empty($this->input->post('user_id', true))){
-	    		$checking = $this->admin->check_login('tb_user', array('id_user' => $this->input->post('user_id', true)));
+	    	if(!empty($this->input->get('user_id', true))){
+	    		$checking = $this->admin->check_login('tb_user', array('id_user' => $this->input->get('user_id', true)));
 	    		if (!empty($checking)) {
                     foreach ($checking as $apps) {
                         $role = ChangeRole($apps->id_user);
@@ -43,8 +43,8 @@ class Pengawasan extends CI_Controller {
 			$data['js'] = 'script/inspeksi';
 			$data['soal'] = $this->admin->getmaster('tb_soal');
 			$tanggal = date("Y-m-d");
-	  		if(!empty(htmlspecialchars($this->input->post('tanggal', true)))){
-	  			$tanggal = htmlspecialchars($this->input->post('tanggal', true));
+	  		if(!empty(htmlspecialchars($this->input->get('tanggal', true)))){
+	  			$tanggal = htmlspecialchars($this->input->get('tanggal', true));
 	  		}
 
 			foreach ($data['soal'] as $key => $value) {
