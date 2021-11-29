@@ -1,4 +1,9 @@
 <style type="text/css">
+	.img-check{
+		border: solid 2px darkgray;
+		padding: 10px;
+		margin-bottom: 10px;
+	}
 	.title-sub {
 		padding: 5px 10px;
 	    background: green;
@@ -122,6 +127,17 @@
 		font-weight: bold;
 	}
 	@media (max-width: 767px){
+		.card__owner {
+			font-size: 15px !important;
+			padding: 10px;
+			background-color: ghostwhite;
+		    margin-bottom: 10px !important;
+		    border-radius: 10px;
+		    margin-top: 10px;
+		}
+		.img-check{
+			display: none;
+		}
 		.status-sign-left{
 			text-align: center;
 		}
@@ -150,12 +166,7 @@
 		.h3-soal{
 			display: none;
 		}
-		.card__owner {
-		    color: #084d4a;
-		    font-size: 14px;
-		    font-weight: 400;
-		    margin-bottom: 0;
-		}
+		
 		.card__integral, .card__amount {
 		    font-size: 10.5px;
 		    color: #fff;
@@ -208,11 +219,11 @@
 	    letter-spacing: 1.2px;
     	color: #383837;
 	    margin-bottom: 10px;
-	    border-bottom: solid 1px;
+	    border-bottom: solid 3px #fff;
 	    padding-bottom: 7px;
 	}
 	.card-one {
-		background: linear-gradient(to right, #d194ff, #9389ff)
+		background: linear-gradient(to right, #a8e063, #56ab2f)
 	}
 	.card-two {
 		background: linear-gradient(to right, #7cbfee, #00d0b8);
@@ -305,10 +316,10 @@
 						<div class="card carder <?= $row->class ?>">
 					      	<p class="card__number"><?= $row->nama_user ?></p>
 					      	<div class="row">
-						      	<div class="col-4">
+						      	<div class="col-md-4 col-12">
 						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
 						      	</div>
-						      	<div class="col-8">
+						      	<div class="col-md-8 col-12">
 							      	<p class="card__owner_main"><?= $row->judul ?></p>
 							      	<p class="card__owner"><?= $row->task ?></p>
 							      	<p class="card__owner deskripsi"  style="font-size: 13px"><?= $row->deskripsi ?></p>
@@ -328,17 +339,17 @@
 		</div>
 
 		<h2 class="heading">All Pending</h2>
-		<div class="row">
+		<div class="row" style="padding: 10px;">
 			<?php 
 			foreach($pending as $row): ?>
 			      	<div class="col-12 col-md-6 col-xl-6">
 						<div class="card carder <?= $row->class ?>">
 					      	<p class="card__number"><?= $row->nama_user ?></p>
 					      	<div class="row">
-						      	<div class="col-4">
-						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
+						      	<div class="col-md-4 col-12">
+						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid img-check" >
 						      	</div>
-						      	<div class="col-8">
+						      	<div class="col-md-8 col-12">
 							      	<p class="card__owner_main"><?= $row->judul ?></p>
 							      	<p class="card__owner"><?= $row->task ?></p>
 							      	<p class="card__owner deskripsi"  style="font-size: 13px"><?= $row->deskripsi ?></p>

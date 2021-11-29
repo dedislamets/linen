@@ -230,7 +230,7 @@
       <div class="az-header-menu">
         
         <div class="az-header-menu-header">
-          <a href="<?= base_url()?>accpac" class="az-logo"><span></span> <!-- <?php echo $this->session->userdata('nama'); ?> -->Akumulasi Q</a>
+          <a href="<?= base_url()?>accpac" class="az-logo"><span></span> <!-- <?php echo $this->session->userdata('nama'); ?> -->Menu</a>
           <a href="#" class="close">&times;</a>
         </div>
         <? $this->load->view('nav'); ?>
