@@ -52,6 +52,9 @@
 		.deskripsi {
 			display: none;
 		}
+		.img-check{
+			display: none !important;
+		}
 	}
 
 	.card{
@@ -95,11 +98,11 @@
 	    letter-spacing: 1.2px;
     	color: #383837;
 	    margin-bottom: 10px;
-	    border-bottom: solid 1px;
+	    border-bottom: solid 4px #fff;
 	    padding-bottom: 7px;
 	}
 	.card-one {
-		background: linear-gradient(to right, #d194ff, #9389ff)
+		background: linear-gradient(to right, #a8e063, #56ab2f)
 	}
 	.card-two {
 		background: linear-gradient(to right, #7cbfee, #00d0b8);
@@ -124,9 +127,6 @@
 </style>
 <div class="row" id="app" style="display: block;">
 	<h2 class="heading">Master Soal Inspeksi
-		<div style="float: right;padding-left: 10px;" data-toggle="modal" data-target="#ModalAdd">
-			<span class="fa fa-filter"></span>
-		</div>
 		<div style="float: right;" >
 			<a href="<?= base_url()?>soal/create"><span class="fa fa-plus"></span></a>
 		</div>
@@ -139,10 +139,10 @@
 					<div class="card <?= $row->class ?>">
 				      	<p class="card__number"><?= $row->judul ?></p>
 				      	<div class="row">
-					      	<div class="col-4">
-					      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
+					      	<div class="col-md-4 col-12">
+					      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid img-check" style="border: solid 2px darkgray;padding: 10px;">
 					      	</div>
-					      	<div class="col-8">
+					      	<div class="col-md-8 col-12">
 						      	<p class="card__owner_main"><?= $row->deskripsi ?></p>
 						      	<!-- <p class="card__owner"><?= $row->task ?></p> -->
 						      	<p class="card__owner deskripsi"  style="font-size: 13px"><?= $row->task ?></p>

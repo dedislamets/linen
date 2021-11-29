@@ -136,7 +136,7 @@
 		    margin-top: 10px;
 		}
 		.img-check{
-			display: none;
+			display: none !important;
 		}
 		.status-sign-left{
 			text-align: center;
