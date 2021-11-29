@@ -74,16 +74,16 @@
 			             
 			 //          	});
 				// },'json'); 
-
+				$('.file').fileinput('upload'); 
 				$.ajax({
 				    type: 'POST',
 				    url: '<?= base_url(); ?>pengawasan/save',
 				    data: $("#frm").serialize() ,
 				    success:function(data){
-				    	$('.file').fileinput('upload'); 
+				    	
 				     	Swal.fire({ title: "Berhasil disimpan..!",
 			             text: "Berhasil tersimpan",
-			             timer: 2000,
+			             timer: 4000,
 			             icon: 'success',
 			             showConfirmButton: false,
 			             willClose: () => {
