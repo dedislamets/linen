@@ -174,9 +174,6 @@ class Pengawasan extends CI_Controller {
 		      	$sub_komponen = $this->admin->api_array('tb_soal_detail',$arr_par);
 		      	if(!empty($sub_komponen)){
 		      		foreach ($sub_komponen as $k => $val) {
-
-		      			
-
 			      		$arr_par = array( 
 				      		'id_soal_detail' => $val['id'] ,
 				      		'tanggal' => $tanggal
@@ -197,10 +194,26 @@ class Pengawasan extends CI_Controller {
 				      		$done_sub++;
 			      			$total_flag_sub--;
 				      	}
+
+				      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+				      	if(!empty($inspeksi)){
+				      		if($inspeksi['nilai'] > 0){
+				      			$done++;
+				      			$total_flag--;
+				      		}
+				      	}
+
+				      	$this->db->from("tb_soal_detail A");
+			      		$this->db->join("tb_inspeksi B","A.id=B.id_soal_detail");
+			      		$this->db->where("parent_id",$val['id']);
+			      		$this->db->where("tanggal",$tanggal);
+			      		$this->db->where("nilai > 0");
+			      		$sub_dinilai = $this->db->get()->result_array();
+			      		$data['soal'][$key]->count_sub_submit = count($sub_dinilai);
 			      	}
 		      	}
 
-		      	if(count($sub_komponen) == count($sub_dinilai)){
+		      	if(count($sub_komponen) == count($sub_dinilai) && count($sub_komponen) > 0){
 		      		$data['soal'][$key]->flag_done = TRUE;
 	      			$done++;
 	      		}
@@ -211,7 +224,7 @@ class Pengawasan extends CI_Controller {
       				$task .="<br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". abs($total_flag_sub) ."</b>";
       			}
       			$data['soal'][$key]->task =  $task;
-      			$done_sub = $total_flag_sub =0;
+      			$done = $total_flag = $done_sub = $total_flag_sub =0;
 	      	}
 
 	      	// Data Pending
@@ -286,7 +299,17 @@ class Pengawasan extends CI_Controller {
 			      	}
 		      	}
 
-      			$data['pending'][$key]->task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b><br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". $total_flag_sub ."</b>";
+		      	if(count($sub_komponen) == count($sub_dinilai) && count($sub_komponen) > 0){
+		      		$data['soal'][$key]->flag_done = TRUE;
+	      			$done++;
+	      		}
+
+      			$task = "<b>". count($row)."</b> Task : Selesai <b>". $done ."</b>, Pending <b>". $total_flag ."</b>";
+      			if(count($sub_komponen)>0){
+      				$task .="<br/><b>". count($sub_komponen) ."</b> Sub : Selesai <b>". $done_sub ."</b>, Pending <b>". abs($total_flag_sub) ."</b>";
+      			}
+      			$data['pending'][$key]->task =  $task;
+      			$done = $total_flag = $done_sub = $total_flag_sub =0;
 	      	}
 			
 			$this->load->view('dashboard',$data,FALSE); 

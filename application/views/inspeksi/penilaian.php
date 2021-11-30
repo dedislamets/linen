@@ -317,7 +317,7 @@
 					      	<p class="card__number"><?= $row->nama_user ?></p>
 					      	<div class="row">
 						      	<div class="col-md-4 col-12">
-						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
+						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid img-check" >
 						      	</div>
 						      	<div class="col-md-8 col-12">
 							      	<p class="card__owner_main"><?= $row->judul ?></p>
