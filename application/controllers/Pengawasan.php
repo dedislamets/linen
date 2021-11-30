@@ -303,12 +303,12 @@ class Pengawasan extends CI_Controller {
 			      		$this->db->where("tanggal",$tanggal);
 			      		$this->db->where("nilai > 0");
 			      		$sub_dinilai = $this->db->get()->result_array();
-			      		$data['soal'][$key]->count_sub_submit = count($sub_dinilai);
+			      		$data['pending'][$key]->count_sub_submit = count($sub_dinilai);
 			      	}
 		      	}
 
 		      	if(count($sub_komponen) == count($sub_dinilai) && count($sub_komponen) > 0){
-		      		$data['soal'][$key]->flag_done = TRUE;
+		      		$data['pending'][$key]->flag_done = TRUE;
 	      			$done++;
 	      		}
 
