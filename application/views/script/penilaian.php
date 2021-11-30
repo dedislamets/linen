@@ -84,7 +84,7 @@
 				$.ajax({
 				    type: 'POST',
 				    url: '<?= base_url(); ?>pengawasan/savesv',
-				    data: $("#frm").serialize() ,
+				    data: $("#frm").serialize() + "&tanggal=" + app.tgl,
 				    success:function(data){
 				     	Swal.fire({ title: "Berhasil disimpan..!",
 			             text: "Berhasil tersimpan",
