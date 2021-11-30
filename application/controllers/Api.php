@@ -81,7 +81,7 @@ class Api extends RestController  {
 
     public function notifikasi_get()
     {
-        $shift = $this->admin->api_array('tb_notifikasi');
+        $shift = $this->admin->api_array('tb_notifikasi',array("sent_to", $this->get('id') ));
 
         if ($shift != FALSE) {
             $this->response([
