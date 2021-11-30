@@ -360,7 +360,7 @@ class Pengawasan extends CI_Controller {
 		      	$data_notif = array(
 		        	'short_msg'   => $msg,
 		        	'long_msg'    => $msg,
-		        	'url'         => 'pengawasan',
+		        	'url'         => 'pengawasan/penilaian',
 		        	'sent_to'     => $this->session->userdata('id_atasan'),      
 		      	);
 		      	$this->db->insert('tb_notifikasi', $data_notif);
