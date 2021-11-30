@@ -296,6 +296,14 @@ class Pengawasan extends CI_Controller {
 				      		$done_sub++;
 			      			$total_flag_sub--;
 				      	}
+				      	
+				      	$this->db->from("tb_soal_detail A");
+			      		$this->db->join("tb_inspeksi B","A.id=B.id_soal_detail");
+			      		$this->db->where("parent_id",$val['id']);
+			      		$this->db->where("tanggal",$tanggal);
+			      		$this->db->where("nilai > 0");
+			      		$sub_dinilai = $this->db->get()->result_array();
+			      		$data['soal'][$key]->count_sub_submit = count($sub_dinilai);
 			      	}
 		      	}
 
