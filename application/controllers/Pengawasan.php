@@ -117,7 +117,7 @@ class Pengawasan extends CI_Controller {
 	  		if($tanggal == date("Y-m-d"))
 	  			$data['tanggal'] = "Hari ini"; 
 
-			$this->db->select("tb_soal.id as id_judul,nama_user, judul, class, MAX(`current_date`) AS last_update,deskripsi");
+			$this->db->select("tb_soal.id as id_judul,nama_user, judul, class, MAX(`current_date`) AS last_update,deskripsi,tanggal");
 			$this->db->from("tb_inspeksi");
 			$this->db->join("tb_soal","tb_soal.id=tb_inspeksi.id_soal");
 			$this->db->join("tb_user","tb_user.id_user=tb_inspeksi.id_pengawas");

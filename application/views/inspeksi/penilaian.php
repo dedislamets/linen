@@ -329,7 +329,7 @@
 							      	</div>
 							      	<div style="padding-bottom: 10px;" class="row">
 										<div class="col-12">
-								      		<button v-on:click="getSoal(<?= $row->id_judul ?>)" class="btn btn-success btn-rounded btn-block"><span class="fa fa-edit"></span>&nbsp; Mulai Nilai</button>
+								      		<button v-on:click="getSoal(<?= $row->id_judul ?>, '<?= $row->tanggal ?>')" class="btn btn-success btn-rounded btn-block"><span class="fa fa-edit"></span>&nbsp; Mulai Nilai</button>
 								      	</div>
 									</div>
 						      	</div>
