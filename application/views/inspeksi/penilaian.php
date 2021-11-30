@@ -443,10 +443,9 @@
 	            		<template v-for="l in lo.data">
 				            <div class="card-body bd bd-t-0" style="margin-bottom: 10px;">
 				            	<h3 :class="`${l.flag ? (l.flag_done ?  'h3-title h3-soal title-sub-sub ganti-sukses' : 'h3-title h3-soal title-sub-sub ganti-pending') : 'h3-title h3-soal title-sub-sub'}`">{{ l.soal }} <span v-if="l.flag_done" class="fa fa-check" style="font-size: 25px"></span></h3>
-				            	<!-- <h3 class="h3-title h3-soal" style="border-bottom: solid 2px;padding-bottom: 10px;padding-top: 15px;"></h3> -->
 				            	<div class="row">
 				            		
-				            		<div class="col-6" style="padding-top: 10px;">
+				            		<div class="col-sm-12 col-md-6 col-12" style="padding-top: 10px;">
 				            			<table class="table table-bordered">
 				            				<thead>
 					            				<tr>
@@ -466,11 +465,15 @@
 				            				</tbody>
 				            			</table>
 				            		</div>
-				            		<div class="col-6">
-				            			<h4 class="mg-t-10 h4-title">Berikan Point Penilaian Anda</h4>
-				            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="l.nilai" min="0" :max="log.nilai_max" >
+				          
+				            		<div class="col-sm-12 col-md-3 col-6">
+				            			<h4 class="mg-t-10 h4-title">Penilaian Anda</h4>
+				            			<input type="number" name="nilai[]" class="form-control input-nilai" :value="l.nilai" min="0" :max="log.nilai_max" v-bind:readonly="!l.flag">
+				            			
+				            		</div>
+				            		<div class="col-sm-12 col-md-3 col-6">
 				            			<h4 class="mg-t-10 h4-title">Skor</h4>
-				            			<input type="number" name="skor[]" class="form-control " :value="l.skor" readonly>
+						            	<input type="number" name="skor[]" class="form-control" :value="l.skor" readonly>
 				            		</div>
 				            	</div>
 				              	<h4 class="mg-t-10 h4-title">Masukkan Catatan/Keterangan pendukung</h4>
