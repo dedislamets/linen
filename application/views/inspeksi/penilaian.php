@@ -164,7 +164,8 @@
 		    padding: 10px 20px 12px 20px;
 		}
 		.h3-soal{
-			display: none;
+			/*display: none;*/
+			font-size: 15px !important;
 		}
 		
 		.card__integral, .card__amount {
@@ -442,7 +443,9 @@
 	            		<h2 class="title-sub">{{ ind }}</h2>
 	            		<template v-for="l in lo.data">
 				            <div class="card-body bd bd-t-0" style="margin-bottom: 10px;">
-				            	<h3 :class="`${l.flag ? (l.flag_done ?  'h3-title h3-soal title-sub-sub ganti-sukses' : 'h3-title h3-soal title-sub-sub ganti-pending') : 'h3-title h3-soal title-sub-sub'}`">{{ l.soal }} <span v-if="l.flag_done" class="fa fa-check" style="font-size: 25px"></span></h3>
+				            	<h3 :class="`${l.flag ? (l.flag_done ?  'h3-title h3-soal title-sub-sub ganti-sukses' : 'h3-title h3-soal title-sub-sub ganti-pending') : 'h3-title h3-soal title-sub-sub'}`">
+				            		{{ l.soal }} <span v-if="l.flag_done" class="fa fa-check" style="font-size: 25px"></span>
+				            	</h3>
 				            	<div class="row">
 				            		
 				            		<div class="col-sm-12 col-md-6 col-12" style="padding-top: 10px;">
