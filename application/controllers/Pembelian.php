@@ -188,7 +188,7 @@ class Pembelian extends CI_Controller {
   {
     if($this->admin->logged_id())
     {
-      $data['title'] = 'Detail penerimaan';
+      $data['title'] = 'Detail Pembelian';
       $data['main'] = 'penerimaan/detail';
       $data['js'] = 'script/penerimaan-create';
       $data['modal'] = 'modal/penerimaan-detail'; 
