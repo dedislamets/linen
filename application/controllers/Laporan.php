@@ -163,11 +163,11 @@ class Laporan extends CI_Controller {
 	    }				  
 						
 	}
-	public function penerimaan()
+	public function pembelian()
 	{		
 		if($this->admin->logged_id())
 	    {
-			$data['title'] = 'Laporan Penerimaan';
+			$data['title'] = 'Laporan Pembelian';
 			$data['main'] = 'laporan/penerimaan';
 			$data['js'] = 'script/laporan';
 			$data['ruangan'] = $this->admin->getmaster('tb_ruangan');

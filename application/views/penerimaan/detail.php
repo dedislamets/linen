@@ -56,8 +56,8 @@
   <div class="card-header back-green" style="color:#fff">
     <div class="row">
         <div class="col-xl-10">
-            <h4><?= $title ?> <a href="<?= base_url() ?>penerimaan" id="back" style="color: #000;margin-left: 10px;"> Back </a></h4>
-            <span>Halaman ini untuk mengatur penerimaan linen</span>
+            <h4><?= $title ?> <a href="<?= base_url() ?>pembelian" id="back" style="color: #000;margin-left: 10px;"> Back </a></h4>
+            <span>Halaman ini untuk mengatur pembelian linen</span>
         </div>
         
         <div class="col-xl-2">

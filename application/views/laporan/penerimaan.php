@@ -21,10 +21,10 @@
         <div class="nav-scroller">
           <ul class="nav nav-tabs tickets-tab-switch" role="tablist">
             <li class="nav-item">
-              <a class="nav-link rounded active show" id="pending-tab" data-toggle="tab" href="#pending-tickets" role="tab" aria-controls="pending-tickets" aria-selected="false">Penerimaan By Date</a>
+              <a class="nav-link rounded active show" id="pending-tab" data-toggle="tab" href="#pending-tickets" role="tab" aria-controls="pending-tickets" aria-selected="false">Pembelian By Date</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link rounded " id="vendor-tab" data-toggle="tab" href="#vendors" role="tab" aria-controls="vendors" aria-selected="true">Penerimaan By Vendor</div>
+              <a class="nav-link rounded " id="vendor-tab" data-toggle="tab" href="#vendors" role="tab" aria-controls="vendors" aria-selected="true">Pembelian By Vendor</div>
               </a>
             </li>
           </ul>
@@ -33,7 +33,7 @@
          
           <div class="tab-pane fade active show" id="pending-tickets" role="tabpanel" aria-labelledby="pending-tickets">
             <div class="card card-dashboard-table-six" style="padding: 10px">
-              <h6 class="card-title">Laporan Penerimaan By Date</h6>
+              <h6 class="card-title">Laporan Pembelian By Date</h6>
               <div class="card-header">
                 <div class="row">
                   
@@ -147,7 +147,7 @@
           </div>
           <div class="tab-pane fade " id="vendors" role="tabpanel" aria-labelledby="vendors">
             <div class="card card-dashboard-table-six" style="padding: 10px">
-              <h6 class="card-title">Laporan Penerimaan By Vendor</h6>
+              <h6 class="card-title">Laporan Pembelian By Vendor</h6>
               <div class="card-header">
                 <div class="row">
                   

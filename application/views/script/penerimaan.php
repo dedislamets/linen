@@ -4,7 +4,7 @@
 		oTable = $('#ViewTable').DataTable({
 			dom: 'frtip',
 			ajax: {		            
-	            "url": "penerimaan/dataTable",
+	            "url": "pembelian/dataTable",
 	            "type": "GET"
 	        },
 	        processing	: true,
@@ -19,7 +19,7 @@
 
 	function editmodal(val){
 
-		$.get('penerimaan/edit/' + $(val).data('id'), null, function(data){ 
+		$.get('pembelian/edit/' + $(val).data('id'), null, function(data){ 
 				$("#lbl-title").text("Edit");
          		$("#no_penerimaan").val(data[0]['no_penerimaan']);
 				$("#tanggal").val(data[0]['tanggal']);
@@ -41,7 +41,7 @@
 		var r = confirm("Yakin dihapus?");
 		if (r == true) {
 			
-			$.get('penerimaan/deletelist', { id: $(val).data('id') }, function(data){ 
+			$.get('pembelian/deletelist', { id: $(val).data('id') }, function(data){ 
 				oTable.ajax.reload(null, false);
 			})
 		
@@ -51,7 +51,7 @@
 	$('#btnAdd').on('click', function (event) {
 		$("#lbl-title").text('Tambah');
 
-		$.get('penerimaan/create', null, function(data){ 
+		$.get('pembelian/create', null, function(data){ 
 			$("#no_penerimaan").val(data['no_penerimaan']);
 			$("#tanggal").val(data['tanggal']);
 			$("#status").val('Submit');
@@ -77,7 +77,7 @@
 	 	validator.valid();
 	 	$status = validator.form();
 	 	if($status) {
-	 		var link = 'penerimaan/Save';
+	 		var link = 'pembelian/Save';
 	 		$.post(link,sParam, function(data){
 				if(data.error==false){				
 					$('#ModalAdd').modal('hide');					

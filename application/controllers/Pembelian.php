@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Penerimaan extends CI_Controller {
+class Pembelian extends CI_Controller {
 	public function __construct()
 	{
 		parent::__construct();
@@ -12,10 +12,10 @@ class Penerimaan extends CI_Controller {
 	{		
 		if($this->admin->logged_id())
     {
-      if(CheckMenuRole('penerimaan')){
+      if(CheckMenuRole('pembelian')){
         redirect("errors");
       }
-			$data['title'] = 'Penerimaan';
+			$data['title'] = 'Pembelian';
 			$data['main'] = 'penerimaan/index';
 			$data['js'] = 'script/penerimaan';
       $data['modal'] = 'modal/penerimaan';
@@ -109,7 +109,7 @@ class Penerimaan extends CI_Controller {
                       ' <button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->id.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
                         </button>
-                        <a href="penerimaan/detail/'.$r->id.'"  class="btn btn-info btn-sm "  >
+                        <a href="pembelian/detail/'.$r->id.'"  class="btn btn-info btn-sm "  >
                           <i class="icofont icofont-edit"></i>Detail
                         </a>
                         <button type="button" rel="tooltip" class="btn btn-danger btn-sm " onclick="hapus(this)"  data-id="'.$r->id.'" >

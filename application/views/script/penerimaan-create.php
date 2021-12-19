@@ -51,11 +51,11 @@
 	 		var valid = true;
 	 		valid = validateBarangDesktop();
 	 		if(valid) {	
-		 		var link = '<?= base_url() ?>penerimaan/SaveDetail';
+		 		var link = '<?= base_url() ?>pembelian/SaveDetail';
 		 		$.post(link,sParam, function(data){
 					if(data.error==false){	
 						alert("Tersimpan");
-						window.location.href="<?= base_url(); ?>penerimaan/detail/"+ data.id
+						window.location.href="<?= base_url(); ?>pembelian/detail/"+ data.id
 					}else{	
 						alertError(data.message);				  	
 					}
@@ -106,16 +106,6 @@
     	return flag;
     }
 
-	function hapus(val) {
-		var r = confirm("Yakin dihapus?");
-		if (r == true) {
-			
-			$.get('linenkotor/deletelist', { id: $(val).data('id') }, function(data){ 
-				window.location.reload();
-			})
-		
-		}
-	}
 
 	$('#btnAdd').on('click', function (event) {
 		event.preventDefault();
@@ -189,7 +179,7 @@
 	});
 
 	function pilih_edit(val){
-		$.get('<?= base_url()?>penerimaan/get', { id: val }, function(data){ 
+		$.get('<?= base_url()?>pembelian/get', { id: val }, function(data){ 
 			$("#azChatList").empty();
 			const tbody = $("#azChatList");
 			var baris;
@@ -269,7 +259,7 @@
 		if(id != ""){
 			var r = confirm("Yakin dihapus?");
 			if (r == true) {
-				$.get('<?= base_url()?>penerimaan/delete', { id: id }, function(data){ 
+				$.get('<?= base_url()?>pembelian/delete', { id: id }, function(data){ 
 					$(val).parent().parent().remove();
 				})
 			}

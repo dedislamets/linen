@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-xl-10">
                 <h4><?= $title ?></h4>
-                <span>Ini adalah halaman riwayat proses penerimaan.</span>
+                <span>Ini adalah halaman riwayat proses pembelian.</span>
             </div>
             <div class="col-xl-2">
                 <button class="btn btn-success" id="btnAdd"><i class="icofont icofont-ui-add"></i> Tambah baru</button>

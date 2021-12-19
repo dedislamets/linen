@@ -3,7 +3,7 @@
 	    <div class="modal-content">
 	      	<div class="modal-header back-green" >
 	        	
-	        	<h4 class="modal-title" id="myModalLabel" style="color:#fff !important"><label id="lbl-title"></label> <label> Penerimaan</label></h4>
+	        	<h4 class="modal-title" id="myModalLabel" style="color:#fff !important"><label id="lbl-title"></label> <label> Pembelian</label></h4>
 	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
@@ -12,7 +12,7 @@
 				<div class="modal-body">
 			
 					<div class="form-group">
-						<label style="font-weight: bold;">No penerimaan</label>
+						<label style="font-weight: bold;">No transaksi</label>
 						<input type="text" id="no_penerimaan" name="no_penerimaan" class="form-control" maxlength="200" readonly />
 					</div>	
 					<div class="form-group">
