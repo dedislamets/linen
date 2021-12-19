@@ -124,7 +124,7 @@
 
       
 
-      <?
+      <?php
       $detect = new Mobile_Detect;
       if ( $detect->isMobile() ): ?>
           <div class="row">
@@ -154,7 +154,7 @@
               </div> -->
               
           </div>
-      <? else: ?>
+      <?php else: ?>
           <div class="row" id="barang">
             <h4 class="info-text" style="margin-top: 30px;padding-left: 10px;">
                 <button class="btn btn-success btn-sm" id="btnAdd" ><i class="fa fa-plus"></i> Tambah baru</button>
@@ -187,7 +187,7 @@
               </div>
             </div>                  
           </div>
-      <? endif;?>
+      <?php endif;?>
       
       <div class="row">
         <div class="col-sm-12" style="margin-top: 10px;">

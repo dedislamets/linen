@@ -312,7 +312,7 @@ class Listrequest extends CI_Controller {
       $data['ruangan'] = $this->admin->getmaster('tb_ruangan');
       $data['jenis'] = $this->admin->get_result_array('jenis_barang');
       $data['data'] = $this->admin->get_array('request_linen',array( 'no_request' => $id));
-
+      $data['no_request'] = $id;
       $data['data_detail'] = $this->admin->get_result_array('request_linen_detail',array( 'no_request' => $data['data']['no_request']));
       $this->load->view('dashboard',$data,FALSE); 
 

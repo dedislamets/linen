@@ -104,7 +104,7 @@ class Dashboard extends CI_Controller {
             $data['notifikasi'] = $query->result();
             $data['notifikasi_count'] = $query->num_rows();
             
-            // print("<pre>".print_r($arr_data,true)."</pre>");exit();
+            // print("<pre>".print_r($data,true)."</pre>");exit();
 
 			$this->load->view('dashboard',$data,FALSE); 
 

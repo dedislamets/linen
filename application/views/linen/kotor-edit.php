@@ -4,7 +4,7 @@
   }
 </style>
 <div class="card z-depth-0" id="app">
-  <? include("application/views/Browser.php");
+  <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE && $data['STATUS'] != "BERSIH") : ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
@@ -13,7 +13,7 @@
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <? endif; ?>
+  <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">
@@ -42,7 +42,7 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">TANGGAL</label>
         <div class="col-sm-10">
-          <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= empty($data) ? "" : date("m/d/Y", strtotime($data['TANGGAL'])) ?>" />
+          <input class="form-control form-bg-inverse" type="text" id="tanggal" name="tanggal" value="<?= empty($data) ? "" : date("m/d/Y", strtotime($data['TANGGAL'])) ?>" />
         </div>
       </div>
 
@@ -76,7 +76,7 @@
       </div>
       
       <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
-      <? if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
+      <?php if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
       <div class="form-group row">
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnAdd" ><i class="fa fa-plus"></i> Tambah baru</button>
@@ -91,7 +91,7 @@
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
       </div>
-      <? endif; ?>
+      <?php endif; ?>
 
       <div class="row" id="barang">
         
@@ -164,9 +164,9 @@
         <div class="col-sm-12" style="margin-top: 10px;">
           <input type="hidden" name="id_kotor" id="id_kotor" value="<?= empty($data) ? "" : $data['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
-          <? if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
+          <?php if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
             <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
-          <? endif; ?>
+          <?php endif; ?>
         </div>
       </div>
     

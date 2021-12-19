@@ -1,19 +1,14 @@
 <script type="text/javascript">
 	var cities = <?php echo json_encode($jenis); ?>;
+	var vendor = <?php echo json_encode($vendor); ?>;
 	$(document).ready(function(){  
 		$("#tanggal" ).datepicker();
         
-		if($("#mode").val() == 'edit') {
-			pilih_edit($("#id_request").val());
+		if($("#mode").val() != 'new') {
+			pilih_edit($("#id_penerimaan").val());
 
 		}else{
-			<?php
-        	$detect = new Mobile_Detect;
-			if ( $detect->isMobile() ): ?>
-				$("#btnAddMobile").trigger('click');
-			<?php else: ?>
-				$("#btnAdd").trigger('click');
-			<?php endif; ?>
+			$("#btnAdd").trigger('click');
 		}
 	})
 
@@ -41,13 +36,10 @@
     	var sParam = $('#form-request').serialize();
     	var validator = $('#form-request').validate({
 							rules: {
-									no_request: {
+									no_penerimaan: {
 							  			required: true
 									},
-									requestor: {
-							  			required: true
-									},
-									total_qty: {
+									id_penerimaan: {
 							  			required: true
 									},
 									  
@@ -57,19 +49,13 @@
 	 	$status = validator.form();
 	 	if($status) {
 	 		var valid = true;
-	 		<?php
-        	$detect = new Mobile_Detect;
-			if ( $detect->isMobile() ): ?>
-				valid= validateBarang();
-			<?php else: ?>
-				valid = validateBarangDesktop()
-			<?php endif; ?>
+	 		valid = validateBarangDesktop();
 	 		if(valid) {	
-		 		var link = '<?= base_url() ?>listrequest/Save';
+		 		var link = '<?= base_url() ?>penerimaan/SaveDetail';
 		 		$.post(link,sParam, function(data){
 					if(data.error==false){	
 						alert("Tersimpan");
-						androidObj.showToast("ok");
+						window.location.href="<?= base_url(); ?>penerimaan/detail/"+ data.id
 					}else{	
 						alertError(data.message);				  	
 					}
@@ -148,6 +134,9 @@
 		baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
         baris += loadcities("");
         baris += '</select></td>';
+        baris += '<td><select name="vendor'+ nomor+'" id="vendor'+ nomor+'" class="form-control">';
+        baris += loadvendor("");
+        baris += '</select></td>';
 		baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		
 	
@@ -200,45 +189,14 @@
 	});
 
 	function pilih_edit(val){
-		$.get('<?= base_url()?>listrequest/get', { id: val }, function(data){ 
+		$.get('<?= base_url()?>penerimaan/get', { id: val }, function(data){ 
 			$("#azChatList").empty();
 			const tbody = $("#azChatList");
 			var baris;
 			tbody.html('');
 			$.each(data['data_detail'], function(_, obj) {
 
-				<?php $detect = new Mobile_Detect;
-				if ( $detect->isMobile() ): ?>
-					var nomor = $("#azChatList").find('.nomor:last').data('num');
-					if( $.isNumeric( nomor ) ) 	{
-						nomor = parseInt(nomor) + 1;
-					}else{		
-						nomor = 1
-					}
-
-					$('#total-row').val(nomor);
-					var baris = '<div class="media new shadow-base">';
-					baris +='<div class="left-view-card nomor" style="padding: 10px;" data-num="'+ nomor+'">'+ nomor+'</div>';
-			        baris +='   <div class="left-view-card">';
-			        baris +='		<input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="' + obj.id+'" />';
-			        baris +='       <button class="btn hor-grd btn-danger btn-mobile" onclick="cancel(this)"> <i class="fa fa-trash"></i></button> ';
-			        baris +='   </div>';
-			        baris +='   <div class="media-body">';
-			        baris +='       <div class="media-contact-name">';
-			        baris +='          <span>Nama Barang</span>';
-			        baris +='          <select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
-			        baris += 			loadcities(obj.jenis);
-			        baris +='          </select>';
-			        baris +='        </div>';
-			        baris +='        <div class="media-contact-name">';
-			        baris +='            <span style="width: 85px">Jumlah</span>';
-			        baris +='            <input type="number" id="qty'+ nomor+'" name="qty'+ nomor+'" placeholder="" class="form-control qty" value="' + obj.qty+'">';
-			        baris +='        </div>';
-			        baris +='    </div>';
 				
-					baris += '</div>';
-					$(baris).appendTo("#azChatList");
-				<?php else: ?>
 					var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
 					if( $.isNumeric( nomor ) ) 	{
 						nomor = parseInt(nomor) + 1;
@@ -254,6 +212,9 @@
 					baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
 			        baris += loadcities(obj.jenis);
 			        baris += '</select></td>';
+			        baris += '<td><select name="vendor'+ nomor+'" id="vendor'+ nomor+'" class="form-control">';
+			        baris += loadvendor(obj.vendor);
+			        baris += '</select></td>';
 					baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="' + obj.qty+'"></td>';
 					
 				
@@ -265,7 +226,6 @@
 					}else{
 						$('#tbody-table tr:last').after(baris);
 					}
-				<?php endif; ?>
 				
 			})
 		})
@@ -291,19 +251,31 @@
 		}
 		return option;
 	}
+	function loadvendor(val){
+		var option = "";
+		for(var i = 0;i < vendor.length; i ++){
+			var city = vendor[i];
+			var selected="";
+			if(val == city.vendor_code){
+				selected = "selected";
+			}
+			option +='<option value="'+city.vendor_code+'" label="'+city.vendor_name+'" '+ selected +'></option>';
+		}
+		return option;
+	}
 
 	function cancel(val) {
-		// var id=$(val).prevAll()[1].value;
-		// if(id != ""){
-		// 	var r = confirm("Yakin dihapus?");
-		// 	if (r == true) {
-		// 		$.get('<?= base_url()?>spk/delete', { id: id }, function(data){ 
-		// 			$(val).parent().parent().remove();
-		// 		})
-		// 	}
-		// }else{
-		// 	$(val).parent().parent().remove();
-		// }
+		var id=$(val).prevAll()[0].value;
+		if(id != ""){
+			var r = confirm("Yakin dihapus?");
+			if (r == true) {
+				$.get('<?= base_url()?>penerimaan/delete', { id: id }, function(data){ 
+					$(val).parent().parent().remove();
+				})
+			}
+		}else{
+			$(val).parent().parent().remove();
+		}
 		$(val).parent().parent().remove();
 
 	}

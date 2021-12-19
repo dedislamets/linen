@@ -113,7 +113,7 @@ function menu(){
                                 FROM tb_menu A
                                 LEFT JOIN tb_menu B ON A.`parent_id`=B.id
                                 LEFT JOIN tb_group_menu C ON C.`id_menu`=A.id 
-                                WHERE C.`id_group` like '%". $recLogin ."%'
+                                WHERE C.`id_group` like '%". $recLogin ."%' and A.aktif=1
                             ) tmp
                             UNION ALL
                             SELECT *,NULL AS parent_menu FROM tb_menu 

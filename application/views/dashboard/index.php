@@ -11,7 +11,7 @@
 </style>
 
 <div class="row" >
-  <? if(!empty($notifikasi)){ ?>
+  <?php if(!empty($notifikasi)){ ?>
     <div class="col-md-12" id="card-notifikasi">
         <div class="alert alert-info" role="alert">
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -21,7 +21,7 @@
         </div>
     </div>
 
-  <? } ?>
+  <?php } ?>
   <div class="col-lg-3 col-md-6 col-sm-6">
     <div class="card card-stats">
       <div class="card-body ">
@@ -131,14 +131,14 @@
             
           </tbody>
         </table>
-      </div><!-- table-responsive -->
+      </div>
     </div>
-  </div><!-- col -->
+  </div>
   <div class="col-lg-8 mg-t-20 mg-lg-t-0">
     <div class="card card-dashboard-four">
       <div class="card-header">
         <h6 class="card-title">Room Request Linen</h6>
-      </div><!-- card-header -->
+      </div>
       <div class="card-body row">
         <div class="col-md-6 d-flex align-items-center">
           <div class="chart"><canvas id="chartDonut"></canvas></div>
@@ -153,9 +153,9 @@
               <span><?= $row['jml'] ?></span>
             </div>
           </div>
-          <? endforeach; ?>
-        </div><!-- col -->
-      </div><!-- card-body -->
+          <?php endforeach; ?>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -187,12 +187,12 @@
               <td class="tx-right tx-medium tx-danger"><?= $row->epc ?></td>
               <td class="tx-right tx-medium tx-danger"><?= $row->umur ?></td>
             </tr>
-            <? endforeach; ?>
+            <?php endforeach; ?>
             
           </tbody>
         </table>
-      </div><!-- table-responsive -->
-    </div><!-- card-dashboard-five -->
+      </div>
+    </div>
   </div>
   <div class="col-md-6 col-xl-5 mg-t-20 mg-md-t-0">
     <div class="card card-dashboard-eight">
@@ -211,13 +211,13 @@
             <?php 
             foreach($defect as $row) : ?>
             <tr>
-              <td><?= $row->defect ?></td>
-              <td class="tx-right tx-medium tx-inverse"><?= $row->jml ?></td>
+              <td><?php echo $row->defect ?></td>
+              <td class="tx-right tx-medium tx-inverse"><?php echo $row->jml ?></td>
             </tr>
-            <? endforeach; ?>
-            
+            <?php endforeach; ?>  
           </tbody>
         </table>
-    </div><!-- card -->
-  </div><!-- col -->
+      </div>
+    </div>
+  </div>
 </div>

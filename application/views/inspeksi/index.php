@@ -231,14 +231,14 @@
 			                 			<?= $row->deskripsi ?>
 									</div>
 									<input type="hidden" name="tanggal" id="tanggal" value="tanggal">
-									<? if(!empty($row->current_date)): ?>
+									<?php if(!empty($row->current_date)): ?>
 										<p style="background-color: yellow;padding: 5px 10px;display: inline;font-style: italic;">Terakhir diubah : <?= tgl_waktu_indo($row->current_date) ?></p>
-									<? endif; ?>
+									<?php endif; ?>
 								</div>
 							</div>
 						</div>
 				</li>	
-		    <? endforeach; ?>
+		    <?php endforeach; ?>
 			</ul>
 		</section>
 		<section id="section-isi" v-if="section_isi">

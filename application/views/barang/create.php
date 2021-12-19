@@ -162,7 +162,7 @@
 </style>
 
 <div class="card z-depth-0" id="app">
-  <? include("application/views/Browser.php");
+  <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
@@ -171,7 +171,7 @@
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <? endif; ?>
+  <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">

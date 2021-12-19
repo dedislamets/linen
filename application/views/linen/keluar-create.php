@@ -162,7 +162,7 @@
 </style>
 
 <div class="card z-depth-0" id="app">
-  <? include("application/views/Browser.php");
+  <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
@@ -171,7 +171,7 @@
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <? endif; ?>
+  <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-8">
@@ -295,15 +295,15 @@
       <input type="hidden" name="id_keluar" id="id_keluar" value="<?= empty($keluar) ? "" : $keluar['id'] ?>">
       <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
       <div class="form-group row" style="margin-top: 10px;">
-        <? if(empty($keluar['signature'])): ?>
+        <?php if(empty($keluar['signature'])): ?>
           <div class="col-sm-2">
             <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
           </div>
-          <? if($mode == 'new') : ?>
+          <?php if($mode == 'new') : ?>
           <div class="col-sm-2">
             <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
           </div>
-          <? endif; ?>
+          <?php endif; ?>
         
           <div class="col-sm-2">
             
@@ -312,7 +312,7 @@
           <div class="col-sm-6">
             <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
           </div>
-        <? endif; ?>
+        <?php endif; ?>
 
       </div>
       <div class="row" id="barang">
@@ -364,7 +364,7 @@
           </div>
         </div>
       </div>
-      <? if(!empty($keluar['signature'])): ?>
+      <?php if(!empty($keluar['signature'])): ?>
         <table class="table table-bordered mg-t-15">
           <tr>
             <td style="width:300px;">Diterima Tanggal</td>
@@ -380,13 +380,13 @@
             <td style="width:300px;">Signature</td>
             <td width="10">:</td>
             <td>
-              <? if(!empty($keluar['signature'])): ?>
+              <?php if(!empty($keluar['signature'])): ?>
                 <img src="<?= base_url() ?>/upload/signature/<?= $keluar['signature'] ?>" style="width: 400px;">
-              <? endif; ?>
+              <?php endif; ?>
             </td>
           </tr>
         </table>
-      <? endif; ?>
+      <?php endif; ?>
     
     </form>
 

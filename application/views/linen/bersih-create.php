@@ -160,7 +160,7 @@
 </style>
 
 <div class="card z-depth-0" id="app">
-  <? include("application/views/Browser.php");
+  <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
@@ -169,7 +169,7 @@
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <? endif; ?>
+  <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">
@@ -269,11 +269,11 @@
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
         </div>
-        <? if($mode == 'new') : ?>
+        <?php if($mode == 'new') : ?>
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
         </div>
-        <? endif; ?>
+        <?php endif; ?>
         <div class="col-sm-8">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
@@ -336,7 +336,7 @@
                         </td>
                         <td style="width: 150px;">
                           <input type="hidden" id="checked<?=$urut?>" name="checked<?=$urut?>" data-urut="<?=$urut?>" data-epc="<?=$row['epc']?>" class="form-control" value="1" >
-                          <? if($mode == 'edit'){
+                          <?php if($mode == 'edit'){
                               $class = $read = "";
                               if($row["status_linen"] == "RUSAK"){
                                 $class = "non-pointer";
@@ -351,7 +351,7 @@
                           } ?>                            
                         </td>
                         <td data-checked="<?=$row['epc']?>" style="text-align: center;">
-                          <? if($mode == 'edit'){
+                          <?php if($mode == 'edit'){
                               if($row["status_linen"] == "OK"){
                                 echo '<i class="fa fa-check-circle" style="font-size: 30px;color: green;"></i>';
                               }elseif ($row["status_linen"] == "RUSAK") {

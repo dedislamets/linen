@@ -336,7 +336,7 @@
 						    </div>
 					    </div>
 					</div>
-			<? endforeach; ?>
+			<?php endforeach; ?>
 		</div>
 
 		<h2 class="heading">All Pending</h2>
@@ -366,7 +366,7 @@
 						    </div>
 					    </div>
 					</div>
-			<? endforeach; ?>
+			<?php endforeach; ?>
 		</div>
 	</section>
 	<section id="section-isi" v-if="section_isi">

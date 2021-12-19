@@ -125,7 +125,7 @@
                     <div class="form-group row">
                       <label class="col-sm-1 col-form-label" style="font-weight: bold;">Bulan</label>
                       <div class="col-sm-3">
-                        <?
+                        <?php
                           $month = date('m');
                           $thn = date('Y');
                           if(!empty($this->input->get("b", TRUE))){
@@ -194,7 +194,7 @@
                     
                   </thead>
                   <tbody>
-                    <?
+                    <?php
                       $no=1;
                       foreach($laporan_medis as $row => $ruangan){
                           echo "<tr>";
@@ -242,7 +242,7 @@
                     <div class="form-group row">
                       <label class="col-sm-1 col-form-label" style="font-weight: bold;">Bulan</label>
                       <div class="col-sm-3">
-                        <?
+                        <?php
                           $month = date('m');
                           if(!empty($this->input->get("b", TRUE))){
                             $month=$this->input->get("b", TRUE);
@@ -314,7 +314,7 @@
                     
                   </thead>
                   <tbody>
-                    <?
+                    <?php
                       $no=1;
                       foreach($laporan_rawat_inf as $row => $ruangan){
                           echo "<tr>";
@@ -377,7 +377,7 @@
                     
                   </thead>
                   <tbody>
-                    <?
+                    <?php
                       $no=1;
                       foreach($laporan_rawat_non_inf as $row => $ruangan){
                           echo "<tr>";
@@ -441,7 +441,7 @@
                     
                   </thead>
                   <tbody>
-                    <?
+                    <?php
                       $no=1;
                       foreach($laporan_rawat_inf_2 as $row => $ruangan){
                           echo "<tr>";
@@ -504,7 +504,7 @@
                     
                   </thead>
                   <tbody>
-                    <?
+                    <?php
                       $no=1;
                       foreach($laporan_rawat_non_inf_2 as $row => $ruangan){
                           echo "<tr>";

@@ -180,12 +180,12 @@
     background: radial-gradient(#f588d8, #c0a3e5);
   }
 </style>
-<? if(!empty($this->session->flashdata('message'))): ?>
+<?php if(!empty($this->session->flashdata('message'))): ?>
 <div class="alert alert-success alert-dismissible fade show" role="alert">
     <?php echo $this->session->flashdata('message'); ?>
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 </div>
-<? endif; ?>
+<?php endif; ?>
 <div class="card z-depth-0" id="app">
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
@@ -325,14 +325,14 @@
             <br/>
             <button id="clear" style="<?= (empty($keluar['signature']) ? '' : 'display: none;' ) ?>">Clear Signature</button>
             <textarea id="signature64" name="signed" style="display: none"></textarea><br>
-            <? if(!empty($keluar['signature'])): ?>
+            <?php if(!empty($keluar['signature'])): ?>
               <img class="img-fluid" src="<?= base_url() ?>upload/signature/<?= $keluar['signature'] ?>">
-            <? endif; ?>
+            <?php endif; ?>
         </div>
       </div>
-      <? if(empty($keluar['penerima'])): ?>
+      <?php if(empty($keluar['penerima'])): ?>
       <button class="btn btn-success btn-rounded btn-sm btn-block mg-t-15" id="btnSave" ><i class="fa fa-save"></i> Submit</button>
-    <? endif; ?>
+    <?php endif; ?>
     </form>
 
   </div>

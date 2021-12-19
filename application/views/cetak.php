@@ -26,7 +26,7 @@
 		</style>
 	</head>
 	<body>
-		<?
+		<?php
           $month = date('m');
           $thn = date('Y');
           if(!empty($this->input->get("b", TRUE))){
@@ -37,7 +37,7 @@
         ?>
 		<div id="page-wrap">
 			<input type="hidden" name="page" id="page" value="<?= $page ?>"></div>
-			<? if($page == "medis"){ ?>
+			<?php if($page == "medis"){ ?>
 				<div class="row">
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
@@ -72,7 +72,7 @@
 		                    </tr>   
 		                </thead>
 		                <tbody>
-		                    <?
+		                    <?php
 		                      $no=1;
 		                      foreach($laporan_medis as $row => $ruangan){
 		                          echo "<tr>";
@@ -135,7 +135,7 @@
 				</table>
 				<div style="break-after:page"></div>
 			
-			<? }elseif ($page == 'rawat_infeksius_kg') { ?>
+			<?php }elseif ($page == 'rawat_infeksius_kg') { ?>
 				<div class="row">
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
@@ -171,7 +171,7 @@
 		                    
 		                </thead>
 		                <tbody>
-		                    <?
+		                    <?php
 		                      $no=1;
 		                      foreach($laporan_rawat_inf as $row => $ruangan){
 		                          echo "<tr>";
@@ -233,7 +233,7 @@
 					</tr>
 				</table>
 				<div style="break-after:page"></div>
-			<? }elseif ($page == 'rawat_non_infeksius_kg') { ?>
+			<?php }elseif ($page == 'rawat_non_infeksius_kg') { ?>
 				<div class="row">
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
@@ -269,7 +269,7 @@
 		                    
 		                </thead>
 		                <tbody>
-		                    <?
+		                    <?php
 		                      $no=1;
 		                      foreach($laporan_non_rawat_inf as $row => $ruangan){
 		                          echo "<tr>";
@@ -331,7 +331,7 @@
 					</tr>
 				</table>
 				<div style="break-after:page"></div>
-			<? }elseif ($page == 'rawat_infeksius_lb') { ?>
+			<?php }elseif ($page == 'rawat_infeksius_lb') { ?>
 				<div class="row">
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
@@ -367,7 +367,7 @@
 		                    
 		                </thead>
 		                <tbody>
-		                    <?
+		                    <?php
 		                      $no=1;
 		                      foreach($laporan_rawat_inf_2 as $row => $ruangan){
 		                          echo "<tr>";
@@ -429,7 +429,7 @@
 					</tr>
 				</table>
 				<div style="break-after:page"></div>
-			<? }elseif ($page == 'rawat_non_infeksius_lb') { ?>
+			<?php }elseif ($page == 'rawat_non_infeksius_lb') { ?>
 				<div class="row">
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
@@ -465,7 +465,7 @@
 		                    
 		                </thead>
 		                <tbody>
-		                    <?
+		                    <?php
 		                      $no=1;
 		                      foreach($laporan_rawat_non_inf_2 as $row => $ruangan){
 		                          echo "<tr>";
@@ -527,7 +527,7 @@
 					</tr>
 				</table>
 				<div style="break-after:page"></div>
-			<? }elseif ($page == 'keluar') { ?> 
+			<?php }elseif ($page == 'keluar') { ?> 
 				<div class="row">
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
@@ -595,7 +595,7 @@
 					</tr>
 				</table>
 				<div style="break-after:page"></div>
-			<? } ?>
+			<?php } ?>
 		</div>
 	</body>
 	</html>

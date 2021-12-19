@@ -3,10 +3,10 @@
         <div class="row">
             <div class="col-xl-10">
                 <h4><?= $title ?></h4>
-                <span>Ini adalah halaman riwayat proses Linen Keluar.</span>
+                <span>Halaman Utama ini menampilkan <?= $title ?></span>
             </div>
             <div class="col-xl-2">
-                <a class="btn btn-block btn-dark btn-rounded" id="btnAdd" href="<?= base_url() ?>linenkeluar/create"><i class="fa fa-plus"></i>&nbsp; Tambah baru</a>
+                <button class="btn btn-success" id="btnAdd"><i class="icofont icofont-ui-add"></i> Tambah baru</button>
             </div>
         </div>
     </div>
@@ -16,24 +16,22 @@
                 <thead class="text-primary">
                     <tr>
                         <th>
-                          Tanggal
+                          Supplier Code
                         </th>
                         <th>
-                          No Transaksi
+                          Supplier Name
                         </th>
                         <th>
-                          PIC
+                          Alamat
                         </th>
                         <th>
-                          Ruangan
+                          Phone
                         </th>
                         <th>
-                          No Referensi
+                          Contact
                         </th>
-                        <th>
-                          Status
-                        </th>
-                        <th>
+                        
+                        <th class="text-left" style="width: 120px;">
                           Aksi
                         </th>
                     </tr>
@@ -45,4 +43,6 @@
         </div>
     </div>
 </div>
-
+<?php
+  $this->load->view($modal); 
+?>

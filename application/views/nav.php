@@ -1,7 +1,7 @@
 <?php $route = strtolower($this->uri->segment(1)) ?>
 
 <ul class="nav">
-<? 
+<?php 
 foreach (menu() as $key => $value) { 
  
   foreach ($value as $key_parent => $value_parent) { 

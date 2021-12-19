@@ -165,7 +165,7 @@
 
 </style>
 <div class="card z-depth-0" id="app">
-  <? include("application/views/Browser.php");
+  <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
@@ -174,7 +174,7 @@
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <? endif; ?>
+  <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">
@@ -249,11 +249,11 @@
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
         </div>
-        <? if($mode == 'new') : ?>
+        <?php if($mode == 'new') : ?>
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
         </div>
-        <? endif; ?>
+        <?php endif; ?>
         <div class="col-sm-2">
           <input type="hidden" name="id_rusak" id="id_rusak" value="<?= empty($data) ? "" : $data['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >

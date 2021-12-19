@@ -1,4 +1,4 @@
-<?
+<?php
   if(empty($notifikasi)){
     $arr_notif = notifikasi();
     $notifikasi = $arr_notif['notifikasi'];
@@ -230,10 +230,10 @@
       <div class="az-header-menu">
         
         <div class="az-header-menu-header">
-          <a href="<?= base_url()?>accpac" class="az-logo"><span></span> <!-- <?php echo $this->session->userdata('nama'); ?> -->Menu</a>
+          <a href="<?= base_url()?>accpac" class="az-logo"><span></span>Menu</a>
           <a href="#" class="close">&times;</a>
         </div>
-        <? $this->load->view('nav'); ?>
+        <?php $this->load->view('nav'); ?>
 
         
       </div>
@@ -243,9 +243,9 @@
         <div class="dropdown az-header-notification">
           <a href="#" class="<?= $notifikasi_count == 0 ? '': 'new' ?>">
             <i class="typcn typcn-bell" id="mark">
-                <? if($notifikasi_count > 0 ) : ?>
+                <?php if($notifikasi_count > 0 ) : ?>
                   <mark><?= $notifikasi_count ?></mark>
-                <? endif; ?>
+                <?php endif; ?>
             </i>
           </a>
           <div class="dropdown-menu">
@@ -253,9 +253,9 @@
               <a href="#" class="az-header-arrow"><i class="fa fa-times"></i></a>
             </div>
             <h6 class="az-notification-title">Notifikasi</h6>
-            <? if($notifikasi_count == 0 ) : ?>
+            <?php if($notifikasi_count == 0 ) : ?>
               <p class="az-notification-text">Tidak ada notifikasi baru</p>
-            <? endif; ?>
+            <?php endif; ?>
             <div class="az-notification-list">
             
               <?php 

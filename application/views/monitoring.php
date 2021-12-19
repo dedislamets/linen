@@ -217,7 +217,7 @@
           <a href="#" class="close">&times;</a>
         </div><!-- az-header-menu-header -->
 
-        <? $this->load->view('nav'); ?>
+        <?php $this->load->view('nav'); ?>
 
         
       </div><!-- az-header-menu -->
