@@ -70,9 +70,9 @@
       <input type="hidden" name="mode" id="mode" value="<?= $mode ?>">
 
       <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">NO TERIMA</label>
+        <label class="col-sm-2 col-form-label" style="font-weight: bold;">NO TRANSAKSI</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control form-bg-inverse" id="no_penerimaan" name="no_penerimaan" value="<?= empty($data) ? $no_penerimaan : $data['no_penerimaan']?>" readonly required >
+          <input type="text" class="form-control form-bg-inverse" id="no_penerimaan" name="no_penerimaan" value="<?= empty($data) ? "" : $data['no_penerimaan']?>" readonly required >
         </div>
       </div>
       <div class="form-group row">
@@ -84,7 +84,13 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">KETERANGAN</label>
         <div class="col-sm-10">
-          <input type="text" class="form-control form-bg-inverse" id="deskripsi" name="deskripsi" value="<?= empty($data) ? $deskripsi : $data['deskripsi']?>" readonly required >
+          <input type="text" class="form-control form-bg-inverse" id="deskripsi" name="deskripsi" value="<?= empty($data) ? "" : $data['deskripsi']?>" readonly required >
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label" style="font-weight: bold;">SUPPLIER</label>
+        <div class="col-sm-10">
+          <input type="text" class="form-control form-bg-inverse" id="vendor_name" name="vendor_name" value="<?= empty($data) ? "" : $supplier['vendor_name'] ?>" readonly required >
         </div>
       </div>
       <div class="row" style="padding-left: 10px">
@@ -105,9 +111,6 @@
                         </th>
                         <th>
                           Nama Barang
-                        </th>
-                        <th>
-                          Vendor
                         </th>
                         <th>
                           Jumlah

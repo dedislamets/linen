@@ -124,9 +124,6 @@
 		baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
         baris += loadcities("");
         baris += '</select></td>';
-        baris += '<td><select name="vendor'+ nomor+'" id="vendor'+ nomor+'" class="form-control">';
-        baris += loadvendor("");
-        baris += '</select></td>';
 		baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		
 	
@@ -140,43 +137,6 @@
 		}
 	});
 
-	$('#btnAddMobile').on('click', function (event) {
-		event.preventDefault();
-		var nomor = $("#azChatList").find('.nomor:last').data('num');
-		if( $.isNumeric( nomor ) ) 	{
-			nomor = parseInt(nomor) + 1;
-		}else{		
-			nomor = 1
-		}
-
-		$('#total-row').val(nomor);
-		var baris = '<div class="media new shadow-base">';
-		baris +='<div class="left-view-card nomor" style="padding: 10px;" data-num="'+ nomor+'">'+ nomor+'</div>';
-        baris +='   <div class="left-view-card">';
-        baris +='		<input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" />';
-        baris +='       <button class="btn hor-grd btn-danger btn-mobile" onclick="cancel(this)"> <i class="fa fa-trash"></i></button> ';
-        baris +='   </div>';
-        baris +='   <div class="media-body">';
-        baris +='       <div class="media-contact-name">';
-        baris +='          <span>Nama Barang</span>';
-        baris +='          <select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
-        baris += loadcities("");
-        baris +='          </select>';
-        baris +='        </div>';
-        baris +='        <div class="media-contact-name">';
-        baris +='            <span style="width: 85px">Jumlah</span>';
-        baris +='            <input type="number" id="qty'+ nomor+'" name="qty'+ nomor+'" placeholder="" class="form-control qty" value="0">';
-        baris +='        </div>';
-        baris +='    </div>';
-	
-		baris += '</div>';
-		$(baris).appendTo("#azChatList");
-
-	});
-
-	$(document).on('blur', "[id^=qty]", function(){
-		calculateTotal();
-	});
 
 	function pilih_edit(val){
 		$.get('<?= base_url()?>pembelian/get', { id: val }, function(data){ 
@@ -201,9 +161,6 @@
 					baris += '<td width="120"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="' + obj.id+'" /><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a></td>';
 					baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
 			        baris += loadcities(obj.jenis);
-			        baris += '</select></td>';
-			        baris += '<td><select name="vendor'+ nomor+'" id="vendor'+ nomor+'" class="form-control">';
-			        baris += loadvendor(obj.vendor);
 			        baris += '</select></td>';
 					baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="' + obj.qty+'"></td>';
 					
@@ -238,18 +195,6 @@
 				selected = "selected";
 			}
 			option +='<option value="'+city.jenis+'" label="'+city.jenis+'" '+ selected +'></option>';
-		}
-		return option;
-	}
-	function loadvendor(val){
-		var option = "";
-		for(var i = 0;i < vendor.length; i ++){
-			var city = vendor[i];
-			var selected="";
-			if(val == city.vendor_code){
-				selected = "selected";
-			}
-			option +='<option value="'+city.vendor_code+'" label="'+city.vendor_name+'" '+ selected +'></option>';
 		}
 		return option;
 	}

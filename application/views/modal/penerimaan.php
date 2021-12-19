@@ -23,7 +23,20 @@
 						<label style="font-weight: bold;">Deskripsi</label>
 						<textarea name="deskripsi" id="deskripsi" rows="4" class="form-control" placeholder="" style="height: 100px;" ></textarea>
 					</div>	
-					<div class="form-group">
+					<div class="form-group row">
+				        <label class="col-sm-2 col-form-label" style="font-weight: bold;">SUPPLIER</label>
+				        <div class="col-sm-10">
+				          <select name="vendor_code" id="vendor_code" class="form-control" >
+				          <?php 
+				            foreach($vendor as $row)
+				            { 
+				              echo '<option value="'.$row->vendor_code.'">'.$row->vendor_name.'</option>';
+				            }
+				            ?>
+				          </select>
+				        </div>
+				    </div>
+					<div class="form-group hidden">
 						<label style="font-weight: bold;">Status</label>
 						<input type="text" id="status" name="status" class="form-control"  readonly />
 					</div>			

@@ -25,8 +25,11 @@
                           Keterangan
                         </th>
                         <th>
-                          Status
+                          Supplier
                         </th>
+                       <!--  <th>
+                          Status
+                        </th> -->
                         <th>
                           Aksi
                         </th>

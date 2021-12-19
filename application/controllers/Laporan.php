@@ -211,7 +211,7 @@ class Laporan extends CI_Controller {
 					DAY(tb_penerimaan.current_insert)tgl,SUM(qty) total 
 				FROM `tb_penerimaan` 
 				LEFT JOIN `tb_penerimaan_detail` ON `tb_penerimaan_detail`.`no_penerimaan`=`tb_penerimaan`.`no_penerimaan` 
-				LEFT JOIN tb_vendor ON `tb_vendor`.vendor_code=tb_penerimaan_detail.`vendor`
+				LEFT JOIN tb_vendor ON `tb_vendor`.vendor_code=tb_penerimaan.`vendor_code`
 				WHERE 
 				MONTH(tb_penerimaan.current_insert)='". $bln ."' AND YEAR(tb_penerimaan.current_insert)='". $thn ."'
 				GROUP BY vendor_name,DATE(tb_penerimaan.current_insert)

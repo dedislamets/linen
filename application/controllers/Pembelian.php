@@ -19,7 +19,7 @@ class Pembelian extends CI_Controller {
 			$data['main'] = 'penerimaan/index';
 			$data['js'] = 'script/penerimaan';
       $data['modal'] = 'modal/penerimaan';
-
+      $data['vendor'] = $this->admin->getmaster('tb_vendor');
 			$this->load->view('dashboard',$data,FALSE); 
 
     }else{
@@ -93,9 +93,11 @@ class Pembelian extends CI_Controller {
               $x++;
           }                 
       }
-      // $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,RUANGAN,NO_REFERENSI");
+      $this->db->select("tb_penerimaan.*,vendor_name");
       $this->db->limit($length,$start);
       $this->db->from("tb_penerimaan");
+      $this->db->join("tb_vendor","tb_vendor.vendor_code=tb_penerimaan.vendor_code");
+
 
       $pengguna = $this->db->get();
       $data = array();
@@ -105,7 +107,8 @@ class Pembelian extends CI_Controller {
                       date("Y-m-d", strtotime($r->current_insert)),
                       $r->no_penerimaan,
                       $r->deskripsi,
-                      $r->status,
+                      $r->vendor_name,
+                      // $r->status,
                       ' <button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->id.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
                         </button>
@@ -201,6 +204,7 @@ class Pembelian extends CI_Controller {
       $data['data'] = $this->admin->get_array('tb_penerimaan',array( 'id' => $id));
       $data['no_request'] = $id;
       $data['data_detail'] = $this->admin->get_result_array('tb_penerimaan_detail',array( 'no_penerimaan' => $data['data']['no_penerimaan']));
+      $data['supplier'] = $this->admin->get_array('tb_vendor',array( 'vendor_code' => $data['data']['vendor_code']));
       if(empty($data['data_detail'])) $data['mode'] ='new';
       $this->load->view('dashboard',$data,FALSE); 
     }else{
@@ -218,6 +222,7 @@ class Pembelian extends CI_Controller {
         'no_penerimaan'   => $this->input->post('no_penerimaan'),
         'status'   => $this->input->post('status'),
         'deskripsi'   => $this->input->post('deskripsi'),
+        'vendor_code'   => $this->input->post('vendor_code'),
         'input_by' => $recLogin
     );
 

@@ -43,6 +43,9 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
 
   <style type="text/css">
+    .hidden{
+      display: none;
+    }
     mark {
       -webkit-border-radius: 20px;
       -moz-border-radius: 20px;
