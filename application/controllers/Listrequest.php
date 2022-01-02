@@ -409,7 +409,6 @@ class Listrequest extends CI_Controller {
               }
           }
       }
-
     $this->db->trans_complete();                      
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }

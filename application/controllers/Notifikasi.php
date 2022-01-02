@@ -12,9 +12,7 @@ class Notifikasi extends CI_Controller {
 	{		
 		if($this->admin->logged_id())
     	{
-			if(CheckMenuRole('linenkeluar')){
-		        redirect("errors");
-		      }
+			
 			$data['title'] = 'Notifikasi';
 			$data['main'] = 'notifikasi/index';
 			$data['js'] = 'script/no-script';

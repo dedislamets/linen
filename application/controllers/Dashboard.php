@@ -89,6 +89,22 @@ class Dashboard extends CI_Controller {
             $query = $this->db->get();
 			$data['data_umur_keluar'] = $query->result(); 
 
+            $this->db->select('tgl_request,A.no_request, requestor,ruangan,A.jenis as jenis_linen, B.jenis,qty,B.id');
+            $this->db->from('new_request_linen A');
+            $this->db->join('new_request_linen_detail B','B.no_request=A.no_request');
+            $this->db->where('status','Pending');
+            $this->db->order_by('created_date asc');
+            $this->db->limit(10);
+            $query = $this->db->get();
+            $data['pengajuan_linen_baru'] = $query->result();
+
+            $this->db->from('request_jemput A');
+            $this->db->where('status_request','Pending');
+            $this->db->order_by('created_date asc');
+            $query = $this->db->get();
+            $data['jemput'] = $query->result(); 
+            $data['jemput_count'] = $query->num_rows();
+
             $this->db->select('A.defect,COUNT(B.id) as jml');
 			$this->db->from('tb_defect A');
             $this->db->join('linen_rusak B','A.defect=B.DEFECT','LEFT');
@@ -105,7 +121,7 @@ class Dashboard extends CI_Controller {
             $data['notifikasi_count'] = $query->num_rows();
             
             // print("<pre>".print_r($data,true)."</pre>");exit();
-
+            $data['modal'] = 'modal/dashboard';
 			$this->load->view('dashboard',$data,FALSE); 
 
         }else{

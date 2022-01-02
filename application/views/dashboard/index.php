@@ -101,7 +101,84 @@
     </div>
   </div>
 </div>
+<div class="row row-sm mg-b-20 mg-lg-b-0 mg-t-20">
+  <?php if($jemput_count>0 && ($this->session->userdata('role') == "Administrator" && $this->session->userdata('role') == "Unit Laundry")): ?> 
+  <div class="col-md-6 col-xl-12">
+    <div class="card card-table-two">
+      <h6 class="card-title">Permintaan Jemput</h6>
+      <span class="d-block mg-b-20">Segera proses permintaan dari ruangan berikut</span>
+      <div class="table-responsive">
+        <table class="table table-striped table-dashboard-two">
+          <thead>
+            <tr>
+              <th class="wd-lg-25p">Tanggal</th>
+              <th class="wd-lg-25p tx-right">No Jemput</th>
+              <th class="wd-lg-25p tx-right">Ruangan</th>
+              <th class="wd-lg-25p tx-right">Requestor</th>
 
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+            foreach($jemput as $row) : ?>
+            <tr>
+              <td><?= $row->created_date ?></td>
+              <td class="tx-right tx-medium tx-inverse">
+                <a href="javascript:void(0)" onclick="editModal(this)" data-id="<?= $row->id ?>" style="font-weight:500;"><?= $row->no_request ?></a>
+              </td>
+              <td class="tx-right tx-medium tx-inverse"><?= $row->ruangan ?></td>
+              <td class="tx-right tx-medium tx-inverse"><?= $row->requestor ?></td>
+
+            </tr>
+            <?php endforeach; ?>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <?php endif; ?>
+  <div class="col-md-6 col-xl-12">
+    <div class="card card-table-two">
+      <h6 class="card-title">Permintaan Linen Jenis Baru</h6>
+      <span class="d-block mg-b-20">butuh evaluasi anda</span>
+      <div class="table-responsive">
+        <table class="table table-striped table-dashboard-two">
+          <thead>
+            <tr>
+              <th class="wd-lg-25p">Tanggal</th>
+              <th class="wd-lg-25p tx-right">No Transaksi</th>
+              <th class="wd-lg-25p tx-right">Ruangan</th>
+              <th class="wd-lg-25p tx-right">Requestor</th>
+              <th class="wd-lg-25p tx-right">Tipe Linen</th>
+              <th class="wd-lg-25p tx-right">Jenis</th>
+              <th class="wd-lg-25p tx-right">Qty</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+            foreach($pengajuan_linen_baru as $row) : ?>
+            <tr>
+              <td><?= $row->tgl_request ?></td>
+              <td class="tx-right tx-medium tx-inverse">
+                <a href="<?= base_url() ?>newrequest/edit/<?= $row->no_request ?>" style="font-weight:500;"><?= $row->no_request ?></a>
+              </td>
+              <td class="tx-right tx-medium tx-inverse"><?= $row->ruangan ?></td>
+              <td class="tx-right tx-medium tx-inverse"><?= $row->requestor ?></td>
+              <td class="tx-right tx-medium tx-danger"><?= $row->jenis_linen ?></td>
+              <td class="tx-right tx-medium tx-danger"><?= $row->jenis ?></td>
+              <td class="tx-right tx-medium tx-danger"><?= $row->qty ?></td>
+
+            </tr>
+            <?php endforeach; ?>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="row row-sm mg-b-20 mg-t-20">
   <div class="col-lg-4">
     <div class="card card-table-one" style="max-height: 400px;">
@@ -221,3 +298,7 @@
     </div>
   </div>
 </div>
+<?php
+  if(isset($modal))
+    $this->load->view($modal); 
+?>
