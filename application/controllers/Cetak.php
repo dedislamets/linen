@@ -12,7 +12,7 @@ class Cetak extends CI_Controller {
 	{		
 		$page=$this->input->get("p", TRUE);
 		if ($page == 'sticker') {
-			$this->load->view('cetak_sticker',$data,FALSE); 
+			$this->load->view('cetak_sticker'); 
 		}
 		if($this->admin->logged_id())
 	    {
