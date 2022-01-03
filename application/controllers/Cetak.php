@@ -175,6 +175,8 @@ class Cetak extends CI_Controller {
 			    $data['jml'] = $jml;
 			    $data['no_transaksi'] = $data['keluar']['NO_TRANSAKSI'];
 				$this->load->view('cetak_thermal_revisi',$data,FALSE); 
+			}elseif ($page == 'sticker') {
+				$this->load->view('cetak_sticker',$data,FALSE); 
 			}
 
 			// print("<pre>".print_r($data,true)."</pre>"); exit();	

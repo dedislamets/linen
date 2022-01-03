@@ -116,6 +116,11 @@ th.price {
     max-width: 550px;
     padding: 10px;
 }
+.ticket_tiga {
+    width: 650px;
+    max-width: 550px;
+    padding: 10px;
+}
 
 img {
     max-width: inherit;
