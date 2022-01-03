@@ -10,6 +10,10 @@ class Cetak extends CI_Controller {
 	}
 	public function index()
 	{		
+		$page=$this->input->get("p", TRUE);
+		if ($page == 'sticker') {
+			$this->load->view('cetak_sticker',$data,FALSE); 
+		}
 		if($this->admin->logged_id())
 	    {
 			$data['title'] = 'Laporan';
@@ -18,7 +22,7 @@ class Cetak extends CI_Controller {
 			$data['ruangan'] = $this->admin->getmaster('tb_ruangan');
 			$bln = date('m');
 			$thn = date('Y');
-			$page=$this->input->get("p", TRUE);
+			
 
 			if(!empty($this->input->get("b", TRUE))){
 				$bln=$this->input->get("b", TRUE);
@@ -175,8 +179,6 @@ class Cetak extends CI_Controller {
 			    $data['jml'] = $jml;
 			    $data['no_transaksi'] = $data['keluar']['NO_TRANSAKSI'];
 				$this->load->view('cetak_thermal_revisi',$data,FALSE); 
-			}elseif ($page == 'sticker') {
-				$this->load->view('cetak_sticker',$data,FALSE); 
 			}
 
 			// print("<pre>".print_r($data,true)."</pre>"); exit();	
