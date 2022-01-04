@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <link rel="stylesheet" href="<?= base_url(); ?>assets\css\print-thermal.css">
-        <title>Formulir Distribusi Linen Kotor Bersih</title>
+        <title>Cetak</title>
     </head>
     <body>
         <div class="ticket_dua">
@@ -48,7 +48,7 @@
                                     <div>
                                         <svg id="barcode" ></svg>
                                     </div>
-                                    <input type="hidden" name="id" id="id" value="">
+                                    <input type="hidden" name="id" id="id" value="14">
                                 </td>
                             </tr>
                         </table>
@@ -60,7 +60,7 @@
         </div>
         <button id="btnPrint" class="hidden-print">Print</button>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/davidshimjs-qrcodejs@0.0.2/qrcode.min.js"></script>
-        <script type="text/javascript" src="assets/js/JsBarcode.all.min.js"></script>
+        <script type="text/javascript" src="<?= base_url() ?>assets/js/JsBarcode.all.min.js"></script>
         <script type="text/javascript">
             JsBarcode("#barcode", "TP-7A8B84",{ height: 50, marginRight: -5});
             const $btnPrint = document.querySelector("#btnPrint");
@@ -69,7 +69,7 @@
             });
 
             var qrcode = new QRCode(document.getElementById("qrcode"), {
-                text: "<?= base_url() ?>linenkeluar/detail/" + document.querySelector("#id").value,
+                text: "RASB",
                 colorDark : "#000000",
                 colorLight : "#ffffff",
                 width : 50,
