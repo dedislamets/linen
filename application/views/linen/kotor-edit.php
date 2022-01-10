@@ -189,7 +189,7 @@
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
           <?php if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
             <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
-          <? endif; ?>
+          <?php endif; ?>
         </div>
       </div>
     
