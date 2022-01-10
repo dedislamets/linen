@@ -28,10 +28,16 @@
                           PIC
                         </th>
                         <th>
-                          Total Qty
+                          Infeksius
                         </th>
                         <th>
-                          Total Berat
+                          Ketagori
+                        </th>
+                        <th>
+                          Qty
+                        </th>
+                        <th>
+                          Berat
                         </th>
                         <th>
                           Status

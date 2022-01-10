@@ -153,7 +153,49 @@ class Laporan extends CI_Controller {
 			$data['laporan_rawat_non_inf_2']= $arr;
 			$data['laporan_rawat_non_inf_sum_2']= $arr_sum;
 			
+			$arr = array();
+			$arr_sum = array();
+			$laporan_rawat_rewash  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,f_infeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
+									FROM `linen_kotor` 
+									LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+									LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
+									LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+									LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+									WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND kategori='Rewash'
+									ORDER BY tanggal,jenis;")->result();
+			foreach ($laporan_rawat_rewash as $key => $value) {
+				$total = 0;
+				$sum = 0;
+				if(!empty($arr[$value->ruangan][$value->tgl])){
+					$total = $arr[$value->ruangan][$value->tgl];
+				}
+				if(!empty($arr_sum[$value->tgl])){
+					$sum = $arr_sum[$value->tgl];
+				}
+				$arr[$value->ruangan][$value->tgl] = $total + 1 ;
+				$arr_sum[$value->tgl] = $sum + 1 ;
+			}
+			$data['laporan_rawat_rewash']= $arr;
+			$data['laporan_rawat_rewash_sum']= $arr_sum;
+
+			$total_linen = $this->db->query("SELECT count(*) as qty,berat as berat
+								FROM `linen_kotor` 
+								LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+								LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+								LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+								WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn )->result();
+			$data['total_linen']= $total_linen;
+
+			$total_rewash = $this->db->query("SELECT count(*) as qty
+								FROM `linen_kotor` 
+								LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+								LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+								LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+								WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." and kategori='Rewash'")->result();
+			$data['total_rewash']= $total_rewash;
+			$data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
 			// print("<pre>".print_r($data,true)."</pre>"); exit();
+
 
 			$this->load->view('dashboard',$data,FALSE); 
 

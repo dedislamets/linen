@@ -60,6 +60,8 @@ class Linenkotor extends CI_Controller {
           2=>'PIC',
           3=>'TOTAL_QTY',
           4=>'TOTAL_BERAT',
+          5=>'F_INFEKSIUS',
+          6=>'KATEGORI',
       );
       $valid_sort = array(
           0=>'TANGGAL',
@@ -67,6 +69,8 @@ class Linenkotor extends CI_Controller {
           2=>'PIC',
           3=>'TOTAL_QTY',
           4=>'TOTAL_BERAT',
+          5=>'F_INFEKSIUS',
+          6=>'KATEGORI',
       );
       if(!isset($valid_sort[$col]))
       {
@@ -97,7 +101,7 @@ class Linenkotor extends CI_Controller {
               $x++;
           }                 
       }
-      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY");
+      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,F_INFEKSIUS,KATEGORI,STATUS,TOTAL_BERAT,TOTAL_QTY");
       $this->db->limit($length,$start);
       $this->db->from("linen_kotor");
 
@@ -116,6 +120,8 @@ class Linenkotor extends CI_Controller {
                       $r->TANGGAL,
                       $r->NO_TRANSAKSI,
                       $r->PIC,
+                      $r->F_INFEKSIUS,
+                      $r->KATEGORI,
                       $r->TOTAL_QTY,
                       $r->TOTAL_BERAT,
                       $status,
@@ -301,7 +307,7 @@ class Linenkotor extends CI_Controller {
       $data['totalrow'] = 0;
       $data['pic'] = $this->admin->getmaster('tb_user');
 
-      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI");
+      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI,F_INFEKSIUS");
       $this->db->from("linen_kotor");
       $data['data'] = $this->db->where("id",$id)->get()->row_array();
 
@@ -361,6 +367,8 @@ class Linenkotor extends CI_Controller {
           'NO_TRANSAKSI'   => $this->input->post('no_transaksi'),
           'TANGGAL'   => date("Y-m-d", strtotime($tgl)),
           'PIC'       => $this->input->post('pic'),
+          'F_INFEKSIUS'   => $this->input->post('f_infeksius'),
+          'KATEGORI'      => $this->input->post('kategori'),
           'TOTAL_BERAT'   => $this->input->post('total_berat'),
           'TOTAL_QTY'     => $this->input->post('total_qty'),
           'STATUS'     => 'CUCI',           
@@ -414,9 +422,45 @@ class Linenkotor extends CI_Controller {
                   $data['no_transaksi'] = $this->input->post('no_transaksi');
                   $data['epc'] = $this->input->post('epc'.$i);
                   $data['ruangan'] = $this->input->post('ruangan'.$i);
+
+                  //get last history dulu untuk init rewash
+                  $last_cuci = $this->admin->getLastHistory($this->input->post('epc'.$i));
                   
                   $this->db->insert('linen_kotor_detail', $data);
                   
+                  //cek jika kategori rewash, maka transaksi sebelumnya dikurangin qtynya
+                  if($this->input->post('kategori', TRUE) == "Rewash"){
+                    
+                    if(!empty($last_cuci)){
+                      $last_no = $last_cuci['no_transaksi'];
+                      $last_detail_cuci = $this->admin->get_array(
+                                                                  "linen_kotor_detail", 
+                                                                  array("no_transaksi" => $last_no, 
+                                                                        "epc" => $this->input->post('epc'.$i)
+                                                                      )
+                                                                );
+                      if(!empty($last_detail_cuci)){
+                  
+                        //hitung qty last record
+                        $last_jml = $this->admin->getmaster_num_rows("linen_kotor_detail", array("no_transaksi" => $last_no));
+
+                        //get Total Berat
+                        $last_total_berat = $this->admin->getTotalBeratTransaksi($last_no);
+                        // print("<pre>".print_r($last_total_berat,true)."</pre>"); exit();
+
+                        //hapus last record
+                        $this->db->from("linen_kotor_detail");
+                        $this->db->where(array("epc" => $this->input->post('epc'.$i) , "no_transaksi" => $last_no ))->delete();
+
+                        //get berat
+                        $berat = $this->admin->getBerat($this->input->post('epc'.$i));
+                        //update qty last record
+                        $this->db->set(array("TOTAL_QTY" => ($last_jml-1), "TOTAL_BERAT" => ($last_total_berat-$berat) ));
+                        $this->db->where(array( "no_transaksi" => $last_no ));
+                        $this->db->update('linen_kotor');
+                      }
+                    }
+                  }
                 }
               }
           }

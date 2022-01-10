@@ -101,6 +101,38 @@
     </div>
   </div>
 </div>
+<div class="row">
+  <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+    <div class="card card-dashboard-ten bg-purple">
+      <h6 class="az-content-label">Total Linen Cuci (Bulan Ini)</h6>
+      <div class="card-body">
+        <div>
+          <h6><?= $total_linen_all[0]->qty ?></h6>
+          <label>Qty</label>
+        </div>
+        <div>
+          <h6><?= $total_linen_all[0]->berat ?></h6>
+          <label>Berat</label>
+        </div>
+      </div><!-- card-body -->
+    </div>
+  </div>
+  <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+    <div class="card card-dashboard-ten bg-primary">
+      <h6 class="az-content-label">Rewash (Bulan Ini)</h6>
+      <div class="card-body">
+        <div>
+          <h6><?= $total_rewash[0]->qty ?></h6>
+          <label>Qty</label>
+        </div>
+        <div>
+          <h6><?= $percentage ?><span class="percent">%</span></h6>
+          <label>Percentage</label>
+        </div>
+      </div>
+    </div><!-- card -->
+  </div>
+</div>
 <div class="row row-sm mg-b-20 mg-lg-b-0 mg-t-20">
   <?php if($jemput_count>0 && ($this->session->userdata('role') == "Administrator" && $this->session->userdata('role') == "Unit Laundry")): ?> 
   <div class="col-md-6 col-xl-12">

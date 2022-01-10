@@ -12,7 +12,7 @@
 			serverSide	: true,			
 			"bPaginate": true,	
 			order: [
-	            [0, 'asc'],[5, 'asc']
+	            [0, 'desc']
 	        ], 
 	    });
 

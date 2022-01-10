@@ -33,88 +33,6 @@
           </ul>
         </div>
         <div class="tab-content border-0 tab-content-basic" style="padding: 10px" >
-          <!-- <div class="tab-pane fade " id="open-tickets" role="tabpanel" aria-labelledby="open-tickets">
-            <div class="card card-dashboard-table-six" style="padding: 10px">
-              <h6 class="card-title">Laporan Distribusi Linen Bersih</h6>
-              <div class="card-header">
-                <div class="row row-sm">
-                  <div class="col-4 col-md-4 col-xl">
-                    <div class="form-group row">
-                      <label class="col-sm-2 col-form-label" style="font-weight: bold;">Ruangan</label>
-                      <div class="col-sm-10">
-                        <select id="ruangan_distribusi" name="ruangan_distribusi" class="form-control" >
-                          <?php 
-                          foreach($ruangan as $row)
-                          { 
-                            if( empty($keluar) ? "" : $keluar['PIC'] === $row->ruangan){
-                              echo '<option value="'.$row->ruangan.'" selected>'.$row->ruangan.'</option>';
-                            }else{
-                              echo '<option value="'.$row->ruangan.'">'.$row->ruangan.'</option>';
-                            }
-                            
-                          }?>
-                          
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-6 col-md-4 col-xl">
-                    <div class="form-group row">
-                      <label class="col-sm-2 col-form-label" style="font-weight: bold;">Bulan</label>
-                      <div class="col-sm-5">
-                        <select id="bulan_distribusi" name="bulan_distribusi" class="form-control" >
-                          <option value="01">Januari</option>
-                          <option value="02">Februari</option>
-                          <option value="03">Maret</option>
-                          <option value="04">April</option>
-                          <option value="05">Mei</option>
-                          <option value="06">Juni</option>
-                          <option value="07">Juli</option>
-                          <option value="08">Agustus</option>
-                          <option value="09">September</option>
-                          <option value="10">Oktober</option>
-                          <option value="11">November</option>
-                          <option value="12">Desember</option>
-                        </select>
-                      </div>
-                      <div class="col-sm-5">
-                        <select id="tahun_distribusi" name="tahun_distribusi" class="form-control" >
-                          <option value="2021">2021</option>
-                          <option value="2022">2022</option>
-                          <option value="2023">2023</option>
-                          <option value="2024">2024</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-2">
-                    <button class="btn btn-indigo btn-rounded btn-block">Lihat</button>
-                  </div>
-                </div>
-              </div>
-              <div class="table-responsive">
-                <table class="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th rowspan="2" class="vcenter">No</th>
-                      <th rowspan="2" class="vcenter">Ruangan</th>
-                      <th colspan="2" class="vcenter">Jumlah</th>
-                      <th rowspan="2" class="vcenter">Berat (Kg)</th>
-                      <th rowspan="2" class="vcenter">Biaya</th>
-                    </tr>
-                    <tr>
-                      <th>Infeksius</th>
-                      <th>Non Infeksius</th>
-                    </tr>
-                    
-                  </thead>
-                  <tbody>
-                    
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div> -->
           <div class="tab-pane fade active show" id="pending-tickets" role="tabpanel" aria-labelledby="pending-tickets">
             <div class="card card-dashboard-table-six" style="padding: 10px">
               <h6 class="card-title">Laporan Linen Tenaga Medis</h6>
@@ -286,6 +204,97 @@
                   </div>
                   
                 </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+                  <div class="card card-dashboard-ten bg-purple">
+                    <h6 class="az-content-label">Total Linen</h6>
+                    <div class="card-body">
+                      <div>
+                        <h6><?= $total_linen[0]->qty ?></h6>
+                        <label>Qty</label>
+                      </div>
+                      <div>
+                        <h6><?= $total_linen[0]->berat ?></h6>
+                        <label>Berat</label>
+                      </div>
+                    </div><!-- card-body -->
+                  </div>
+                </div>
+                <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+                  <div class="card card-dashboard-ten bg-primary">
+                    <h6 class="az-content-label">Rewash</h6>
+                    <div class="card-body">
+                      <div>
+                        <h6><?= $total_rewash[0]->qty ?></h6>
+                        <label>Qty</label>
+                      </div>
+                      <div>
+                        <h6><?= $percentage ?><span class="percent">%</span></h6>
+                        <label>Percentage</label>
+                      </div>
+                    </div>
+                  </div><!-- card -->
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <h6 class="card-title">Laporan Linen Rewash</h6>
+                </div>
+                <div class="col-2 pd-t-15 pd-b-15">
+                  <button class="btn btn-light btn-rounded btn-block" id="btnCetakRawat4"><i class="fa fa-print"></i>&nbsp; Print</button>
+                </div>
+              </div>
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">ID</th>
+                      <th rowspan="2" >Ruangan</th>
+                      <?php 
+                      for ($i=1; $i <= $jml_hari ; $i++) { 
+                        echo "<th>". $i ."</th>";
+                      }
+                      ?>
+                    </tr>
+                    
+                  </thead>
+                  <tbody>
+                    <?
+                      $no=1;
+                      foreach($laporan_rawat_rewash as $row => $ruangan){
+                          echo "<tr>";
+                          echo "<td>".$no."</td>";
+                          echo "<td>".$row."</td>";
+                          for ($i=1; $i <= $jml_hari ; $i++) { 
+                            $total = 0;
+                            foreach($ruangan as $tgl => $row_tgl){
+                              if($tgl == $i){
+                                $total = $row_tgl;
+                              }
+                            }
+                            echo "<td>".$total."</td>";
+                          }
+                          echo "</tr>";
+                          $no++;
+                      }
+                    ?>
+                    <tr>
+                      <td colspan="2">Total</td>
+                      <?php 
+                      for ($i=1; $i <= $jml_hari ; $i++) { 
+                        $total = 0;
+                        foreach($laporan_rawat_rewash_sum as $tgl => $row){
+                          if($tgl == $i){
+                            $total = $row;
+                          }
+                        }
+                        echo "<td>".$total."</td>";
+                      }
+                      ?>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               <div class="row">
                 <div class="col-8">

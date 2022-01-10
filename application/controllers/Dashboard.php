@@ -119,6 +119,24 @@ class Dashboard extends CI_Controller {
             $query = $this->db->where('sent_to', $this->session->userdata('user_id'))->get();
             $data['notifikasi'] = $query->result();
             $data['notifikasi_count'] = $query->num_rows();
+
+            $total_linen = $this->db->query("SELECT count(*) as qty,berat as berat
+                                FROM `linen_kotor` 
+                                LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+                                LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+                                LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE())" )->result();
+            $data['total_linen_all']= $total_linen;
+
+            $total_rewash = $this->db->query("SELECT count(*) as qty
+                                FROM `linen_kotor` 
+                                LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+                                LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+                                LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash'")->result();
+            $data['total_rewash']= $total_rewash;
+            $data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
+            
             
             // print("<pre>".print_r($data,true)."</pre>");exit();
             $data['modal'] = 'modal/dashboard';

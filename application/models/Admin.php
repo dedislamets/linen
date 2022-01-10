@@ -54,6 +54,18 @@ class Admin extends CI_Model
         // echo $this->db->last_query();exit();
         return $query->result();   
     }
+    function getmaster_num_rows($tabel,$where='',$order=''){
+
+        $this->db->from($tabel);
+        if($where !=""){
+            $this->db->where($where);
+        }
+        if($order !=""){
+            $this->db->order_by($order);
+        }
+        $query = $this->db->get();
+        return $query->num_rows();   
+    }
     function getmaster_dm($tabel,$where='',$order=''){
         $this->db->from($tabel);
         if($where !=""){
@@ -204,7 +216,22 @@ class Admin extends CI_Model
         $sql =  "SELECT COUNT(*) jml FROM linen_kotor a JOIN linen_kotor_detail b ON a.no_transaksi=b.no_transaksi WHERE epc='". $epc ."'";
         return $this->db->query($sql)->row_array()['jml'];
     }
+    function getTotalBeratTransaksi($no_transaksi) {
+        $sql =  "SELECT TOTAL_BERAT FROM linen_kotor WHERE no_transaksi='". $no_transaksi ."'";
+        return $this->db->query($sql)->row_array()['TOTAL_BERAT'];
+    }
 
+    function getBerat($epc){
+        $berat = 0;
+        $this->db->from('barang');
+        $this->db->join('jenis_barang','barang.id_jenis=jenis_barang.id');
+        $this->db->where(array( 'serial' => $epc));
+        $data = $this->db->get()->row();
+        if(!empty($data)){
+            $berat = $data->berat;
+        }
+        return $berat;
+    }
     function send_notif_app_get($type = 'single', $token = '', $message = '' ,$topics = ''){
         error_reporting(-1);
         ini_set('display_errors', 'On');

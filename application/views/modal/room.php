@@ -15,7 +15,7 @@
 						<label>Nama Ruangan<span style="color:red"> *</span></label>
 						<input type="text" id="nama_ruangan" name="nama_ruangan" class="form-control" maxlength="200" />
 					</div>	
-					<div class="form-group">
+					<div class="form-group" style="display: none;">
 	                    <label style="font-weight: bold;">Ruangan</label>
 	                    <select id="finfeksius" name="finfeksius" class="form-control" >
                         	<option value="Infeksius">Infeksius</option>

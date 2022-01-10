@@ -1,5 +1,5 @@
 <div class="card z-depth-0">
-  <?php include("application/views/Browser.php");
+  <? include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
@@ -8,7 +8,7 @@
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <?php endif; ?>
+  <? endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green !important;">
     <div class="row">
         <div class="col-xl-10">
@@ -24,42 +24,68 @@
   <div class="card-block" style="padding: 10px;">
     <form id="form-routing" name="form-wizard" action="" method="" style="padding-top: 20px;">
       <input type="hidden" name="mode" id="mode" value="<?= $mode ?>">
-
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">NO TRANSAKSI</label>
-        <div class="col-sm-10">
-          <input type="text" class="form-control form-bg-inverse" id="no_transaksi" name="no_transaksi" value="<?= $no_transaksi ?>" required readonly >
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">NO TRANSAKSI</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control form-bg-inverse" id="no_transaksi" name="no_transaksi" value="<?= $no_transaksi ?>" required readonly >
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">TANGGAL </label>
+            <div class="col-sm-8">
+              <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= date("m/d/Y") ?>" />
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">PIC</label>
+            <div class="col-sm-8">
+              <select id="pic" name="pic" class="form-control" >
+                <?php 
+                foreach($pic as $row)
+                { 
+                  echo '<option value="'.$row->nama_user.'">'.$row->nama_user.'</option>';
+                }?>
+                
+              </select>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">TANGGAL </label>
-        <div class="col-sm-10">
-          <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= date("m/d/Y") ?>" />
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">PIC</label>
-        <div class="col-sm-10">
-          <select id="pic" name="pic" class="form-control" >
-            <?php 
-            foreach($pic as $row)
-            { 
-              echo '<option value="'.$row->nama_user.'">'.$row->nama_user.'</option>';
-            }?>
+        <div class="col-md-6 col-12">
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">JENIS CUCIAN</label>
+            <div class="col-sm-8">
+              <select id="kategori" name="kategori" class="form-control" >
+                <option value="Cuci Normal">Cuci Normal</option>
+                <option value="Rewash">Rewash</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">INFEKSIUS</label>
+            <div class="col-sm-8">
+              <select id="f_infeksius" name="f_infeksius" class="form-control" >
+                <option value="Infeksius">Infeksius</option>
+                <option value="Non Infeksius">Non Infeksius</option>
+              </select>
+            </div>
             
-          </select>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">TOTAL QTY</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" readonly id="total_qty" name="total_qty" placeholder="" value="0">
+            </div>
+            <label class="col-sm-2 col-form-label" style="font-weight: bold;">BERAT</label>
+            <div class="col-sm-3">
+              <input type="text" class="form-control" readonly id="total_berat" name="total_berat" placeholder="" value="0">
+            </div>
+          </div>
         </div>
       </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">TOTAL QTY</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control" readonly id="total_qty" name="total_qty" placeholder="" value="0">
-        </div>
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">TOTAL BERAT</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control" readonly id="total_berat" name="total_berat" placeholder="" value="0">
-        </div>
-      </div>
+      
+      
 
       <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
       <div class="form-group row">

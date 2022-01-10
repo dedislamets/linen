@@ -18,9 +18,9 @@
                         <th>
                           Nama Ruangan
                         </th>
-                        <th>
+                        <!-- <th>
                           Jenis
-                        </th>
+                        </th> -->
                         
                         <th class="text-left" style="width: 120px;">
                           Aksi

@@ -101,7 +101,7 @@ class Room extends CI_Controller {
 
             $data[] = array( 
                         $r->ruangan,
-                        $r->finfeksius,
+                        // $r->finfeksius,
                         '<button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->id.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
                         </button>
