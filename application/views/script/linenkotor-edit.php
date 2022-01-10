@@ -308,14 +308,14 @@
 	function validateBarang(){
     	var flag = true;
     	if($("#tbody-table").html().trim() == ""){
-    		alertError('Anda belum memasukkan daftar item..');
+    		alert('Anda belum memasukkan daftar item..');
     		flag = false;
     	}else{
     		$("#tbody-table").find('tr').each(function (i, el) {
 		        var $tds = $(this).find('td');
 		        if($tds.eq(1).next().children().val() != undefined){
-			        var productId = $tds.eq(5).next().html();
-			        if(productId !=""){
+			        var status = $tds.eq(5).next().html();
+			        if(status !="KIRIM" || status == ''){
 			        	alert('Item yang discan tidak diijinkan untuk disimpan..');
 			        	flag= false;
 			        }

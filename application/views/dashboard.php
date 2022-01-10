@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/chosen.min.css" />
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/animate.min.css"/>
-  <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
+  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
   <link href="<?= base_url(); ?>assets/signature/css/jquery.signature.css" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/jquery.gritter.min.css">
   <!--<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-tagsinput.css"> -->
