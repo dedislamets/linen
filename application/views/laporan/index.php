@@ -260,7 +260,7 @@
                     
                   </thead>
                   <tbody>
-                    <?
+                    <?php
                       $no=1;
                       foreach($laporan_rawat_rewash as $row => $ruangan){
                           echo "<tr>";
