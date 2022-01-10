@@ -315,7 +315,7 @@
 		        var $tds = $(this).find('td');
 		        if($tds.eq(1).next().children().val() != undefined){
 			        var status = $tds.eq(5).next().html();
-			        if(status !="KIRIM" || status == ''){
+			        if(status !="KIRIM" && status != ''){
 			        	alert('Item yang discan tidak diijinkan untuk disimpan..');
 			        	flag= false;
 			        }
