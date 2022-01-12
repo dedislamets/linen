@@ -94,7 +94,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
