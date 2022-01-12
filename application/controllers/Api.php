@@ -238,6 +238,24 @@ class Api extends RestController  {
         }
     }
 
+    public function infeksius_get()
+    {
+        $shift = $this->admin->api_array('tb_infeksius');
+
+        if ($shift != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $shift
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 404 );
+        }
+    }
+
     public function room_byid_get()
     {
         $data =array(
