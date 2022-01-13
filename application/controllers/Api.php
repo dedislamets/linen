@@ -785,7 +785,6 @@ class Api extends RestController  {
         $arr_date = explode("/", $this->post('tanggal'));
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
-            // "TANGGAL"       => $this->post('tanggal'),
             "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
             "PIC"           => $this->post('pic'),
             "STATUS"        => 'CUCI',
@@ -813,9 +812,10 @@ class Api extends RestController  {
 
     public function linen_keluar_post()
     {
+        $arr_date = explode("/", $this->post('tanggal'));
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
-            "TANGGAL"       => $this->post('tanggal'),
+            "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
             "PIC"           => $this->post('pic'),
             "STATUS"        => 0,
             "RUANGAN"        => $this->post('ruangan'),
@@ -842,9 +842,10 @@ class Api extends RestController  {
 
     public function linen_rusak_post()
     {
+        $arr_date = explode("/", $this->post('tanggal'));
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
-            "TANGGAL"       => $this->post('tanggal'),
+            "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
             "PIC"           => $this->post('pic'),
             "CATATAN"        => $this->post('catatan'),
             "DEFECT"        => $this->post('defect'),
@@ -872,7 +873,7 @@ class Api extends RestController  {
         $tgl = $arr_tgl[2] + "-" + $arr_tgl[1] + "-" + $arr_tgl[0];
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
-            "TANGGAL"       => $this->post('tanggal'),
+            "TANGGAL"       => $tgl,
             "PIC"           => $this->post('pic'),
             "STATUS"        => $this->post('status'),
             "KATEGORI"      => "",
