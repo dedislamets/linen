@@ -784,8 +784,8 @@ class Api extends RestController  {
     {
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
-            "TANGGAL"       => $this->post('tanggal'),
-            // "TANGGAL"       => date("Y-m-d", strtotime($this->post('tanggal'))),
+            // "TANGGAL"       => $this->post('tanggal'),
+            "TANGGAL"       => date("Y-m-d", strtotime($this->post('tanggal'))),
             "PIC"           => $this->post('pic'),
             "STATUS"        => 'CUCI',
             "KATEGORI"        => $this->post('kategori'),
