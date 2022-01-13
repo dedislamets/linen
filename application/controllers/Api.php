@@ -782,10 +782,11 @@ class Api extends RestController  {
 
     public function linen_kotor_post()
     {
+        $arr_date = explode("/", $this->post('tanggal');
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
             // "TANGGAL"       => $this->post('tanggal'),
-            "TANGGAL"       => date("Y-m-d", strtotime($this->post('tanggal'))),
+            "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
             "PIC"           => $this->post('pic'),
             "STATUS"        => 'CUCI',
             "KATEGORI"        => $this->post('kategori'),
