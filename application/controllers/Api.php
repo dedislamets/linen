@@ -870,7 +870,7 @@ class Api extends RestController  {
     public function linen_bersih_post()
     {
         $arr_tgl = explode("/",$this->post('tanggal') );
-        $tgl = $arr_tgl[2] + "-" + $arr_tgl[1] + "-" + $arr_tgl[0];
+        $tgl = $arr_tgl[2] . "-" . $arr_tgl[1] . "-" . $arr_tgl[0];
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
             "TANGGAL"       => $tgl,
