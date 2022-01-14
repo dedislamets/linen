@@ -143,7 +143,7 @@
 		baris += '<td><input type="text" id="spesifikasi'+ nomor +'" name="spesifikasi'+ nomor +'" placeholder="" class="form-control" value=""></td>';
 		baris += '<td width="90"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		baris += '<td><input type="text" id="link'+ nomor +'" name="link'+ nomor +'" placeholder="" class="form-control" value=""></td>';
-		baris += '<td ><input id="filefoto'+ nomor+'" name="filefoto[]" type="file" class="file" multiple=true accept=".jpg,.gif,.png,.jpeg,.xls,.xlsx,.pdf,.mp4"></td>';
+		baris += '<td ></td>';
 		baris +='<td></td>';
 	
 		baris += '</tr>';
@@ -155,27 +155,27 @@
 			$('#tbody-table tr:last').after(baris);
 		}
 
-		$("#filefoto"+ nomor).fileinput({
-    		theme: 'fa',
-    		autoReplace: false,
-			showCaption: true,
-			overwriteInitial: false,
-			fileType: "any",
-			dropZoneEnabled: false,
-			maxFileCount: 5,
-			showUpload: false,
-			showRemove: false,
-			uploadUrl: "<?=base_url()?>newrequest/upload",
-			uploadAsync: false,
-			initialPreviewAsData: true, 
-			initialPreviewDownloadUrl: "<?=base_url()?>upload/baru/{filename}",
-			uploadExtraData : function (previewId, index) {
-			    return {
-		            id_request: $("#id_request").val(),
-		            id_request_detail: obj.id
-		        };
-		    },
-		});
+		// $("#filefoto"+ nomor).fileinput({
+  //   		theme: 'fa',
+  //   		autoReplace: false,
+		// 	showCaption: true,
+		// 	overwriteInitial: false,
+		// 	fileType: "any",
+		// 	dropZoneEnabled: false,
+		// 	maxFileCount: 5,
+		// 	showUpload: false,
+		// 	showRemove: false,
+		// 	uploadUrl: "<?=base_url()?>newrequest/upload",
+		// 	uploadAsync: false,
+		// 	initialPreviewAsData: true, 
+		// 	initialPreviewDownloadUrl: "<?=base_url()?>upload/baru/{filename}",
+		// 	uploadExtraData : function (previewId, index) {
+		// 	    return {
+		//             id_request: $("#id_request").val(),
+		//             id_request_detail: obj.id
+		//         };
+		//     },
+		// });
 	});
 
 
