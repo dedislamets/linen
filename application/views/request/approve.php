@@ -120,7 +120,7 @@
 
               <p class="price-detail-wrap"> 
                 <a href="<?= empty($detail) ? "#" : $detail['link']?>"><span class="price h3 text-warning"> 
-                  <span class="currency"><?= empty($detail) ? "" : $detail['link']?></span>
+                  <span class="currency">Klik untuk buka link referensi</span>
                   </span> 
                 </a>
               </p> <!-- price-detail-wrap .// -->
