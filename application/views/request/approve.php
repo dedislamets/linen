@@ -101,7 +101,7 @@
         <div class="row">
           <div class="col-md-5">
             <div class="product-details-large" id="ProductPhoto" style="padding: 10px;">
-                <img id="ProductPhotoImg" class="product-zoom" data-image-id="" alt="" data-zoom-image="<?= base_url() . 'upload/baru/' . $detail['images_default'] ?>" style="width: 200px;" src="<?= base_url() . 'upload/baru/' . $detail['images_default'] ?>"> 
+                <img id="ProductPhotoImg" class="product-zoom" data-image-id="" alt="" data-zoom-image="<?= base_url() . 'upload/baru/' . $detail['images_default'] ?>" src="<?= base_url() . 'upload/baru/' . $detail['images_default'] ?>"> 
 
             </div>
             <div id="ProductThumbs" class="product-thumbnail owl-carousel">
