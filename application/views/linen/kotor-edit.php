@@ -6,14 +6,14 @@
 <div class="card z-depth-0" id="app">
   <?php include("application/views/Browser.php");
   $browser = new Browser();
-  if( $browser->getBrowser() != Browser::BROWSER_IE && $data['STATUS'] != "BERSIH") : ?>
+  if( $browser->getBrowser() != Browser::BROWSER_IE && $data['STATUS'] != "BERSIH") { ?>
   <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">×</span>
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
   </div>
-  <?php endif; ?>
+  <?php } ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">
@@ -187,9 +187,9 @@
         <div class="col-sm-12" style="margin-top: 10px;">
           <input type="hidden" name="id_kotor" id="id_kotor" value="<?= empty($data) ? "" : $data['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
-          <?php if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
+          <?php if(!empty($data) && $data['STATUS'] == "CUCI") { ?>
             <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
-          <?php endif; ?>
+          <?php } ?>
         </div>
       </div>
     
