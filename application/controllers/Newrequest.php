@@ -331,13 +331,13 @@ class Newrequest extends CI_Controller {
       $data['totalrow'] = 0;
       $data['data'] = $this->admin->get_array('new_request_linen',array( 'no_request' => $id));
       $data['data_detail'] = $this->admin->get_result_array('new_request_linen_detail',array( 'no_request' => $id));
-     
+      
+      $data['data_detail'][0]['images']['images_default'] = "no-image-icon-0.jpg";
       foreach ($data['data_detail'] as $key => $value) {
           $data['data_detail'][$key]['images'] = $this->admin->get_result_array('new_request_linen_detail_image',array( 'id_request' => $data['data']['id'], 'id_request_detail' => $value['id']));
           foreach ($data['data_detail'][$key]['images']  as $k => $val) {
             if($k == 0) $data['data_detail'][$key]['images_default'] =  $val['filename'];
           }
-          
       }
 
       if($this->session->userdata('role') == "Administrator" || $this->session->userdata('role') == "Unit Laundry"){
