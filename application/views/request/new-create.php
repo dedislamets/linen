@@ -131,7 +131,7 @@
      
       <div class="row" id="barang">
         <h4 class="info-text" style="margin-top: 30px;padding-left: 10px;">
-          <?php if($this->session->userdata('role') == "Unit Ruangan"){ ?>
+          <?php if($this->session->userdata('role') == "Unit Ruangan" || $this->session->userdata('role') == "Administrator"){ ?>
             <button class="btn btn-success btn-sm" id="btnAdd" ><i class="fa fa-plus"></i> Tambah</button>
           <?php } ?>
         </h4>
