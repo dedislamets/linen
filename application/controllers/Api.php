@@ -718,6 +718,23 @@ class Api extends RestController  {
             ], 404 );
         }
     }
+    public function hapus_token_post()
+    {
+        $del = $this->admin->deleteTable('id', $this->post('id') ,'tb_token_push');
+
+        if ($del) {
+            $this->response([
+                'status' => 200,
+                'message' => "Berhasil dihapus"
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => 502,
+                'message' => 'Gagal menghapus data'
+            ], 404 );
+        }
+    }
 
     public function hapus_linen_get()
     {
