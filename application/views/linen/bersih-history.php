@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-xl-10">
                 <h4><?= $title ?></h4>
-                <span>Ini adalah halaman riwayat proses Linen Bersih.</span>
+                <span>Ini adalah halaman riwayat proses Linen Masuk Penyimpanan.</span>
             </div>
         </div>
     </div>

@@ -119,6 +119,7 @@
 		        var power= data.data[0].power;
 		        var konek;
 		        try{
+		        	doclose();
 		        	if (def ==1){
 		        		konek = TUHF2000.RFID_TcpOpen(ipAddr,Port_IP);
 		        	}else{
@@ -208,9 +209,9 @@
 
            	//JIka tidak exist di listview
             }else{
-            	totalqty = parseInt($("#total_qty").val());
-           		totalqty++;
-           		$("#total_qty").val(totalqty);
+            	// totalqty = parseInt($("#total_qty").val());
+           		// totalqty++;
+           		// $("#total_qty").val(totalqty);
 
            		TUHF2000.RFID_Beep(1);
            		arr_epc.push(EPC);
@@ -220,6 +221,10 @@
 		            	totalberat = parseFloat($("#total_berat").val());
 		            	totalberat += parseFloat(data.data_detail[0].berat);
 		            	$("#total_berat").val(totalberat);
+
+		            	totalqty = parseFloat($("#total_qty").val());
+		            	totalqty++;
+		            	$("#total_qty").val(totalqty);
 
 			            var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
 						if( nomor != undefined ) 	{

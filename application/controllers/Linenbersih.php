@@ -15,7 +15,7 @@ class Linenbersih extends CI_Controller {
       if(CheckMenuRole('linenbersih')){
         redirect("errors");
       }
-			$data['title'] = 'Linen Masuk - Bersih';
+			$data['title'] = 'Linen Masuk Penyimpanan';
 			$data['main'] = 'linen/bersih';
 			$data['js'] = 'script/linenbersih';
 			$data['modal'] = 'modal/barang';
@@ -159,7 +159,7 @@ class Linenbersih extends CI_Controller {
   public function proses($id){
     if($this->admin->logged_id())
     {
-      $data['title'] = 'Create Linen Masuk - Bersih';
+      $data['title'] = 'Create Linen Masuk Penyimpanan';
       $data['main'] = 'linen/bersih-create';
       $data['js'] = 'script/linenbersih-create';
       $data['modal'] = 'modal/bersih'; 
