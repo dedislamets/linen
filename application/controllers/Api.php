@@ -720,7 +720,7 @@ class Api extends RestController  {
     }
     public function hapus_token_post()
     {
-        $del = $this->admin->deleteTable('id', $this->post('id') ,'tb_token_push');
+        $del = $this->admin->deleteTable('id_user', $this->post('id_user') ,'tb_token_push');
 
         if ($del) {
             $this->response([
