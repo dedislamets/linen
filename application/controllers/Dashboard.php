@@ -120,7 +120,7 @@ class Dashboard extends CI_Controller {
             $data['notifikasi'] = $query->result();
             $data['notifikasi_count'] = $query->num_rows();
 
-            $total_linen = $this->db->query("SELECT count(*) as qty,berat as berat
+            $total_linen = $this->db->query("SELECT count(*) as qty,sum(berat) as berat
                                 FROM `linen_kotor` 
                                 LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
                                 LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
