@@ -228,12 +228,15 @@
           <tbody>
             <?php 
             foreach($ruangan as $row)
-            { ?>
-              <tr>
-                <td><strong><?= $row->ruangan ?></strong></td>
-                <td style="text-align: right;"><strong><?= $row->total ?></strong></td>
-              </tr>
-            <?php
+            { 
+              if($row->total > 0){
+              ?>
+                <tr>
+                  <td><strong><?= $row->ruangan ?></strong></td>
+                  <td style="text-align: right;"><strong><?= $row->total ?></strong></td>
+                </tr>
+              <?php
+              }
             }
             ?>
             

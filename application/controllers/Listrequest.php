@@ -330,7 +330,7 @@ class Listrequest extends CI_Controller {
       $data['jenis'] = $this->admin->get_result_array('jenis_barang');
       $nomor_transaksi = "RL-" . date("Ymd-his");
       $data['requestor'] = "";
-      if(isset($this->input->id('nama'))){
+      if(!empty($this->input->id('nama'))){
         $data['requestor'] = $this->input->get('nama');
       }
 
