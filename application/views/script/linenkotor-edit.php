@@ -428,6 +428,7 @@
 					$("#total_qty").val(data.total);
 					$("#total-row").val(data.total);
 					$("#total_berat").val(data.berat);
+					window.location.reload();
 				})
 			}
 		}else{

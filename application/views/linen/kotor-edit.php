@@ -107,7 +107,7 @@
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-search"></i> Start Scan</button>
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" v-if="mode != 'edit'">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Clear Scan</button>
         </div>
         <div class="col-sm-6">
