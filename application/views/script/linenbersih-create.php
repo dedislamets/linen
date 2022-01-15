@@ -328,6 +328,7 @@
    	
 
     $('#btn-finish').on('click', function (event) {
+    	doclose();
     	event.preventDefault();
 		var valid = false;
     	var sParam = $('#form-routing').serialize();
