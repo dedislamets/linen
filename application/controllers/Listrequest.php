@@ -448,11 +448,10 @@ class Listrequest extends CI_Controller {
   {
       $response = [];
       $response['error'] = TRUE; 
-      $header = $this->admin->get_array('linen_kotor',array( 'id' => $this->input->get('id', TRUE)));
-      // print("<pre>".print_r($header,true)."</pre>");exit();
-      if($this->admin->deleteTable("id",$this->input->get('id',TRUE), 'linen_kotor')){
+      $header = $this->admin->get_array('request_linen',array( 'id' => $this->input->get('id', TRUE)));
+      if($this->admin->deleteTable("id",$this->input->get('id',TRUE), 'request_linen')){
         $response['error'] = FALSE;
-        $this->admin->deleteTable("no_transaksi",$header['NO_TRANSAKSI'], 'linen_kotor_detail');
+        $this->admin->deleteTable("no_request",$header['no_request'], 'request_linen_detail');
       } 
 
       $this->output->set_content_type('application/json')->set_output(json_encode($response)); 
