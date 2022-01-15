@@ -321,6 +321,7 @@
 
     $('#btn-finish').on('click', function (event) {
     	event.preventDefault();
+    	doclose();
 		var valid = false;
     	var sParam = $('#form-routing').serialize();
     	var validator = $('#form-routing').validate({
@@ -417,7 +418,7 @@
 
 
 	function cancel(val) {
-		var id=$(val).prevAll()[1].value;
+		var id=$(val).prevAll()[1].val();
 		if(id != ""){
 			var r = confirm("Yakin dihapus?");
 			if (r == true) {
