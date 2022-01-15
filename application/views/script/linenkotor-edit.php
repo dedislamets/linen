@@ -168,8 +168,8 @@
            		// TUHF2000.RFID_Beep(0);
            		$("#status_koneksi").val("Waiting for scanning...");
            }else{
-           		totalqty++;
-           		$("#total_qty").val(totalqty);
+           		// totalqty++;
+           		// $("#total_qty").val(totalqty);
 
            		// TUHF2000.RFID_Beep(1);
            		arr_epc.push(EPC);
@@ -180,6 +180,10 @@
 		            	totalberat = parseFloat($("#total_berat").val());
 		            	totalberat += parseFloat((data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat));
 		            	$("#total_berat").val(totalberat.toFixed(1));
+
+		            	totalqty = parseFloat($("#total_qty").val());
+		            	totalqty++;
+		            	$("#total_qty").val(totalqty.toFixed(1));
 
 			            var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
 						if( nomor != undefined ) 	{
