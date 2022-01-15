@@ -97,7 +97,57 @@
                   
                 </div><!-- row -->
               </div>
-              
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th rowspan="2">ID</th>
+                      <th rowspan="2" >Jenis Linen</th>
+                      <?php 
+                      for ($i=1; $i <= $jml_hari ; $i++) { 
+                        echo "<th>". $i ."</th>";
+                      }
+                      ?>
+                    </tr>
+                    
+                  </thead>
+                  <tbody>
+                    <?php
+                      $no=1;
+                      foreach($laporan_medis as $row => $ruangan){
+                          echo "<tr>";
+                          echo "<td>".$no."</td>";
+                          echo "<td>".$row."</td>";
+                          for ($i=1; $i <= $jml_hari ; $i++) { 
+                            $total = 0;
+                            foreach($ruangan as $tgl => $row_tgl){
+                              if($tgl == $i){
+                                $total = $row_tgl;
+                              }
+                            }
+                            echo "<td>".$total."</td>";
+                          }
+                          echo "</tr>";
+                          $no++;
+                      }
+                    ?>
+                    <tr>
+                      <td colspan="2">Total</td>
+                      <?php 
+                      for ($i=1; $i <= $jml_hari ; $i++) { 
+                        $total = 0;
+                        foreach($laporan_medis_sum as $tgl => $row){
+                          if($tgl == $i){
+                            $total = $row;
+                          }
+                        }
+                        echo "<td>".$total."</td>";
+                      }
+                      ?>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
               <h6 class="card-title">Laporan Linen Tenaga Non Medis</h6>
               <div class="card-header">
                 <div class="row">
