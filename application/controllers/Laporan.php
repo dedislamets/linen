@@ -52,16 +52,44 @@ class Laporan extends CI_Controller {
 			$data['laporan_medis']= $arr;
 			$data['laporan_medis_sum']= $arr_sum;
 
+			$arr = array();
+			$arr_sum = array();
+			$laporan_non_medis  = $this->db->query("SELECT jenis_barang.jenis,
+													DAY(tanggal)tgl,COUNT(epc) total 
+												FROM `linen_kotor` 
+												LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+												LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+												LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+												WHERE fmedis='Non Medis' and 
+												MONTH(tanggal)='". $bln."' AND YEAR(tanggal)=".$thn." 
+												GROUP BY jenis_barang.jenis,tanggal
+												HAVING COUNT(epc) >0
+												ORDER BY tanggal,`jenis_barang`.`jenis`")->result();
+			foreach ($laporan_non_medis as $key => $value) {
+				$total = 0;
+				$sum = 0;
+				if(!empty($arr[$value->jenis][$value->tgl])){
+					$total = $arr[$value->jenis][$value->tgl];
+				}
+				if(!empty($arr_sum[$value->tgl])){
+					$sum = $arr_sum[$value->tgl];
+				}
+				$arr[$value->jenis][$value->tgl] = $total + $value->total ;
+				$arr_sum[$value->tgl] = $sum + $value->total ;
+			}
+			$data['laporan_non_medis']= $arr;
+			$data['laporan_non_medis_sum']= $arr_sum;
+
 			
 			$arr = array();
 			$arr_sum = array();
-			$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,berat as total
+			$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,F_INFEKSIUS as finfeksius,DAY(tanggal)tgl,epc ,berat as total
 							FROM `linen_kotor` 
 							LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
 							LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
 							LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
 							LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-                            WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND finfeksius='Infeksius'
+                            WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND F_INFEKSIUS='Infeksius'
                             ORDER BY tanggal,`tb_ruangan`.`ruangan`")->result();
 			foreach ($laporan_rawat_inf as $key => $value) {
 				$total = 0;
@@ -80,13 +108,13 @@ class Laporan extends CI_Controller {
 
 			$arr = array();
 			$arr_sum = array();
-			$laporan_rawat_non_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,berat as total
+			$laporan_rawat_non_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,F_INFEKSIUS as finfeksius,DAY(tanggal)tgl,epc ,berat as total
 							FROM `linen_kotor` 
 							LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
 							LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
 							LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
 							LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-                            WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND finfeksius='Non Infeksius'
+                            WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND F_INFEKSIUS='Non Infeksius'
                             ORDER BY tanggal,`tb_ruangan`.`ruangan`")->result();
 			foreach ($laporan_rawat_non_inf as $key => $value) {
 				$total = 0;
@@ -105,13 +133,13 @@ class Laporan extends CI_Controller {
 
 			$arr = array();
 			$arr_sum = array();
-			$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
+			$laporan_rawat_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,F_INFEKSIUS as finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
 									FROM `linen_kotor` 
 									LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
 									LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
 									LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
 									LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-									WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND finfeksius='Infeksius'
+									WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND F_INFEKSIUS='Infeksius'
 									ORDER BY tanggal,jenis;")->result();
 			foreach ($laporan_rawat_inf as $key => $value) {
 				$total = 0;
@@ -130,13 +158,13 @@ class Laporan extends CI_Controller {
 
 			$arr = array();
 			$arr_sum = array();
-			$laporan_rawat_non_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
+			$laporan_rawat_non_inf  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,F_INFEKSIUS as finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
 									FROM `linen_kotor` 
 									LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
 									LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
 									LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
 									LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-									WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND finfeksius='Non Infeksius'
+									WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND F_INFEKSIUS='Non Infeksius'
 									ORDER BY tanggal,jenis;")->result();
 			foreach ($laporan_rawat_non_inf as $key => $value) {
 				$total = 0;
@@ -155,7 +183,7 @@ class Laporan extends CI_Controller {
 			
 			$arr = array();
 			$arr_sum = array();
-			$laporan_rawat_rewash  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,f_infeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
+			$laporan_rawat_rewash  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,F_INFEKSIUS,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
 									FROM `linen_kotor` 
 									LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
 									LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
