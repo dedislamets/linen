@@ -88,6 +88,7 @@
     	$("#status_koneksi").removeClass("error-text");
     	$("#status_koneksi").addClass("scan-text");
     	if(start == 0){
+    		doclose();
     		config();
     	}else{
     		start = 0;
@@ -418,7 +419,7 @@
 
 
 	function cancel(val) {
-		var id=$(val).prevAll()[1].val();
+		var id=$(val).prevAll().val();
 		if(id != ""){
 			var r = confirm("Yakin dihapus?");
 			if (r == true) {
