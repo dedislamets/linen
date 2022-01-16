@@ -268,7 +268,7 @@ class Pembelian extends CI_Controller {
       if(!empty($this->input->post('jenis'.$i) )){
         $data['no_penerimaan'] = $this->input->post('no_penerimaan');
         $data['jenis'] = $this->input->post('jenis'.$i);
-        $data['vendor'] = $this->input->post('vendor'.$i);
+        // $data['vendor'] = $this->input->post('vendor'.$i);
         $data['qty'] = $this->input->post('qty'.$i);
 
         // print("<pre>".print_r($data,true)."</pre>");
