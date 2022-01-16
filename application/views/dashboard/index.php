@@ -134,7 +134,7 @@
   </div>
 </div>
 <div class="row row-sm mg-b-20 mg-lg-b-0 mg-t-20">
-  <?php if($jemput_count>0 && ($this->session->userdata('role') == "Administrator" && $this->session->userdata('role') == "Unit Laundry")): ?> 
+  <?php if($jemput_count>0 && ($this->session->userdata('role') == "Administrator" || $this->session->userdata('role') == "Unit Laundry")): ?> 
   <div class="col-md-6 col-xl-12">
     <div class="card card-table-two">
       <h6 class="card-title">Permintaan Jemput</h6>
