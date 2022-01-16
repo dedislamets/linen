@@ -322,7 +322,8 @@ class Linenbersih extends CI_Controller {
                     unset($data);
                     $data['no_transaksi'] = $no_rusak;
                     $data['epc'] = $this->input->post('epc'.$i);
-                    $data['jml_cuci'] = $this->admin->getJumlahCuci($this->input->post('epc'.$i))['jml'];
+                    // $data['jml_cuci'] = $this->admin->getJumlahCuci($this->input->post('epc'.$i))['jml'];
+                    $data['jml_cuci'] = 1;
 
                     $this->db->insert('linen_rusak_detail', $data);
                   }
