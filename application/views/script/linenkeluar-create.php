@@ -336,6 +336,7 @@
 
     $('#btnSave').on('click', function (event) {
     	event.preventDefault();
+    	doclose();
 		var valid = false;
     	var sParam = $('#form-keluar').serialize() + "&scan=" + JSON.stringify(app.list_scan) + "&request=" + JSON.stringify(app.list_request);
     	var validator = $('#form-keluar').validate({
