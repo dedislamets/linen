@@ -70,6 +70,7 @@
 					if(data.error==false){	
 						alert("Tersimpan");
 						androidObj.showToast("ok");
+						window.location.href = '<?= base_url(); ?>listrequest';
 					}else{	
 						alertError(data.message);				  	
 					}
