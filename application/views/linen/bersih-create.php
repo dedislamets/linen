@@ -255,11 +255,11 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">TOTAL QTY</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" readonly id="total_qty" name="total_qty" placeholder="" value="<?= empty($kotor) ? "0" : $kotor['TOTAL_QTY'] ?>">
+          <input type="text" class="form-control" readonly id="total_qty" name="total_qty" placeholder="" value="<?= empty($bersih) ? $kotor['TOTAL_QTY'] : $bersih['TOTAL_QTY'] ?>">
         </div>
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">TOTAL BERAT</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control" readonly id="total_berat" name="total_berat" placeholder="" value="<?= empty($kotor) ? "0" : $kotor['TOTAL_BERAT'] ?>">
+          <input type="text" class="form-control" readonly id="total_berat" name="total_berat" placeholder="" value="<?= empty($bersih) ? $kotor['TOTAL_BERAT'] : $bersih['TOTAL_BERAT'] ?>">
         </div>
       </div>
       
