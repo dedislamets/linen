@@ -432,6 +432,7 @@ class LinenKeluar extends CI_Controller {
               if(intval($json_scan[$i]->id) == 0){
                 $this->db->insert('linen_keluar_detail', $data);
 
+                //upodate status keluar di linen bersih
                 unset($data);
                 $data['keluar'] = 1;
                 $this->db->set($data);
@@ -441,6 +442,16 @@ class LinenKeluar extends CI_Controller {
                     "keluar" => 0
                   ));
                 $this->db->update('linen_bersih_detail');
+
+                //update ruangan di master barang
+                unset($data);
+                $data['nama_ruangan'] = $this->input->post('ruangan');
+                $this->db->set($data);
+                $this->db->where(
+                  array( 
+                    "serial" => $json_scan[$i]->serial 
+                  ));
+                $this->db->update('barang');
               }
 
               for ($r=0; $r < $total_request ; $r++) { 
@@ -502,6 +513,7 @@ class LinenKeluar extends CI_Controller {
               
               $this->db->insert('linen_keluar_detail', $data);
 
+              //update status keluar di linen bersih
               unset($data);
               $data['keluar'] = 1;
               $this->db->set($data);
@@ -511,6 +523,16 @@ class LinenKeluar extends CI_Controller {
                   "keluar" => 0
                 ));
               $this->db->update('linen_bersih_detail');
+
+              //update ruangan di master barang
+              unset($data);
+              $data['nama_ruangan'] = $this->input->post('ruangan');
+              $this->db->set($data);
+              $this->db->where(
+                array( 
+                  "serial" => $json_scan[$i]->serial 
+                ));
+              $this->db->update('barang');
 
               for ($r=0; $r < $total_request ; $r++) { 
 
