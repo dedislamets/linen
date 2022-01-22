@@ -540,7 +540,7 @@ class LinenKeluar extends CI_Controller {
                 //update detail request linen
                 if($json_request[$r]->jenis == $json_scan[$i]->jenis){
                   unset($data);
-                  $data['qty_keluar'] = intval($last_qty_request['qty_keluar'])-intval($json_request[$r]->ready);
+                  $data['qty_keluar'] = intval($last_qty_request['qty'])-intval($json_request[$r]->ready);
                   $data['flag_ambil'] = (intval($json_request[$r]->ready) == intval($json_request[$r]->qty) ? 2 : 1);
 
                   $this->db->set($data);
