@@ -536,10 +536,11 @@ class LinenKeluar extends CI_Controller {
 
               for ($r=0; $r < $total_request ; $r++) { 
 
+                $last_qty_request = $this->admin->get_array('request_linen_detail',array( 'no_request' => $this->input->post('no_referensi')));
                 //update detail request linen
                 if($json_request[$r]->jenis == $json_scan[$i]->jenis){
                   unset($data);
-                  $data['qty_keluar'] = $json_request[$r]->ready;
+                  $data['qty_keluar'] = intval($last_qty_request['qty_keluar'])-intval($json_request[$r]->ready);
                   $data['flag_ambil'] = (intval($json_request[$r]->ready) == intval($json_request[$r]->qty) ? 2 : 1);
 
                   $this->db->set($data);
