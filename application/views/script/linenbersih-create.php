@@ -328,8 +328,8 @@
    	
 
     $('#btn-finish').on('click', function (event) {
-    	doclose();
     	event.preventDefault();
+    	doclose();
 		var valid = false;
     	var sParam = $('#form-routing').serialize();
     	var validator = $('#form-routing').validate({
