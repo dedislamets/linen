@@ -101,9 +101,10 @@ class Linenkotor extends CI_Controller {
               $x++;
           }                 
       }
-      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,F_INFEKSIUS,KATEGORI,STATUS,TOTAL_BERAT,TOTAL_QTY");
+      $this->db->select("id,CURRENT_INSERT,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,F_INFEKSIUS,KATEGORI,STATUS,TOTAL_BERAT,TOTAL_QTY");
       $this->db->limit($length,$start);
       $this->db->from("linen_kotor");
+      $this->db->order_by("CURRENT_INSERT","DESC");
 
       $pengguna = $this->db->get();
       $data = array();

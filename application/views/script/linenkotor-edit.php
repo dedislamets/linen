@@ -351,7 +351,7 @@
 					if(data.error==false){	
 						alert("Berhasil disimpan..!");
 						// window.location.href="<?= base_url(); ?>linenkotor/edit/"+ data.id
-						window.location.href="<?= base_url(); ?>linenbersih";
+						window.location.href="<?= base_url(); ?>linenkotor";
 						
 					}else{	
 						alertError(data.message);				  	
