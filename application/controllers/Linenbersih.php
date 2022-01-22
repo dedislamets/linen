@@ -99,8 +99,8 @@ class Linenbersih extends CI_Controller {
       }
       $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI");
       $this->db->limit($length,$start);
-      $this->db->from("linen_bersih");
-      // $this->db->WHERE("status",'CUCI');
+      $this->db->from("linen_kotor");
+      $this->db->WHERE("status",'CUCI');
 
       $pengguna = $this->db->get();
       $data = array();

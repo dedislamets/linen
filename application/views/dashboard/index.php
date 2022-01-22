@@ -121,13 +121,21 @@
     <div class="card card-dashboard-ten bg-primary">
       <h6 class="az-content-label">Rewash (Bulan Ini)</h6>
       <div class="card-body">
-        <div>
+        <div class="col-lg-3">
           <h6><?= $total_rewash[0]->qty ?></h6>
           <label>Qty</label>
         </div>
-        <div>
-          <h6><?= $percentage ?><span class="percent">%</span></h6>
-          <label>Percentage</label>
+        <div class="col-lg-3">
+          <h6><?= number_format($percentage,2) ?><span class="percent">%</span></h6>
+          <label>% Qty</label>
+        </div>
+        <div class="col-lg-3">
+          <h6><?= $total_rewash[0]->sum_berat ?></h6>
+          <label>Berat</label>
+        </div>
+        <div class="col-lg-3">
+          <h6><?= number_format($percentage_berat,2) ?><span class="percent">%</span></h6>
+          <label>% Berat</label>
         </div>
       </div>
     </div><!-- card -->

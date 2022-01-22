@@ -28,7 +28,6 @@ class Dashboard extends CI_Controller {
             $this->db->where('STATUS','CUCI');
             $query = $this->db->get();
 			$data['total_kotor'] = $query->row_array(); 
-			// echo $this->db->last_query(); exit();
 
 
 			$this->db->select('count(ifnull(epc,0)) total');
@@ -37,6 +36,7 @@ class Dashboard extends CI_Controller {
             $this->db->where('keluar','0');
             $query = $this->db->get();
 			$data['total_bersih'] = $query->row_array(); 
+			// echo $this->db->last_query(); exit();
 
 			$this->db->select('count(ifnull(epc,0)) total');
 			$this->db->from('linen_keluar');
@@ -128,7 +128,7 @@ class Dashboard extends CI_Controller {
                                 WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE())" )->result();
             $data['total_linen_all']= $total_linen;
 
-            $total_rewash = $this->db->query("SELECT count(*) as qty
+            $total_rewash = $this->db->query("SELECT count(*) as qty, sum(berat) as sum_berat
                                 FROM `linen_kotor` 
                                 LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
                                 LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
@@ -136,6 +136,7 @@ class Dashboard extends CI_Controller {
                                 WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash'")->result();
             $data['total_rewash']= $total_rewash;
             $data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
+            $data['percentage_berat'] = ($total_rewash[0]->sum_berat > 0 ? ($total_rewash[0]->sum_berat/$total_linen[0]->berat )*100 : 0);
             
             
             // print("<pre>".print_r($data,true)."</pre>");exit();
