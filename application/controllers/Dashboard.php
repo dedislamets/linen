@@ -125,7 +125,7 @@ class Dashboard extends CI_Controller {
                                 LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
                                 LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
                                 LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE())" )->result();
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and TOTAL_QTY>0" )->result();
             $data['total_linen_all']= $total_linen;
 
             $total_rewash = $this->db->query("SELECT count(*) as qty, sum(berat) as sum_berat
@@ -133,7 +133,7 @@ class Dashboard extends CI_Controller {
                                 LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
                                 LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
                                 LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash'")->result();
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash' and TOTAL_QTY>0")->result();
             $data['total_rewash']= $total_rewash;
             $data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
             $data['percentage_berat'] = ($total_rewash[0]->sum_berat > 0 ? ($total_rewash[0]->sum_berat/$total_linen[0]->berat )*100 : 0);
