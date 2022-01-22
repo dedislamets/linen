@@ -69,8 +69,8 @@
 		 		$.post(link,sParam, function(data){
 					if(data.error==false){	
 						alert("Tersimpan");
-						androidObj.showToast("ok");
 						window.location.href = '<?= base_url(); ?>listrequest';
+						androidObj.showToast("ok");
 					}else{	
 						alertError(data.message);				  	
 					}
