@@ -431,6 +431,16 @@ class LinenKeluar extends CI_Controller {
 
               if(intval($json_scan[$i]->id) == 0){
                 $this->db->insert('linen_keluar_detail', $data);
+
+                unset($data);
+                $data['keluar'] = 1;
+                $this->db->set($data);
+                $this->db->where(
+                  array( 
+                    "epc" => $json_scan[$i]->serial ,
+                    "keluar" => 0
+                  ));
+                $this->db->update('linen_bersih_detail');
               }
 
               for ($r=0; $r < $total_request ; $r++) { 
@@ -448,6 +458,8 @@ class LinenKeluar extends CI_Controller {
                       "jenis" => $json_request[$r]->jenis
                     ));
                   $this->db->update('request_linen_detail');
+
+                  
 
                   //Jika flag ambil (ready=qty) = 1, maka update header
                   if(intval($json_request[$r]->ready) == intval($json_request[$r]->qty)){
@@ -489,6 +501,16 @@ class LinenKeluar extends CI_Controller {
               $data['epc'] = $json_scan[$i]->serial;
               
               $this->db->insert('linen_keluar_detail', $data);
+
+              unset($data);
+              $data['keluar'] = 1;
+              $this->db->set($data);
+              $this->db->where(
+                array( 
+                  "epc" => $json_scan[$i]->serial ,
+                  "keluar" => 0
+                ));
+              $this->db->update('linen_bersih_detail');
 
               for ($r=0; $r < $total_request ; $r++) { 
 
