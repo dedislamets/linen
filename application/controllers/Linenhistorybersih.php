@@ -99,9 +99,10 @@ class Linenhistorybersih extends CI_Controller {
               $x++;
           }                 
       }
-      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI");
+      $this->db->select("linen_kotor.id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI");
       $this->db->limit($length,$start);
       $this->db->from("linen_bersih");
+      $this->db->join("linen_kotor","linen_kotor.NO_TRANSAKSI=linen_bersih.NO_TRANSAKSI")
       // $this->db->WHERE("status <>'CUCI'");
 
       $pengguna = $this->db->get();
