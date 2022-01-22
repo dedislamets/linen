@@ -401,6 +401,17 @@ class Linenkotor extends CI_Controller {
                     $this->db->update('linen_kotor_detail');
                   }else{
                     $this->db->insert('linen_kotor_detail', $data);
+
+                    //update status keluar di linen bersih
+                    unset($data);
+                    $data['kotor'] = 1;
+                    $this->db->set($data);
+                    $this->db->where(
+                      array( 
+                        "epc" => $this->input->post('epc'.$i) ,
+                        "kotor" => 0
+                      ));
+                    $this->db->update('linen_keluar_detail');
                   }
                 }
               }
@@ -427,6 +438,17 @@ class Linenkotor extends CI_Controller {
                   $last_cuci = $this->admin->getLastHistory($this->input->post('epc'.$i));
                   
                   $this->db->insert('linen_kotor_detail', $data);
+
+                  //update status keluar di linen bersih
+                  unset($data);
+                  $data['kotor'] = 1;
+                  $this->db->set($data);
+                  $this->db->where(
+                    array( 
+                      "epc" => $this->input->post('epc'.$i) ,
+                      "kotor" => 0
+                    ));
+                  $this->db->update('linen_keluar_detail');
                   
                   //cek jika kategori rewash, maka transaksi sebelumnya dikurangin qtynya
                   if($this->input->post('kategori', TRUE) == "Rewash"){
