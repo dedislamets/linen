@@ -178,7 +178,7 @@
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-12">
-            <h4><?= $title ?> <a href="<?= base_url() ?>listrequest" id="back" style="color: #000;margin-left: 10px;"> Back </a></h4>
+            <h4><?= $title ?> <a href="<?= base_url() ?>listrusak" id="back" style="color: #000;margin-left: 10px;"> Back </a></h4>
             <span>Halaman ini mendaftarkan linen yang rusak</span>
         </div>
         
@@ -221,7 +221,7 @@
             <?php 
             foreach($defect as $row)
             { 
-              if( empty($data) ? "" : $data['defect'] === $row->defect){
+              if( empty($data) ? "" : $data['DEFECT'] === $row->defect){
                 echo '<option value="'.$row->defect.'" selected >'.$row->defect.'</option>';
               }else{
                 echo '<option value="'.$row->defect.'">'.$row->defect.'</option>';
