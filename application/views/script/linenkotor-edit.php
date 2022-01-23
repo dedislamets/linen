@@ -373,7 +373,7 @@
 		        var $tds = $(this).find('td');
 		        if($tds.eq(1).next().children().val() != undefined){
 			        var status = $tds.eq(5).next().html();
-			        if(status !="" && status != "KIRIM"){
+			        if(status !="" && status != "KIRIM" && status != "RUSAK"){
 			        	if($("#kategori").val() == "Rewash" && status == "CUCI"){
 
 			        	}else{

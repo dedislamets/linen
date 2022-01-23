@@ -246,7 +246,7 @@ class Listrusak extends CI_Controller {
                       $r->NO_TRANSAKSI,
                       $r->PIC,
                       $r->DEFECT,
-                      '<a href="listrequest/edit/'.$r->NO_TRANSAKSI.'"  class="btn btn-warning btn-sm "  >
+                      '<a href="listrusak/edit/'.$r->NO_TRANSAKSI.'"  class="btn btn-warning btn-sm "  >
                         <i class="icofont icofont-edit"></i>Edit
                       </a>
                       <button type="button" rel="tooltip" class="btn btn-danger btn-sm " onclick="hapus(this)"  data-id="'.$r->id.'" >
@@ -296,18 +296,19 @@ class Listrusak extends CI_Controller {
 
   public function edit($id){
   
-      $data['title'] = 'Edit Linen Request';
-      $data['main'] = 'request/create';
-      $data['js'] = 'script/request-create';
+      $data['title'] = 'Edit Linen Rusak';
+      $data['main'] = 'linen/rusak-create';
+      $data['js'] = 'script/rusak-create';
       $data['modal'] = 'modal/request'; 
       $data['mode'] ='edit';
       $data['totalrow'] = 0;
       $data['user'] = $this->admin->getmaster('tb_user');
       $data['ruangan'] = $this->admin->getmaster('tb_ruangan');
       $data['jenis'] = $this->admin->get_result_array('jenis_barang');
-      $data['data'] = $this->admin->get_array('request_linen',array( 'no_request' => $id));
+      $data['defect'] = $this->admin->getmaster('tb_defect');
+      $data['data'] = $this->admin->get_array('linen_rusak',array( 'NO_TRANSAKSI' => $id));
 
-      $data['data_detail'] = $this->admin->get_result_array('request_linen_detail',array( 'no_request' => $data['data']['no_request']));
+      $data['data_detail'] = $this->admin->get_result_array('linen_rusak_detail',array( 'NO_TRANSAKSI' => $data['data']['NO_TRANSAKSI']));
       $this->load->view('dashboard',$data,FALSE); 
 
   }
@@ -421,7 +422,7 @@ class Listrusak extends CI_Controller {
   public function getDetail(){
     $id= $this->input->get("id",TRUE);
     $data['rusak'] = $this->admin->get_array('linen_rusak',array( 'id' => $id));;
-    $data['data_detail_rusak'] = $this->admin->get_result_array('linen_rusak_detail',array( 'no_transaksi' => $data['keluar']['NO_TRANSAKSI']));
+    $data['data_detail_rusak'] = $this->admin->get_result_array('linen_rusak_detail',array( 'no_transaksi' => $data['rusak']['NO_TRANSAKSI']));
     foreach ($data['data_detail_rusak'] as $key => $value) {
       $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
       $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));

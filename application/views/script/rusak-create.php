@@ -13,7 +13,6 @@
         	id_spk: '',
         	moda_tran: '',
         	id_rs:'',
-        	last_status:'<?= empty($data) ? "INPUT" : $data['STATUS'] ?>',
         	list_scan: [],
         },
         methods: {
@@ -34,7 +33,7 @@
 
 	    if($("#mode").val() == 'edit') {
 	    	app.mode = 'edit';
-	    	$.get('<?= base_url()?>linenrusak/getDetail', { id: $("#id_keluar").val() }, function(data){ 
+	    	$.get('<?= base_url()?>listrusak/getDetail', { id: $("#id_rusak").val() }, function(data){ 
 				$.each(data['data_detail_rusak'], function(index, obj) {
 
 					app.list_scan.push({
@@ -42,7 +41,7 @@
 						serial: obj.epc,
 	        			jenis: obj.jenis,
 	        			berat: obj.berat,
-	        			jml_cuci:0
+	        			jml_cuci:obj.jml_cuci
 					});
 					tmbhqty();
 
@@ -259,6 +258,7 @@
 
     $('#btnSave').on('click', function (event) {
     	event.preventDefault();
+    	doclose();
 		var valid = false;
     	var sParam = $('#form-rusak').serialize() + "&scan=" + JSON.stringify(app.list_scan) + "&request=" + JSON.stringify(app.list_request);
     	var validator = $('#form-rusak').validate({

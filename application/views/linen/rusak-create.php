@@ -177,14 +177,11 @@
   <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
-        <div class="col-xl-10">
+        <div class="col-xl-12">
             <h4><?= $title ?> <a href="<?= base_url() ?>listrequest" id="back" style="color: #000;margin-left: 10px;"> Back </a></h4>
             <span>Halaman ini mendaftarkan linen yang rusak</span>
         </div>
         
-        <div class="col-xl-2">
-          <div class="status-trans"><?= empty($data) ? "Input" : $data['status_request'] ?></div>
-        </div>
     </div>
   </div>
   <div class="card-block" style="padding: 10px;">
@@ -194,7 +191,7 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">NOMOR</label>
         <div class="col-sm-4">
-          <input type="text" class="form-control form-bg-inverse" id="no_transaksi" name="no_transaksi" value="<?= empty($data) ? $no_request : $data['no_transaksi']?>" readonly required >
+          <input type="text" class="form-control form-bg-inverse" id="no_transaksi" name="no_transaksi" value="<?= empty($data) ? $no_request : $data['NO_TRANSAKSI']?>" readonly required >
         </div>
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">TANGGAL </label>
         <div class="col-sm-4">
@@ -237,11 +234,7 @@
       <div class="form-group row">
         <label class="col-sm-2 col-form-label" style="font-weight: bold;">Catatan</label>
         <div class="col-sm-4">
-          <textarea name="catatan" id="catatan" rows="3" class="form-control required" placeholder="" style="height: 100px;" ><?= empty($data) ? "" : $data['catatan']?></textarea>
-        </div>
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">TOTAL ITEM</label>
-        <div class="col-sm-4">
-          <input type="text" class="form-control" readonly id="total_qty" name="total_qty" placeholder="" value="<?= empty($data) ? 0 : $data['total_request']?>">
+          <textarea name="catatan" id="catatan" rows="3" class="form-control required" placeholder="" style="height: 100px;" ><?= empty($data) ? "" : $data['CATATAN']?></textarea>
         </div>
       </div>
 
