@@ -247,8 +247,8 @@
 
     function doclose() 
     { 
-    	var sum = TUHF2000.RFID_TcpClose(); 	
-        // var sum = TUHF2000.RFID_ComClose(); 	
+    	// var sum = TUHF2000.RFID_TcpClose(); 	
+        var sum = TUHF2000.RFID_ComClose(); 	
         // if(sum==0) 	$("#status_koneksi").val("Terputus...");
     } 
 
