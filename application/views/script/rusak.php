@@ -104,7 +104,7 @@
 		var r = confirm("Yakin dihapus?");
 		if (r == true) {
 			
-			$.get('linenkotor/deletelist', { id: $(val).data('id') }, function(data){ 
+			$.get('listrusak/deletelist', { id: $(val).data('id') }, function(data){ 
 				window.location.reload();
 			})
 		

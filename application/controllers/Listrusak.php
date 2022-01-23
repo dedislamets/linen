@@ -434,4 +434,17 @@ class Listrusak extends CI_Controller {
     $this->output->set_content_type('application/json')->set_output(json_encode($data));
       
   }
+
+  public function deletelist()
+  {
+      $response = [];
+      $response['error'] = TRUE; 
+      $header = $this->admin->get_array('linen_rusak',array( 'id' => $this->input->get('id', TRUE)));
+      if($this->admin->deleteTable("id",$this->input->get('id',TRUE), 'linen_rusak')){
+        $response['error'] = FALSE;
+        $this->admin->deleteTable("no_transaksi",$header['NO_TRANSAKSI'], 'linen_rusak_detail');
+      } 
+
+      $this->output->set_content_type('application/json')->set_output(json_encode($response)); 
+  }
 }
