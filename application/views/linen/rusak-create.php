@@ -239,10 +239,11 @@
       </div>
 
       <div class="form-group row" style="margin-top: 10px;">
+        <?php if($mode == 'new') : ?>
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
         </div>
-        <?php if($mode == 'new') : ?>
+        
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
         </div>

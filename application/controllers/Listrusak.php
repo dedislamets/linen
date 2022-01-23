@@ -363,23 +363,23 @@ class Listrusak extends CI_Controller {
           }else{
               $response['error']= FALSE;
 
-              $total = intval(count(json_decode($this->input->post('scan'))));
-              for ($i=0; $i < $total ; $i++) { 
+              // $total = intval(count(json_decode($this->input->post('scan'))));
+              // for ($i=0; $i < $total ; $i++) { 
                 
-                  unset($data);
-                  $data['no_transaksi'] = $this->input->post('no_transaksi');
-                  $data['epc'] = $json_scan[$i]->serial;
-                  $data['jml_cuci'] = $json_scan[$i]->jml_cuci;
+              //     unset($data);
+              //     $data['no_transaksi'] = $this->input->post('no_transaksi');
+              //     $data['epc'] = $json_scan[$i]->serial;
+              //     $data['jml_cuci'] = $json_scan[$i]->jml_cuci;
 
-                  if($json_scan[$i]->id == "0"){
-                    $this->db->set($data);
-                    $this->db->where(array( "id" => $json_scan[$i]->id ));
-                    $this->db->update('linen_rusak_detail');
-                  }else{
-                    $this->db->insert('linen_rusak_detail', $data);
-                  }
+              //     if($json_scan[$i]->id == "0"){
+              //       $this->db->set($data);
+              //       $this->db->where(array( "id" => $json_scan[$i]->id ));
+              //       $this->db->update('linen_rusak_detail');
+              //     }else{
+              //       $this->db->insert('linen_rusak_detail', $data);
+              //     }
                 
-              }
+              // }
           }
       }else{  
 
