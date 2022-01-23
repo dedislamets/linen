@@ -379,7 +379,11 @@
     		finderr('Belum ada data linen di scan.!');
     	}else{
     		$.each(app.list_scan, function(index, obj) {
-    			if(obj.status != 'BERSIH' && obj.status != 'BARU' && obj.status == 'KIRIM' && obj.status == 'RUSAK'){
+    			if(obj.status != 'BERSIH' && obj.status != 'BARU' && obj.status == 'KIRIM'){
+    				flag = false;
+    				alert(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
+    				finderr(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
+    			}else if (obj.status == 'RUSAK') {
     				flag = false;
     				alert(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
     				finderr(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
