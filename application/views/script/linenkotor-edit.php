@@ -373,9 +373,12 @@
 		        var $tds = $(this).find('td');
 		        if($tds.eq(1).next().children().val() != undefined){
 			        var status = $tds.eq(5).next().html();
-			        if(status !="" && status != "KIRIM" && status != "RUSAK"){
+			        if(status !="" && status != "KIRIM" ){
 			        	if($("#kategori").val() == "Rewash" && status == "CUCI"){
 
+			        	}else if(status == "RUSAK"){
+			        		alert('Item yang discan tidak diijinkan untuk disimpan..');
+			        		flag= false;
 			        	}else{
 			        		alert('Item yang discan tidak diijinkan untuk disimpan..');
 			        		flag= false;
