@@ -282,30 +282,42 @@
               <div class="row">
                 <div class="col-lg-6 mg-t-20 mg-lg-t-0">
                   <div class="card card-dashboard-ten bg-purple">
-                    <h6 class="az-content-label">Total Linen</h6>
+                    <h6 class="az-content-label">Total Linen Cuci (Bulan Ini)</h6>
                     <div class="card-body">
-                      <div>
-                        <h6><?= $total_linen[0]->qty ?></h6>
+                      <div class="col-lg-3">
+                        <h6><?= $total_linen_all[0]->qty ?></h6>
                         <label>Qty</label>
                       </div>
-                      <div>
-                        <h6><?= $total_linen[0]->berat ?></h6>
+                      <div class="col-lg-3">
+                        <h6><?= $total_linen_all[0]->berat ?></h6>
                         <label>Berat</label>
+                      </div>
+                      <div class="col-lg-3">
+                        <h6><?= $total_linen_real[0]->berat ?></h6>
+                        <label>Berat Timbang</label>
                       </div>
                     </div><!-- card-body -->
                   </div>
                 </div>
                 <div class="col-lg-6 mg-t-20 mg-lg-t-0">
                   <div class="card card-dashboard-ten bg-primary">
-                    <h6 class="az-content-label">Rewash</h6>
+                    <h6 class="az-content-label">Rewash (Bulan Ini)</h6>
                     <div class="card-body">
-                      <div>
+                      <div class="col-lg-3">
                         <h6><?= $total_rewash[0]->qty ?></h6>
                         <label>Qty</label>
                       </div>
-                      <div>
-                        <h6><?= $percentage ?><span class="percent">%</span></h6>
-                        <label>Percentage</label>
+                      <div class="col-lg-3">
+                        <h6><?= number_format($percentage,2) ?><span class="percent">%</span></h6>
+                        <label>% Qty</label>
+                      </div>
+                      <div class="col-lg-3">
+                        <h6><?= $total_rewash[0]->sum_berat ?></h6>
+                        <label>Berat Timbang</label>
+                      </div>
+                      <div class="col-lg-3">
+                        <h6><?= number_format($percentage_berat,2) ?><span class="percent">%</span></h6>
+                        <label>% Berat</label>
                       </div>
                     </div>
                   </div><!-- card -->

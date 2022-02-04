@@ -40,6 +40,9 @@
                           Berat
                         </th>
                         <th>
+                          Timbang
+                        </th>
+                        <th>
                           Status
                         </th>
                         <th>

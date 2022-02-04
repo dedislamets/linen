@@ -366,6 +366,50 @@ class Newrequest extends CI_Controller {
       redirect('login');
     }
   }
+
+  public function approve($id){
+    if($this->admin->logged_id())
+    {  
+      if(CheckMenuRole('newrequest')){
+        redirect("errors");
+      }
+      $data['title'] = 'Approval New Linen Request';
+      $data['main'] = 'request/approve';
+      $data['js'] = 'script/approve-new-request';
+      $data['mode'] ='edit';
+      $data['totalrow'] = 0;
+      $data['data_detail'] = $this->admin->get_array('new_request_linen_detail',array( 'id' => $id));
+      $data['data'] = $this->admin->get_array('new_request_linen',array( 'no_request' => $data['data_detail']['no_request'] ));
+      
+      $data['data_detail']['images_default'] = "no-image-icon-0.jpg";
+      $data['data_detail']['images'] = $this->admin->get_result_array(
+        'new_request_linen_detail_image',
+        array( 
+          'id_request' => $data['data']['id'], 
+          'id_request_detail' => $data['data_detail']['id']
+        )
+      );
+      foreach ($data['data_detail']['images']  as $k => $val) {
+        if($k == 0) $data['data_detail'][$key]['images_default'] =  $val['filename'];
+      }
+      
+      if(!empty($this->input->get('rd',TRUE))){
+        if($this->input->get('rd',TRUE) == 'yes'){
+          $this->db->set(array( "read" => 1));
+          $this->db->where(array( "id" => $this->input->get('id',TRUE)  ));
+          $this->db->update('tb_notifikasi');
+        }
+      }
+      $data['user'] = $this->admin->getmaster('tb_user');
+      $data['ruangan'] = $this->admin->getmaster('tb_ruangan');
+      $data['jenis'] = $this->admin->get_result_array('jenis_barang');
+        
+      // print("<pre>".print_r($data,true)."</pre>");exit();
+      $this->load->view('dashboard',$data,FALSE); 
+    }else{
+      redirect('login');
+    }
+  }
   public function create(){
     if($this->admin->logged_id())
     {

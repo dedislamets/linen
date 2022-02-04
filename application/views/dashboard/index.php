@@ -106,13 +106,17 @@
     <div class="card card-dashboard-ten bg-purple">
       <h6 class="az-content-label">Total Linen Cuci (Bulan Ini)</h6>
       <div class="card-body">
-        <div>
+        <div class="col-lg-3">
           <h6><?= $total_linen_all[0]->qty ?></h6>
           <label>Qty</label>
         </div>
-        <div>
+        <div class="col-lg-3">
           <h6><?= $total_linen_all[0]->berat ?></h6>
           <label>Berat</label>
+        </div>
+        <div class="col-lg-3">
+          <h6><?= $total_linen_real[0]->berat ?></h6>
+          <label>Berat Timbang</label>
         </div>
       </div><!-- card-body -->
     </div>
@@ -131,7 +135,7 @@
         </div>
         <div class="col-lg-3">
           <h6><?= $total_rewash[0]->sum_berat ?></h6>
-          <label>Berat</label>
+          <label>Berat Timbang</label>
         </div>
         <div class="col-lg-3">
           <h6><?= number_format($percentage_berat,2) ?><span class="percent">%</span></h6>
@@ -202,7 +206,7 @@
             <tr>
               <td><?= $row->tgl_request ?></td>
               <td class="tx-right tx-medium tx-inverse">
-                <a href="<?= base_url() ?>newrequest/edit/<?= $row->no_request ?>" style="font-weight:500;"><?= $row->no_request ?></a>
+                <a href="<?= base_url() ?>newrequest/edit/<?= $row->id ?>" style="font-weight:500;"><?= $row->no_request ?></a>
               </td>
               <td class="tx-right tx-medium tx-inverse"><?= $row->ruangan ?></td>
               <td class="tx-right tx-medium tx-inverse"><?= $row->requestor ?></td>

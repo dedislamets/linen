@@ -101,7 +101,7 @@ class Linenkotor extends CI_Controller {
               $x++;
           }                 
       }
-      $this->db->select("id,CURRENT_INSERT,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,F_INFEKSIUS,KATEGORI,STATUS,TOTAL_BERAT,TOTAL_QTY");
+      $this->db->select("id,CURRENT_INSERT,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,F_INFEKSIUS,KATEGORI,STATUS,TOTAL_BERAT,TOTAL_BERAT_REAL,TOTAL_QTY");
       $this->db->limit($length,$start);
       $this->db->from("linen_kotor");
       $this->db->order_by("CURRENT_INSERT","DESC");
@@ -125,6 +125,7 @@ class Linenkotor extends CI_Controller {
                       $r->KATEGORI,
                       $r->TOTAL_QTY,
                       $r->TOTAL_BERAT,
+                      ($r->TOTAL_BERAT_REAL==0 ? $r->TOTAL_BERAT: $r->TOTAL_BERAT_REAL) ,
                       $status,
                       '<a href="linenkotor/edit/'.$r->id.'"  class="btn btn-warning btn-sm "  >
                         <i class="icofont icofont-edit"></i>Lihat
@@ -308,7 +309,7 @@ class Linenkotor extends CI_Controller {
       $data['totalrow'] = 0;
       $data['pic'] = $this->admin->getmaster('tb_user');
 
-      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_QTY,KATEGORI,F_INFEKSIUS");
+      $this->db->select("id,/*STR_TO_DATE(TANGGAL, '%d/%m/%Y')*/ TANGGAL,NO_TRANSAKSI,PIC,STATUS,TOTAL_BERAT,TOTAL_BERAT_REAL,TOTAL_QTY,KATEGORI,F_INFEKSIUS");
       $this->db->from("linen_kotor");
       $data['data'] = $this->db->where("id",$id)->get()->row_array();
 
@@ -371,6 +372,7 @@ class Linenkotor extends CI_Controller {
           'F_INFEKSIUS'   => $this->input->post('f_infeksius'),
           'KATEGORI'      => $this->input->post('kategori'),
           'TOTAL_BERAT'   => $this->input->post('total_berat'),
+          'TOTAL_BERAT_REAL'   => $this->input->post('total_berat_real'),
           'TOTAL_QTY'     => $this->input->post('total_qty'),
           'STATUS'     => 'CUCI',           
       );

@@ -79,10 +79,13 @@
           height: 45px;
           border-radius: 5px;
       }
+      .back-green{
+
+      }
   }
 </style>
 <div class="card z-depth-0">
-  <div class="card-header back-green" style="color:#fff">
+  <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">
             <h4><?= $title ?> <a href="<?= base_url() ?>newrequest" id="back" style="color: #000;margin-left: 10px;"> Back </a></h4>
@@ -95,18 +98,17 @@
     </div>
   </div>
   <div class="card-block" style="padding: 10px;">
-    <?php
-    foreach ($data_detail as $key => $detail) { ?>
+
       <div class="card" style="margin-top: 10px;background: #f4f4f4">
         <div class="row">
           <div class="col-md-5">
             <div class="product-details-large" id="ProductPhoto" style="padding: 10px;">
-                <img id="ProductPhotoImg" class="product-zoom" data-image-id="" alt="" data-zoom-image="<?= base_url() . 'upload/baru/' . $detail['images_default'] ?>" src="<?= base_url() . 'upload/baru/' . $detail['images_default'] ?>"> 
+                <img id="ProductPhotoImg" class="product-zoom" data-image-id="" alt="" data-zoom-image="<?= base_url() . 'upload/baru/' . $data_detail['images_default'] ?>" src="<?= base_url() . 'upload/baru/' . $data_detail['images_default'] ?>"> 
 
             </div>
             <div id="ProductThumbs" class="product-thumbnail owl-carousel">
               <?php
-                foreach ($detail['images'] as $k => $value) {
+                foreach ($data_detail['images'] as $k => $value) {
                   echo '<a class="product-single__thumbnail '. ($k == 0 ? 'active': '') .'" href="'.base_url() .'upload/baru/'. $value['filename'] .'" data-image="'.base_url() .'upload/baru/'. $value['filename'] .'" data-zoom-image="'.base_url() .'upload/baru/'. $value['filename'] .'" data-image-id=" '. $value['id'] .'">';
                   echo '<img src="'.base_url() .'upload/baru/'. $value['filename'] .'" alt=""></a>';
                 }
@@ -116,7 +118,7 @@
           </div>
           <aside class="col-sm-7">
             <article class="card-body p-5">
-              <h3 class="title mb-3"><?= empty($detail) ? "" : $detail['jenis']?></h3>
+              <h3 class="title mb-3"><?= empty($data_detail) ? "" : $data_detail['jenis']?></h3>
 
               <p class="price-detail-wrap"> 
                 <a href="<?= empty($detail) ? "#" : $detail['link']?>"><span class="price h3 text-warning"> 
@@ -126,30 +128,29 @@
               </p> <!-- price-detail-wrap .// -->
               <dl class="param param-feature">
                 <dt>Status#</dt>
-                <dd><?= empty($detail) ? "" : $detail['status']?></dd>
+                <dd><?= empty($data_detail) ? "" : $data_detail['status']?></dd>
               </dl>
               <dl class="param param-feature">
                 <dt>No Request#</dt>
-                <dd><?= empty($detail) ? "" : $detail['no_request']?></dd>
+                <dd><?= empty($data_detail) ? "" : $data_detail['no_request']?></dd>
               </dl>
               <dl class="item-property">
                 <dt>Spesifikasi</dt>
-                <dd class="com-text"><?= empty($detail) ? "" : $detail['spesifikasi']?></dd>
+                <dd class="com-text"><?= empty($data_detail) ? "" : $data_detail['spesifikasi']?></dd>
               </dl>
               <dl class="param param-feature">
                 <dt>Qty#</dt>
-                <dd><?= empty($detail) ? "" : $detail['qty']?></dd>
+                <dd><?= empty($data_detail) ? "" : $data_detail['qty']?></dd>
               </dl> 
               
               <hr>
-              <?php if($detail['status'] == 'Pending' ) { ?>
-              <a href="#" class="btn btn-lg btn-primary text-uppercase" id="btnApprove" data-id="<?= empty($detail) ? "" : $detail['id']?>"> Approve</a>
-              <a href="#" class="btn btn-lg btn-outline-danger text-uppercase" id="btnRejected" data-id="<?= empty($detail) ? "" : $detail['id']?>"> Reject </a>
+              <?php if($data_detail['status'] == 'Pending' ) { ?>
+              <a href="#" class="btn btn-lg btn-primary text-uppercase" id="btnApprove" data-id="<?= empty($data_detail) ? "" : $data_detail['id']?>"> Approve</a>
+              <a href="#" class="btn btn-lg btn-outline-danger text-uppercase" id="btnRejected" data-id="<?= empty($data_detail) ? "" : $data_detail['id']?>"> Reject </a>
             <?php } ?>
             </article> 
           </aside> <!-- col.// -->
         </div> <!-- row.// -->
       </div>
-    <?php } ?>
   </div>
 </div>

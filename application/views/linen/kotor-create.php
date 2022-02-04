@@ -73,9 +73,9 @@
             
           </div>
           <div class="form-group row">
-            <label class="col-sm-4 col-form-label" style="font-weight: bold;">TOTAL QTY</label>
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">BERAT TIMBANG</label>
             <div class="col-sm-3">
-              <input type="text" class="form-control" readonly id="total_qty" name="total_qty" placeholder="" value="0">
+              <input type="text" class="form-control" id="total_berat_real" name="total_berat_real" placeholder="" value="0">
             </div>
             <label class="col-sm-2 col-form-label" style="font-weight: bold;">BERAT</label>
             <div class="col-sm-3">
@@ -84,10 +84,17 @@
           </div>
         </div>
       </div>
-      
-      
-
-      <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
+      <div class="row">
+        <div class="col-sm-7">
+          <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
+        </div>
+        <div class="col-sm-3">
+          <h4 class="info-text" style="margin-top: 30px;text-align: right;">Total Qty</h4>
+        </div>
+        <div class="col-sm-2" style="margin-top: 30px;">
+          <input type="text" class="form-control" style="text-align: center;" readonly id="total_qty" name="total_qty" placeholder="" value="0">
+        </div>
+      </div>
       <div class="form-group row">
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-search"></i> Start Scan</button>

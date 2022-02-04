@@ -206,22 +206,34 @@ class Laporan extends CI_Controller {
 			$data['laporan_rawat_rewash']= $arr;
 			$data['laporan_rawat_rewash_sum']= $arr_sum;
 
-			$total_linen = $this->db->query("SELECT count(*) as qty,sum(berat) as berat
-								FROM `linen_kotor` 
-								LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
-								LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
-								LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-								WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn )->result();
-			$data['total_linen']= $total_linen;
+			$total_linen = $this->db->query("SELECT count(*) as qty,ifnull(sum(berat),0)  as berat
+                                FROM `linen_kotor` 
+                                LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+                                LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+                                LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and TOTAL_QTY>0" )->result();
+            $total_linen_real = $this->db->query("SELECT ifnull(sum(TOTAL_BERAT_REAL),0) as berat
+                                FROM `linen_kotor` 
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and TOTAL_QTY>0" )->result();
+            $data['total_linen_all']= $total_linen;
+            $data['total_linen_real']= $total_linen_real;
 
-			$total_rewash = $this->db->query("SELECT count(*) as qty
-								FROM `linen_kotor` 
-								LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
-								LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
-								LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-								WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." and kategori='Rewash'")->result();
-			$data['total_rewash']= $total_rewash;
-			$data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
+            $total_rewash = $this->db->query("SELECT count(*) as qty, ifnull(sum(berat),0) as sum_berat
+                                FROM `linen_kotor` 
+                                LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+                                LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+                                LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash' and TOTAL_QTY>0")->result();
+
+            $data['total_rewash']= $total_rewash;
+
+            $total_rewash_real = $this->db->query("SELECT ifnull(sum(TOTAL_BERAT_REAL),0) as sum_berat
+                                FROM `linen_kotor` 
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash' and TOTAL_QTY>0")->result();
+            $data['total_rewash_real']= $total_rewash_real;
+
+            $data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
+            $data['percentage_berat'] = ($total_rewash_real[0]->sum_berat > 0 ? ($total_rewash_real[0]->sum_berat/$total_linen[0]->berat )*100 : 0);
 			// print("<pre>".print_r($data,true)."</pre>"); exit();
 
 
@@ -275,8 +287,8 @@ class Laporan extends CI_Controller {
 			$data['laporan_medis']= $arr;
 			$data['laporan_medis_sum']= $arr_sum;
 
-			unset($arr);
-			unset($arr_sum);
+			$arr_beli = array();
+			$arr_beli_sum = array();
 			$laporan_vendor  = $this->db->query("SELECT vendor_name,
 					DAY(tb_penerimaan.current_insert)tgl,SUM(qty) total 
 				FROM `tb_penerimaan` 
@@ -292,14 +304,14 @@ class Laporan extends CI_Controller {
 				if(!empty($arr[$value->vendor_name][$value->tgl])){
 					$total = $arr[$value->vendor_name][$value->tgl];
 				}
-				if(!empty($arr_sum[$value->tgl])){
-					$sum = $arr_sum[$value->tgl];
+				if(!empty($arr_beli_sum[$value->tgl])){
+					$sum = $arr_beli_sum[$value->tgl];
 				}
-				$arr[$value->vendor_name][$value->tgl] = $total + $value->total ;
-				$arr_sum[$value->tgl] = $sum + $value->total ;
+				$arr_beli[$value->vendor_name][$value->tgl] = $total + $value->total ;
+				$arr_beli_sum[$value->tgl] = $sum + $value->total ;
 			}
-			$data['laporan_vendor']= $arr;
-			$data['laporan_vendor_sum']= $arr_sum;
+			$data['laporan_vendor']= $arr_beli;
+			$data['laporan_vendor_sum']= $arr_beli_sum;
 
 			$this->load->view('dashboard',$data,FALSE); 
 
@@ -310,4 +322,35 @@ class Laporan extends CI_Controller {
 						
 	}
 
+	public function storage()
+	{		
+		if($this->admin->logged_id())
+	    {
+			$data['title'] = 'Laporan Penyimpanan Linen';
+			$data['main'] = 'laporan/storage';
+			$data['js'] = 'script/laporan';
+			$bln = date('m');
+			$thn = date('Y');
+
+			if(!empty($this->input->get("b", TRUE))){
+				$bln=$this->input->get("b", TRUE);
+				$thn=$this->input->get("t", TRUE);
+			}
+			
+			$laporan_storage  = $this->db->query("SELECT linen_bersih_detail.* , jenis_barang.`jenis`, `spesifikasi`, berat
+				FROM linen_bersih_detail 
+				INNER JOIN barang ON barang.`serial`=linen_bersih_detail.`epc`
+				LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+				WHERE status_linen <>'RUSAK' AND keluar=0")->result();
+			
+			$data['laporan_storage']= $laporan_storage;
+
+			$this->load->view('dashboard',$data,FALSE); 
+
+	    }else{
+	        redirect("login");
+
+	    }				  
+						
+	}
 }

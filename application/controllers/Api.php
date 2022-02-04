@@ -895,6 +895,7 @@ class Api extends RestController  {
             "STATUS"        => $this->post('status'),
             "KATEGORI"      => "",
             "TOTAL_BERAT"   => $this->post('total_berat'),
+            "TOTAL_BERAT_REAL"  => $this->post('total_berat_real'),
             "TOTAL_QTY"     => $this->post('total_qty'),
         );
 
@@ -910,7 +911,7 @@ class Api extends RestController  {
                 $response['message']='Data berhasil ditambahkan.';
 
                 unset($data);
-                $data['status'] = 1;
+                $data['status'] = 'BERSIH';
                 $this->db->set($data);
                 $this->db->where('NO_TRANSAKSI', $this->input->post('no_transaksi'));
                 $result  =  $this->db->update('linen_kotor');  

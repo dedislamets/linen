@@ -52,7 +52,6 @@ class Dashboard extends CI_Controller {
             $this->db->group_by('tb_ruangan.ruangan');
             $this->db->order_by('count(epc) desc');
             $data['ruangan'] = $this->db->get()->result();
-            // echo $this->db->last_query(); exit();
 
             $this->db->select('ruangan, sum(qty-qty_keluar) AS jml');
             $this->db->from('request_linen A');
@@ -97,6 +96,7 @@ class Dashboard extends CI_Controller {
             $this->db->limit(10);
             $query = $this->db->get();
             $data['pengajuan_linen_baru'] = $query->result();
+            // echo $this->db->last_query(); exit();
 
             $this->db->from('request_jemput A');
             $this->db->where('status_request','Pending');
@@ -120,23 +120,34 @@ class Dashboard extends CI_Controller {
             $data['notifikasi'] = $query->result();
             $data['notifikasi_count'] = $query->num_rows();
 
-            $total_linen = $this->db->query("SELECT count(*) as qty,sum(berat) as berat
+            $total_linen = $this->db->query("SELECT count(*) as qty,ifnull(sum(berat),0)  as berat
                                 FROM `linen_kotor` 
                                 LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
                                 LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
                                 LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
                                 WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and TOTAL_QTY>0" )->result();
+            $total_linen_real = $this->db->query("SELECT ifnull(sum(TOTAL_BERAT_REAL),0) as berat
+                                FROM `linen_kotor` 
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and TOTAL_QTY>0" )->result();
             $data['total_linen_all']= $total_linen;
+            $data['total_linen_real']= $total_linen_real;
 
-            $total_rewash = $this->db->query("SELECT count(*) as qty, sum(berat) as sum_berat
+            $total_rewash = $this->db->query("SELECT count(*) as qty, ifnull(sum(berat),0) as sum_berat
                                 FROM `linen_kotor` 
                                 LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
                                 LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
                                 LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
                                 WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash' and TOTAL_QTY>0")->result();
+
             $data['total_rewash']= $total_rewash;
+
+            $total_rewash_real = $this->db->query("SELECT ifnull(sum(TOTAL_BERAT_REAL),0) as sum_berat
+                                FROM `linen_kotor` 
+                                WHERE MONTH(tanggal)=MONTH(CURDATE()) AND YEAR(tanggal)=YEAR(CURDATE()) and kategori='Rewash' and TOTAL_QTY>0")->result();
+            $data['total_rewash_real']= $total_rewash_real;
+
             $data['percentage'] = ($total_rewash[0]->qty > 0 ? ($total_rewash[0]->qty/$total_linen[0]->qty )*100 : 0);
-            $data['percentage_berat'] = ($total_rewash[0]->sum_berat > 0 ? ($total_rewash[0]->sum_berat/$total_linen[0]->berat )*100 : 0);
+            $data['percentage_berat'] = ($total_rewash_real[0]->sum_berat > 0 ? ($total_rewash_real[0]->sum_berat/$total_linen[0]->berat )*100 : 0);
             
             
             // print("<pre>".print_r($data,true)."</pre>");exit();
