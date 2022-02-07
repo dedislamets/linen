@@ -19,30 +19,34 @@
         $("#btnApprove").on('click', function(e) {
             e.preventDefault();
             $.get('<?=base_url()?>newrequest/approved', { id: $(this).data('id') }, function(data){ 
-                    Swal.fire({ title: "Berhasil disimpan..!",
-                        text: "",
-                        timer: 2000,
-                        icon: 'success',
-                        showConfirmButton: false,
-                        willClose: () => {
-                            window.location.reload();
-                        }
-                    });
+                alert("Status Approve Berhasil disimpan..!");
+                window.location.reload();
+                    // Swal.fire({ title: "Berhasil disimpan..!",
+                    //     text: "",
+                    //     timer: 2000,
+                    //     icon: 'success',
+                    //     showConfirmButton: false,
+                    //     willClose: () => {
+                    //         window.location.reload();
+                    //     }
+                    // });
                
             });
         })
         $("#btnRejected").on('click', function(e) {
             e.preventDefault();
             $.get('<?=base_url()?>newrequest/rejected', { id: $(this).data('id') }, function(data){ 
-                    Swal.fire({ title: "Berhasil disimpan..!",
-                        text: "",
-                        timer: 2000,
-                        icon: 'success',
-                        showConfirmButton: false,
-                        willClose: () => {
-                            window.location.reload();
-                        }
-                    });
+                alert("Status Reject Berhasil disimpan..!");
+                window.location.reload();
+                    // Swal.fire({ title: "Berhasil disimpan..!",
+                    //     text: "",
+                    //     timer: 2000,
+                    //     icon: 'success',
+                    //     showConfirmButton: false,
+                    //     willClose: () => {
+                    //         window.location.reload();
+                    //     }
+                    // });
                
             });
         })
