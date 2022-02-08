@@ -359,15 +359,15 @@
   <script src="<?= base_url(); ?>assets/js/sweetalert2.js"></script>
   <script src="<?= base_url(); ?>assets/js/bootstrap-tagsinput.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/plugins/jquery.validate.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.4/polyfill.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script> -->
   <script type="text/javascript" src="<?= base_url(); ?>assets/jstree/js/jstree.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets\switchery\js\switchery.min.js"></script>
   <script src="<?= base_url(); ?>assets/signature/js/jquery.signature.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/signature/js/jquery.ui.touch-punch.min.js"></script>
   <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/jquery.gritter.min.js"></script>
-
- 
   
   <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script> -->
    <!-- <script src="<?= base_url(); ?>assets/js/plugins/sweetalert2.min.js"></script> -->

@@ -1,25 +1,25 @@
 <script type="text/javascript">
 
-	var app = new Vue({
-        el: "#app",
-        mounted: function () {
-	    },
-	    updated: function () {
-	    	var that = this;
+	// var app = new Vue({
+ //        el: "#app",
+ //        mounted: function () {
+	//     },
+	//     updated: function () {
+	//     	var that = this;
 	    	
-	    },
-        data: {
-        	mode:'new',
-        	id_spk: '',
-        	moda_tran: '',
-        	id_rs:'',
-        	last_status:'<?= empty($data) ? "INPUT" : $data['STATUS'] ?>',
-        	history: [],
-        },
-        methods: {
+	//     },
+ //        data: {
+ //        	mode:'new',
+ //        	id_spk: '',
+ //        	moda_tran: '',
+ //        	id_rs:'',
+ //        	last_status:'<?= empty($data) ? "INPUT" : $data['STATUS'] ?>',
+ //        	history: [],
+ //        },
+ //        methods: {
         	
-        }
-    });
+ //        }
+ //    });
 
    //  var datefield = document.createElement("input")
   	// datefield.setAttribute("type", "date")
@@ -38,7 +38,7 @@
 	$(document).ready(function(){  
 		$("#tanggal" ).datepicker();
 		if($("#mode").val() == 'edit') {
-			app.mode = 'edit';
+			// app.mode = 'edit';
 
 			$("#tbody-table").find('tr').each(function (i, el) {
 		        var $tds = $(this).find('td');
@@ -83,7 +83,7 @@
     })
 
     $("#btnScan").on('click', function(e) {
-    	e.preventDefault();
+    	// e.preventDefault();
     	// arr_epc = [];
     	$("#status_koneksi").removeClass("error-text");
     	$("#status_koneksi").addClass("scan-text");
