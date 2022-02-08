@@ -140,6 +140,139 @@ class Newrequest extends CI_Controller {
       exit();
   }
 
+  public function dataTableDetailAdmin()
+  {
+      $draw = intval($this->input->get("draw"));
+      $start = intval($this->input->get("start"));
+      $length = intval($this->input->get("length"));
+      $order = $this->input->get("order");
+      $search= $this->input->get("search");
+      $search = $search['value'];
+      $col = 10;
+      $dir = "";
+
+      if(!empty($order))
+      {
+          foreach($order as $o)
+          {
+              $col = $o['column'];
+              $dir= $o['dir'];
+          }
+      }
+
+      if($dir != "asc" && $dir != "desc")
+      {
+          $dir = "desc";
+      }
+
+      $valid_columns = array(
+          0=>'tgl_request',
+          1=>'ruangan',
+          2=>'A.no_request',
+          3=>'requestor',
+          4=>'A.jenis',
+          5=>'B.jenis',
+          6=>'qty',
+          7=>'status',
+      );
+      $valid_sort = array(
+          0=>'tgl_request',
+          1=>'ruangan',
+          2=>'A.no_request',
+          3=>'requestor',
+          4=>'A.jenis',
+          5=>'B.jenis',
+          6=>'qty',
+          7=>'status',
+      );
+      if(!isset($valid_sort[$col]))
+      {
+          $order = null;
+      }
+      else
+      {
+          $order = $valid_sort[$col];
+      }
+      if($order !=null)
+      {
+          $this->db->order_by($order, $dir);
+      }
+      
+      if(!empty($search))
+      {
+          $x=0;
+          foreach($valid_columns as $sterm)
+          {
+              if($x==0)
+              {
+                  $this->db->like($sterm,$search);
+              }
+              else
+              {
+                  $this->db->or_like($sterm,$search);
+              }
+              $x++;
+          }                 
+      }
+      $this->db->limit($length,$start);
+      $this->db->select('tgl_request,A.no_request, requestor,ruangan,A.jenis as jenis_linen, B.jenis,qty,B.id,status');
+      $this->db->from('new_request_linen A');
+      $this->db->join('new_request_linen_detail B','B.no_request=A.no_request');
+      $pengguna = $this->db->get();
+      $data = array();
+      foreach($pengguna->result() as $r)
+      {
+
+          $data[] = array( 
+                      $r->id,
+                      $r->tgl_request,
+                      $r->no_request,
+                      $r->ruangan,
+                      $r->requestor,
+                      $r->jenis_linen,
+                      $r->jenis,
+                      $r->qty,
+                      $r->status,
+                      
+                 );
+      }
+      $total_pengguna = $this->totalDetailAdmin($search, $valid_columns);
+
+      $output = array(
+          "draw" => $draw,
+          "recordsTotal" => $total_pengguna,
+          "recordsFiltered" => $total_pengguna,
+          "data" => $data
+      );
+      echo json_encode($output);
+      exit();
+  }
+  public function totalDetailAdmin($search, $valid_columns)
+  {
+    $query = $this->db->select("COUNT(*) as num");
+    if(!empty($search))
+      {
+          $x=0;
+          foreach($valid_columns as $sterm)
+          {
+              if($x==0)
+              {
+                  $this->db->like($sterm,$search);
+              }
+              else
+              {
+                  $this->db->or_like($sterm,$search);
+              }
+              $x++;
+          }                 
+      }
+    $this->db->from('new_request_linen A');
+    $this->db->join('new_request_linen_detail B','B.no_request=A.no_request');
+    $query = $this->db->get();
+    $result = $query->row();
+    if(isset($result)) return $result->num;
+    return 0;
+  }
   public function totalDetail($search, $valid_columns)
   {
     $query = $this->db->select("COUNT(*) as num");
@@ -329,22 +462,7 @@ class Newrequest extends CI_Controller {
       $data['js'] = 'script/new-request-create';
       $data['mode'] ='edit';
       $data['totalrow'] = 0;
-
-      $data['data_detail'] = $this->admin->get_array('new_request_linen_detail',array( 'id' => $id));
-      $data['data'] = $this->admin->get_array('new_request_linen',array( 'no_request' => $data['data_detail']['no_request']));
       
-      $data['data_detail']['images_default'] = "no-image-icon-0.jpg";
-      $data['data_detail']['images'] = $this->admin->get_result_array(
-            'new_request_linen_detail_image',
-            array( 
-              'id_request' => $data['data']['id'], 
-              'id_request_detail' => $id
-            )
-          );
-      foreach ($data['data_detail']['images']  as $k => $val) {
-        if($k == 0) $data['data_detail']['images_default'] =  $val['filename'];
-      }
-      // print("<pre>".print_r($data,true)."</pre>");exit();
 
       if($this->session->userdata('role') == "Administrator" || $this->session->userdata('role') == "Unit Laundry"){
         $data['title'] = 'Approval New Linen Request';
@@ -352,6 +470,21 @@ class Newrequest extends CI_Controller {
         $data['js'] = 'script/approve-new-request';
         $data['mode'] ='edit';
         $data['totalrow'] = 0;
+
+        $data['data_detail'] = $this->admin->get_array('new_request_linen_detail',array( 'id' => $id));
+        $data['data'] = $this->admin->get_array('new_request_linen',array( 'no_request' => $data['data_detail']['no_request']));
+        
+        $data['data_detail']['images_default'] = "no-image-icon-0.jpg";
+        $data['data_detail']['images'] = $this->admin->get_result_array(
+              'new_request_linen_detail_image',
+              array( 
+                'id_request' => $data['data']['id'], 
+                'id_request_detail' => $id
+              )
+            );
+        foreach ($data['data_detail']['images']  as $k => $val) {
+          if($k == 0) $data['data_detail']['images_default'] =  $val['filename'];
+        }
       }else{
         if(!empty($this->input->get('rd',TRUE))){
           if($this->input->get('rd',TRUE) == 'yes'){
@@ -360,12 +493,24 @@ class Newrequest extends CI_Controller {
             $this->db->update('tb_notifikasi');
           }
         }
+
+        $data['data'] = $this->admin->get_array('new_request_linen',array( 'no_request' => $id));
+        $data['data_detail'] = $this->admin->get_result_array('new_request_linen_detail',array( 'no_request' => $id));
+        
+        $data['data_detail'][0]['images_default'] = "no-image-icon-0.jpg";
+        foreach ($data['data_detail'] as $key => $value) {
+            $data['data_detail'][$key]['images'] = $this->admin->get_result_array('new_request_linen_detail_image',array( 'id_request' => $data['data']['id'], 'id_request_detail' => $value['id']));
+            foreach ($data['data_detail'][$key]['images']  as $k => $val) {
+              if($k == 0) $data['data_detail'][$key]['images_default'] =  $val['filename'];
+            }
+        }
         $data['user'] = $this->admin->getmaster('tb_user');
         $data['ruangan'] = $this->admin->getmaster('tb_ruangan');
         $data['jenis'] = $this->admin->get_result_array('jenis_barang');
         
         // $data['no_request'] = $id;
       }
+      // print("<pre>".print_r($data,true)."</pre>");exit();
       $this->load->view('dashboard',$data,FALSE); 
     }else{
       redirect('login');

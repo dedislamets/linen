@@ -14,7 +14,26 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="table-responsive">
-                    
+                    <?php if($this->session->userdata('role') == "Administrator" || $this->session->userdata('role') == "Unit Laundry"){ ?>
+                    <table id="ViewTableDetail" class="table table-striped table-dashboard-two">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Tanggal</th>
+                          <th>No Transaksi</th>
+                          <th>Ruangan</th>
+                          <th>Requestor</th>
+                          <th>Tipe Linen</th>
+                          <th>Jenis</th>
+                          <th>Qty</th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      
+                      </tbody>
+                    </table>
+                    <?php } else { ?>
                     <table id="ViewTableDetail" class="table table-striped" width="100%">
                         <thead class="text-primary">
                             <tr>
@@ -48,6 +67,7 @@
                           
                         </tbody>
                     </table>
+                <?php } ?>
                 </div>
             </div>
         </div>

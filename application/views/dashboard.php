@@ -294,6 +294,7 @@
               <h6><?= $this->session->userdata('username') ?></h6>
               <span><?= $this->session->userdata('role') ?></span>
               <input type="hidden" name="id_user" id="id_user" value="<?= $this->session->userdata('user_id') ?>">
+              <input type="hidden" name="role" id="role" value="<?= $this->session->userdata('role') ?>">
             </div>
 
             <!-- <a href="#" class="dropdown-item"><i class="typcn typcn-user-outline"></i> My Profile</a>

@@ -2,24 +2,45 @@
 	var mode = 1;
 	$(document).ready(function(){  
 
-	    $('#ViewTableDetail').DataTable({
-			responsive: true,
-			ajax: {		            
-	            "url": "newrequest/dataTableDetail",
-	            "type": "GET"
-	        },
-	        processing	: true,
-			serverSide	: true,
-			"columnDefs": [
-				{
-	            "targets": 3,
-	            "render": function ( data, type, row, meta ) {
-	                var text = '<a href="newrequest/edit/'+ row[3] +'" style="font-weight:500;">'+ data +'</a>';
-	              	return text;
-	            	}
-	          	},
-			]
-	    });
+		if($("#role").val() == 'Administrator' || $("#role").val() == 'Unit Laundry'){
+			$('#ViewTableDetail').DataTable({
+				responsive: true,
+				ajax: {		            
+		            "url": "newrequest/dataTableDetailAdmin",
+		            "type": "GET"
+		        },
+		        processing	: true,
+				serverSide	: true,
+				"columnDefs": [
+					{
+		            "targets": 2,
+		            "render": function ( data, type, row, meta ) {
+		                var text = '<a href="newrequest/edit/'+ row[0] +'" style="font-weight:500;">'+ data +'</a>';
+		              	return text;
+		            	}
+		          	},
+				]
+		    });
+		}else{			
+		    $('#ViewTableDetail').DataTable({
+				responsive: true,
+				ajax: {		            
+		            "url": "newrequest/dataTableDetail",
+		            "type": "GET"
+		        },
+		        processing	: true,
+				serverSide	: true,
+				"columnDefs": [
+					{
+		            "targets": 3,
+		            "render": function ( data, type, row, meta ) {
+		                var text = '<a href="newrequest/edit/'+ row[3] +'" style="font-weight:500;">'+ data +'</a>';
+		              	return text;
+		            	}
+		          	},
+				]
+		    });
+		}
 	})
 
 	function editmodal(val){
