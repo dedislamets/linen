@@ -596,6 +596,14 @@ class LinenKeluar extends CI_Controller {
       );
       $this->db->insert('tb_notifikasi', $data_notif);
 
+      //kirim notifikasi ke android
+      $data_token = $this->admin->api_array('tb_token_push',array( 'id_user' => $user_data['id_user'] ));
+      if(!empty($data_token)){
+          foreach ($data_token as $key => $value) {
+            $this->admin->send_notif_app_get('single',$value['token'], $msg);
+          }
+      }
+
       require_once(APPPATH.'../vendor/autoload.php');
 
       $options = array(
@@ -610,12 +618,7 @@ class LinenKeluar extends CI_Controller {
       );
       $pusher->trigger('linen', 'my-event', $data_notif);  
 
-      $data_token = $this->admin->api_array('tb_token_push',array( 'id_user' => $user_data['id_user'] ));
-      if(!empty($data_token)){
-          foreach ($data_token as $key => $value) {
-            $this->admin->send_notif_app_get('single',$value['token'], $msg);
-          }
-      }
+      
     }             
     $this->output->set_content_type('application/json')->set_output(json_encode($response));
   }
