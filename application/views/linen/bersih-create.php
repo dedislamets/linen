@@ -266,10 +266,11 @@
       
       <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
       <div class="form-group row">
+        
+        <?php if($mode == 'new') : ?>
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" ><i class="fa fa-barcode"></i> Start Scan</button>
         </div>
-        <?php if($mode == 'new') : ?>
         <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
         </div>
@@ -378,7 +379,7 @@
           <input type="hidden" name="id_bersih" id="id_bersih" value="<?= empty($bersih) ? "" : $bersih['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
 
-          <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
+          <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'INPUT'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
         </div>
       </div>
     

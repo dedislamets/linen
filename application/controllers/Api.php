@@ -834,7 +834,7 @@ class Api extends RestController  {
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
             "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
             "PIC"           => $this->post('pic'),
-            "STATUS"        => 0,
+            "STATUS"        => 'KIRIM',
             "RUANGAN"        => $this->post('ruangan'),
             "NO_REFERENSI"        => $this->post('no_referensi'),
         );
