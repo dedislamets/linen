@@ -89,7 +89,8 @@
           <?php 
             foreach($user as $row)
             { 
-              if( empty($data) ? ($this->session->userdata('nama') === $row->nama_user ) : $data['requestor'] === $row->nama_user){
+              $nama = (empty($this->session->userdata('nama')) ? $requestor : $this->session->userdata('nama'));
+              if( $nama === $row->nama_user){
                 echo '<option value="'.$row->nama_user.'" selected >'.$row->nama_user.'</option>';
               }else{
                 echo '<option value="'.$row->nama_user.'">'.$row->nama_user.'</option>';
