@@ -805,7 +805,7 @@ class Api extends RestController  {
         }else{
             // $response['status']=502;
             $response['error']=true;
-            $response['message']='Data gagal ditambahkan.';
+            $response['message']='Data gagal ditambahkan.'; 
 
         }
         $this->response($response);
@@ -822,6 +822,7 @@ class Api extends RestController  {
             "KATEGORI"        => $this->post('kategori'),
             "F_INFEKSIUS"        => $this->post('infeksius'),
             "TOTAL_BERAT"        => $this->post('total_berat'),
+            "TOTAL_BERAT_REAL"   => $this->post('total_berat_real'),
             "TOTAL_QTY"        => $this->post('total_qty'),
         );
 
