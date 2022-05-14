@@ -61,6 +61,20 @@ class Api extends RestController  {
                 'status' => true,
             ], 200 );
     }
+    public function start_get()
+    {   
+
+        $koneksi = $this->admin->get_array("tb_connect");
+        if($koneksi["status"]){
+            $this->response([
+                'status' => "0",
+            ], 200 );
+        }else{
+            $this->response([
+                'status' => "1",
+            ],200);
+        }
+    }
     public function room_get()
     {
         $shift = $this->admin->api_array('tb_ruangan');
@@ -390,7 +404,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
     public function linen_bersih_all_get()
@@ -420,7 +434,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
     public function linen_keluar_all_get()
@@ -450,7 +464,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
     public function request_linen_all_get()
@@ -469,7 +483,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
     public function linen_rusak_all_get()
@@ -499,7 +513,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
@@ -530,7 +544,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
@@ -561,7 +575,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
@@ -592,7 +606,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
@@ -623,7 +637,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
@@ -643,7 +657,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
 
@@ -670,7 +684,7 @@ class Api extends RestController  {
             $this->response( [
                 'status' => false,
                 'message' => 'No users were found'
-            ], 404 );
+            ], 200 );
         }
     }
     public function last_history_get()
