@@ -988,6 +988,15 @@ class Api extends RestController  {
                 $this->db->where(array( "epc" => $this->post('epc'), "keluar" => 0 ));
                 $this->db->update('linen_bersih_detail');  
 
+                unset($data);
+                $data['nama_ruangan'] = $this->input->post('ruangan');
+                $this->db->set($data);
+                $this->db->where(
+                    array( 
+                      "serial" => $this->post('epc')
+                    ));
+                $this->db->update('barang');
+
                 $response['status']=200;
                 $response['error']=false;
                 $response['message']='Data berhasil ditambahkan.';
