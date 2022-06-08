@@ -13,7 +13,7 @@
         	id_spk: '',
         	moda_tran: '',
         	id_rs:'',
-        	last_status:'<?= empty($data) ? "INPUT" : $data['STATUS'] ?>',
+        	last_status:'<?= empty($bersih) ? "INPUT" : $bersih['STATUS'] ?>',
         	list_proses: [],
         },
         methods: {
