@@ -7,12 +7,12 @@
   <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE && $data['STATUS'] != "BERSIH") { ?>
-  <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
+  <!-- <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">×</span>
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
-  </div>
+  </div> -->
   <?php } ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
@@ -88,7 +88,7 @@
           <div class="form-group row">
             <label class="col-sm-4 col-form-label" style="font-weight: bold;">BERAT TIMBANG</label>
             <div class="col-sm-3">
-              <input type="text" class="form-control" readonly id="total_berat_real" name="total_berat_real" placeholder="" value="<?= empty($data) ? "" : $data['TOTAL_BERAT_REAL'] ?>">
+              <input type="text" class="form-control" id="total_berat_real" name="total_berat_real" placeholder="" value="<?= empty($data) ? "" : $data['TOTAL_BERAT_REAL'] ?>">
             </div>
             <label class="col-sm-2 col-form-label" style="font-weight: bold;">BERAT</label>
             <div class="col-sm-3">
@@ -110,7 +110,7 @@
       </div>
       <?php if(!empty($data) && $data['STATUS'] == "CUCI") : ?>
       <div class="form-group row">
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnAdd" ><i class="fa fa-plus"></i> Tambah baru</button>
         </div>
         <div class="col-sm-2">
@@ -118,8 +118,11 @@
         </div>
         <div class="col-sm-2" v-if="mode != 'edit'">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Clear Scan</button>
+        </div> -->
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="txt_scan" name="txt_scan" placeholder="Ketikan Kode EPC" value="">
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-8">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
       </div>
@@ -180,7 +183,7 @@
                           <input type="text" id="berat<?=$urut?>" name="berat<?=$urut?>" placeholder="Kg" class="form-control" style="width:100%" value="<?=$row['berat']?>" readonly>
                         </td>
                         <td>
-                          
+                          <?=$row['status']['STATUS']?>
                         </td>
                       </tr>
                       <?php $urut++?>
@@ -197,7 +200,7 @@
           <input type="hidden" name="id_kotor" id="id_kotor" value="<?= empty($data) ? "" : $data['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
           <?php if(!empty($data) && $data['STATUS'] == "CUCI") { ?>
-            <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
+            <button type="button" class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
           <?php } ?>
         </div>
       </div>

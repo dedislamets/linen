@@ -33,6 +33,11 @@
 	$(document).ready(function(){  
 		$("#tanggal" ).datepicker();
 
+		$("#txt_scan").on("change", function(){
+			scan_by_reader($(this).val());
+			$("#txt_scan").val('');
+		})
+
 	    if($("#mode").val() == 'edit') {
 	    	app.mode = 'edit';
 	    	$.get('<?= base_url()?>linenkeluar/getDetail', { id: $("#id_keluar").val() }, function(data){ 
@@ -166,6 +171,98 @@
 
     }
 
+    function scan_by_reader(EPC){
+        $("#status_koneksi").val("Get data Serial...("+ EPC +")");
+
+        //Jika exist data di listview
+        if(arr_epc.indexOf(EPC) > -1){
+       		
+       		if(arr_epc_scan.indexOf(EPC) > -1){
+       			$("#status_koneksi").val("Waiting for scanning...");
+       		}else{
+       			arr_epc_scan.push(EPC);
+       			arr_epc.push(EPC);
+       			$("#status_koneksi").val(EPC + " compare success...");
+
+		        var params = { epc: EPC};
+	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+
+	        		var last_status = data.history;
+	        		var last = (last_status != null ? last_status.STATUS : 'BARU');
+	        		if(data['data_detail'].length == 0){
+						app.list_scan.push({
+							id:0,
+							serial: EPC,
+		        			jenis: "-",
+		        			berat:0,
+		        			status:'-'
+						});
+						tmbhqty(0);
+					}else{
+						app.list_scan.push({
+							id:0,
+							serial: data['data_detail'][0]['serial'],
+		        			jenis: data['data_detail'][0]['jenis'],
+		        			berat: data['data_detail'][0]['berat'],
+		        			status: last
+						}); 
+
+						$.each(app.list_request, function(_, obj) {
+			        		if(obj.jenis == data['data_detail'][0]['jenis'] && (last == 'BERSIH' || last == 'BARU') ){
+			        			app.list_request[index]['ready'] += 1; 
+			        		}
+			        	})
+
+			        	tmbhqty(data.data_detail[0].berat);
+					}
+	        		
+	        	})
+       		}
+       	//JIka tidak exist di listview
+        }else{
+       		// TUHF2000.RFID_Beep(1);
+       		arr_epc.push(EPC);
+       		arr_epc_scan.push(EPC);
+        	var params = { epc: EPC};
+        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	            if(data.status == 'success'){
+	            	
+					var last_status = data.history;
+					var last = (last_status != null ? last_status.STATUS : 'BARU');
+
+					if(data['data_detail'].length == 0){
+						app.list_scan.push({
+							id:0,
+							serial: EPC,
+		        			jenis: "-",
+		        			berat:0,
+		        			status:'-'
+						});
+						tmbhqty(0);
+					}else{
+						app.list_scan.push({
+							id:0,
+							serial: EPC,
+		        			jenis: data['data_detail'][0]['jenis'],
+		        			berat: data['data_detail'][0]['berat'],
+		        			status: (last_status != null ? last_status.STATUS : 'BARU')
+						}); 
+
+						$.each(app.list_request, function(index, obj) {
+			        		if(obj.jenis == data['data_detail'][0]['jenis'] && (last == 'BERSIH' || last == 'BARU')){
+			        			app.list_request[index]['ready'] += 1; 
+			        		}
+			        	})
+			        	tmbhqty(data.data_detail[0].berat);
+					}
+
+					
+					
+					
+	            }
+	    	})
+        }
+    }
     function scanning(session,QValue,anteana){
 	  
 	    var scantid=0;
@@ -336,7 +433,7 @@
 
     $('#btnSave').on('click', function (event) {
     	event.preventDefault();
-    	doclose();
+    	// doclose();
 		var valid = false;
     	var sParam = $('#form-keluar').serialize() + "&scan=" + JSON.stringify(app.list_scan) + "&request=" + JSON.stringify(app.list_request);
     	var validator = $('#form-keluar').validate({

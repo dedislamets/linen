@@ -31,6 +31,12 @@
 
 	$(document).ready(function(){  
 		$("#tanggal" ).datepicker();
+
+		$("#txt_scan").on("change", function(){
+			scan_by_reader($(this).val());
+			$("#txt_scan").val('');
+		})
+
 		$("#tbody-table").find('tr').each(function (i, el) {
 	        var $tds = $(this).find('td');
 	        if($tds.eq(1).next().children().val() != undefined){
@@ -148,7 +154,111 @@
     	});
 
     }
+    function scan_by_reader(EPC){
+        $("#status_koneksi").val("Get data Serial...("+ EPC +")");
 
+        //Jika exist data di listview
+        if(arr_epc.indexOf(EPC) > -1){
+       		
+       		if(arr_epc_scan.indexOf(EPC) > -1){
+       			$("#status_koneksi").val("Waiting for scanning...");
+       		}else{
+       			arr_epc_scan.push(EPC);
+
+       			$("#status_koneksi").val(EPC + " compare success...");
+
+       			var row_status =$("tbody").find("[data-epc='"+ EPC +"']");
+       			var urut = $(row_status).data('urut');
+       			$(row_status).val(1);
+       			
+
+		        var params = { epc: EPC};
+	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	        		var last_status = data.history;
+
+	        		var status = '<select name="flag'+ urut +'" id="flag'+ urut +'" class="form-control">';
+			        status += '<option value="OK" '+ (last_status != null && last_status.STATUS == 'CUCI' ? 'selected' : '') +'>Valid</option>';
+			        status += '<option value="RUSAK">Rusak</option>';
+			        status += '<option value="BARU">Tambahan</option>';
+			        status += '<option value="exist" '+ (last_status != null && last_status.STATUS != 'CUCI' ? 'selected' : '') +'>Inprocess</option>';
+			        status += '</select>';
+			        $(row_status).after(status);
+
+	        		var icon = '<i class="fa fa-check-circle" style="font-size: 30px;color: green;"></i>';
+	        		if(last_status != null && last_status.STATUS != 'CUCI' ){
+						icon = '<i class="fa fa-ban" style="font-size: 30px;color: red;"></i>';
+					}
+					var row_checked =$("tbody").find("[data-checked='"+ EPC +"']");
+       				$(icon).appendTo(row_checked);
+	        	})
+
+
+		        
+       		}
+
+       	//JIka tidak exist di listview
+        }else{
+
+       		arr_epc.push(EPC);
+        	var params = { epc: EPC};
+        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	            if(data.status == 'success'){
+	            	totalberat = parseFloat($("#total_berat").val());
+	            	totalberat += parseFloat(data.data_detail[0].berat);
+	            	$("#total_berat").val(totalberat);
+
+	            	totalqty = parseFloat($("#total_qty").val());
+	            	totalqty++;
+	            	$("#total_qty").val(totalqty);
+
+		            var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
+					if( nomor != undefined ) 	{
+						nomor = parseInt(nomor) + 1;
+					}else{		
+						nomor = 1
+					}
+
+					var last_status = data.history;
+
+					$('#total-row').val(nomor);
+					$(".no-data").remove();
+					var baris = '<tr>';
+					baris += '<td style="width:1%">'+ nomor+'</td>';
+					baris += '<td width="100"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" />';
+					if($("#mode").val() == 'edit') { 
+						baris += '<a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
+					} 
+					baris += '</td>';
+					baris += '<td><input type="text" name="epc'+ nomor +'" id="epc'+ nomor +'" class="form-control" value="'+ EPC +'" readonly /></td>';
+					baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="'+ data.data_detail[0].jenis +'" readonly/></td>';
+					baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ data.data_detail[0].nama_ruangan +'"/></td>';
+					baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ data.data_detail[0].berat +'"></td>';
+					var status = '<select name="flag'+ nomor +'" id="flag'+ nomor +'" class="form-control">';
+			        status += '<option value="OK">Valid</option>';
+			        status += '<option value="RUSAK">Rusak</option>';
+			        status += '<option value="BARU" '+ (last_status == null || last_status.STATUS == 'CUCI' ? 'selected' : '') +'>Tambahan</option>';
+			        status += '<option value="exist" '+ (last_status != null && last_status.STATUS != 'CUCI' ? 'selected' : '') +'>Inprocess</option>';
+			        status += '</select>';
+					baris += '<td> <input type="hidden" id="checked'+ nomor +'" name="checked'+ nomor +'" data-epc="'+ EPC +'" class="form-control" value="2">'+ status +'</td>';
+					var icon = '<i class="fa fa-plus-circle" style="font-size: 30px;color: orange;"></i>';
+					if(last_status != null && last_status.STATUS != 'CUCI'){
+						icon = '<i class="fa fa-ban" style="font-size: 30px;color: red;"></i>';
+					}
+					baris += '<td style="text-align:center;" data-checked="'+ EPC +'">'+ icon +'</td>';
+					baris += '</tr>';
+					
+					var last = $('#tbody-table tr:last').html();
+					if(last== undefined){
+						$(baris).appendTo("#tbody-table");
+					}else{
+						$('#tbody-table tr:last').after(baris);
+					}
+
+					arr_epc_scan.push(EPC);
+	            }
+	    	})
+        }
+    }
     function scanning(session,QValue,anteana){
 	  
 	    var scantid=0;
@@ -329,7 +439,7 @@
 
     $('#btn-finish').on('click', function (event) {
     	event.preventDefault();
-    	doclose();
+    	// doclose();
 		var valid = false;
     	var sParam = $('#form-routing').serialize();
     	var validator = $('#form-routing').validate({

@@ -320,9 +320,10 @@ class Linenkotor extends CI_Controller {
         $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
         $data['data_detail'][$key]['jenis'] = $jenis['jenis'];
         $data['data_detail'][$key]['berat'] = $jenis['berat'];
-
+        $data['data_detail'][$key]['status'] = $this->admin->getLastHistory($value['epc']);
         $data['totalrow'] ++;
       }
+      // print("<pre>".print_r($data,true)."</pre>"); exit();
 
       $this->load->view('dashboard',$data,FALSE); 
     }else{

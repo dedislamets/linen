@@ -36,6 +36,12 @@
     var totalberat=0;
 
 	$(document).ready(function(){  
+
+		$("#txt_scan").on("change", function(){
+			scan_by_reader($(this).val());
+			$("#txt_scan").val('');
+		})
+
 		$("#tanggal" ).datepicker();
 		if($("#mode").val() == 'edit') {
 			// app.mode = 'edit';
@@ -47,6 +53,7 @@
 			        arr_epc.push(epc);
 			    }
 		    });
+		    hitungBerat();
 		}
 	})
 
@@ -145,7 +152,65 @@
 
     }
  
+    function scan_by_reader(EPC){
+       if(arr_epc.indexOf(EPC) > -1){
+       		$("#txt_scan").val('');
+       }else{
+       		arr_epc.push(EPC);
+        	var params = { epc: EPC};
+        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	            if(data.status == 'success'){
 
+	            	totalberat = parseFloat($("#total_berat").val());
+	            	totalberat += parseFloat((data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat));
+	            	$("#total_berat").val(totalberat.toFixed(1));
+
+	            	totalqty = parseFloat($("#total_qty").val());
+	            	totalqty++;
+	            	$("#total_qty").val(totalqty.toFixed(1));
+
+		            var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
+					if( nomor != undefined ) 	{
+						nomor = parseInt(nomor) + 1;
+					}else{		
+						nomor = 1
+					}
+
+					var last_status = data.history;
+
+					$('#total-row').val(nomor);
+					$(".no-data").remove();
+					var baris = '<tr>';
+					baris += '<td style="width:1%">'+ nomor+'</td>';
+					baris += '<td><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" />';
+					if($("#mode").val() == 'edit') { 
+						baris += '<a href="javascript:void(0)" id="cari'+ nomor +'" class="btn hor-grd btn-success hidden" onclick="cari_dealer(this)"><i class="fa fa-search"></i>&nbsp; Cari</a><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
+					}else{
+						baris += '<a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
+					} 
+					baris += '</td>';
+					baris += '<td><input type="text" name="epc'+ nomor +'" id="epc'+ nomor +'" class="form-control" value="'+ EPC +'" readonly /></td>';
+					baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? '' : data.data_detail[0].jenis) +'" readonly/></td>';
+					baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].nama_ruangan) +'"/></td>';
+					baris += '<td style="width:100px;"><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat)+'"></td>';
+					baris += '<td>'+ (last_status != null ? last_status.STATUS : '') +'</td>';
+				
+					baris += '</tr>';
+					
+					var last = $('#tbody-table tr:last').html();
+					if(last== undefined){
+						$(baris).appendTo("#tbody-table");
+					}else{
+						$('#tbody-table tr:last').after(baris);
+					}
+	            }
+	            
+	    	})
+
+       }
+
+        // doclose();
+    }
     function scanning(session,QValue,anteana){
 	  
 	    var scantid=0;
@@ -200,7 +265,7 @@
 						baris += '<td style="width:1%">'+ nomor+'</td>';
 						baris += '<td width="200"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" />';
 						if($("#mode").val() == 'edit') { 
-							baris += '<a href="javascript:void(0)" id="cari'+ nomor +'" class="btn hor-grd btn-success" onclick="cari_dealer(this)"><i class="fa fa-search"></i>&nbsp; Cari</a><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
+							baris += '<a href="javascript:void(0)" id="cari'+ nomor +'" class="btn hor-grd btn-success hidden" onclick="cari_dealer(this)"><i class="fa fa-search"></i>&nbsp; Cari</a><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
 						} 
 						baris += '</td>';
 						baris += '<td><input type="text" name="epc'+ nomor +'" id="epc'+ nomor +'" class="form-control" value="'+ EPC +'" readonly /></td>';
@@ -326,7 +391,7 @@
 
     $('#btn-finish').on('click', function (event) {
     	event.preventDefault();
-    	doclose();
+    	// doclose();
 		var valid = false;
     	var sParam = $('#form-routing').serialize();
     	var validator = $('#form-routing').validate({
@@ -372,21 +437,23 @@
     		$("#tbody-table").find('tr').each(function (i, el) {
 		        var $tds = $(this).find('td');
 		        if($tds.eq(1).next().children().val() != undefined){
-			        var status = $tds.eq(5).next().html();
+			        var status = $tds.eq(5).next().html().trim();
 			        if(status !="" && status != "KIRIM" ){
-			        	if($("#kategori").val() == "Rewash" && status == "CUCI"){
-
+			        	if(status == "CUCI"){
+			        		// flag=true;
 			        	}else if(status == "RUSAK"){
-			        		alert('Item yang discan tidak diijinkan untuk disimpan..');
+			        		$("#status_koneksi").val('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
+			        		alert('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
 			        		flag= false;
 			        	}else{
-			        		alert('Item yang discan tidak diijinkan untuk disimpan..');
+			        		$("#status_koneksi").val('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
+			        		alert('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
 			        		flag= false;
 			        	}
 			        }
 			    }
 			    if($tds.eq(2).next().children().val() == ""){
-			    	alert('Serial belum terdaftar..');
+			    	alert('Serial No ' + (i+1) + ' belum terdaftar..');
 			        flag= false;
 			    }
 		    });
