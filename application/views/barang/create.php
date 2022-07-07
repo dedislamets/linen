@@ -175,7 +175,7 @@
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
         <div class="col-xl-10">
-            <h4><?= $title ?> <a href="<?= base_url() ?>linenkeluar" style="color: #000;margin-left: 10px;"> Back </a></h4>
+            <h4><?= $title ?> <a href="<?= base_url() ?>barang" style="color: #000;margin-left: 10px;"> Back </a></h4>
             <span>Halaman ini untuk mendaftarkan linen baru</span>
         </div>
         
