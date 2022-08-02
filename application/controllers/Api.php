@@ -48,7 +48,7 @@ use chriskacerguis\RestServer\RestController;
 
 class Api extends RestController  {
 
-    private $perPage = 10;
+    private $perPage = 50;
     public function __construct()
     {
         parent::__construct();
