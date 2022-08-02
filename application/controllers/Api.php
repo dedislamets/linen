@@ -48,6 +48,7 @@ use chriskacerguis\RestServer\RestController;
 
 class Api extends RestController  {
 
+    private $perPage = 10;
     public function __construct()
     {
         parent::__construct();
@@ -115,12 +116,29 @@ class Api extends RestController  {
 
     public function barang_get()
     {
-        $shift = $this->admin->api_array('barang');
+        
+        $count = $this->db->count_all_results('barang');
 
-        if ($shift != FALSE) {
+        if (!empty($this->get("page"))) {
+
+            $start = $this->get("page") * $this->perPage;
+            $query = $this->admin->api_pagination('barang',$start, $this->perPage);
+            $data['products'] = $query;
+            $data['count'] = $count;
+            $data['sisa'] = $count-intval(($this->perPage*$this->get("page")));
+            $data['page'] = $this->get("page");
+        } else {
+            $query = $this->admin->api_pagination('barang',$this->perPage,$this->perPage);
+            $data['products'] = $query;
+            $data['count'] = $count;
+            $data['sisa'] = $count-intval(($this->perPage*$this->get("page")));
+            $data['page'] = 1;
+        }
+
+        if ($data!= FALSE) {
             $this->response([
                 'status' => true,
-                'data' => $shift
+                'data' => $data
             ], 200 );
         }else{
 
