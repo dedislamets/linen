@@ -183,19 +183,17 @@ class Linenbersih extends CI_Controller {
       if(!empty($data['bersih'])){
         $data['mode'] ='edit';
         $data['totalrow'] = 0;
+
+        $data['data_detail_bersih'] = $this->admin->get_result_array('linen_bersih_detail',array( 'no_transaksi' => $data['bersih']['NO_TRANSAKSI']));
+        foreach ($data['data_detail_bersih'] as $key => $value) {
+          $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
+          $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
+          $data['data_detail_bersih'][$key]['jenis'] = $jenis['jenis'];
+          $data['data_detail_bersih'][$key]['berat'] = $jenis['berat'];
+
+          $data['totalrow'] ++;
+        }
       }
-
-      $data['data_detail_bersih'] = $this->admin->get_result_array('linen_bersih_detail',array( 'no_transaksi' => $data['bersih']['NO_TRANSAKSI']));
-      foreach ($data['data_detail_bersih'] as $key => $value) {
-        $item = $this->admin->get_array('barang',array( 'serial' => $value['epc']));
-        $jenis = $this->admin->get_array('jenis_barang',array( 'id' => $item['id_jenis']));
-        $data['data_detail_bersih'][$key]['jenis'] = $jenis['jenis'];
-        $data['data_detail_bersih'][$key]['berat'] = $jenis['berat'];
-
-        $data['totalrow'] ++;
-      }
-
-      
 
       $data['kategori'] = $this->admin->getmaster('kategori');
       $data['pic'] = $this->admin->getmaster('tb_user');
