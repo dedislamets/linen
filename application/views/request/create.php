@@ -192,6 +192,7 @@
       <div class="row">
         <div class="col-sm-12" style="margin-top: 10px;">
           <input type="hidden" name="id_request" id="id_request" value="<?= empty($data) ? "" : $data['id']?>">
+          <input type="hidden" name="android" id="android" value="<?= empty($android) ? "" : $android ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
 
           <button class="btn btn-block btn-success btn-mobile" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>

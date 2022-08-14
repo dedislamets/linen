@@ -69,10 +69,12 @@
 		 		$.post(link,sParam, function(data){
 					if(data.error==false){	
 						alert("Tersimpan");
-						window.location.href = '<?= base_url(); ?>listrequest';
+						if($("#android").val() != "1"){
+							window.location.href = '<?= base_url(); ?>listrequest';
+						}
 						androidObj.showToast("ok");
 					}else{	
-						alertError(data.message);				  	
+						alert(data.message);				  	
 					}
 				},'json');
 	 		}
