@@ -372,28 +372,28 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script> -->
    <!-- <script src="<?= base_url(); ?>assets/js/plugins/sweetalert2.min.js"></script> -->
    <script type="text/javascript">
-      // function alertOK(href="") {
-      //    Swal.fire({ title: "Berhasil disimpan..!",
-      //        text: "",
-      //        timer: 2000,
-      //        icon: 'success',
-      //        showConfirmButton: false,
-      //        willClose: () => {
-      //          if(href != "")
-      //             href;
-      //       }
-      //     });
-      // }
+      function alertOK(href="") {
+         Swal.fire({ title: "Berhasil disimpan..!",
+             text: "",
+             timer: 2000,
+             icon: 'success',
+             showConfirmButton: false,
+             willClose: () => {
+               if(href != "")
+                  href;
+            }
+          });
+      }
 
-      // function alertError(textError = "'Silahkan cek kembali data anda!'") {
-      //     Swal.fire({
-      //       icon: 'error',
-      //       title: 'Oops...',
-      //       text: textError,
-      //       showConfirmButton: false,
-      //       timer: 2000,
-      //     })
-      // }
+      function alertError(textError = "'Silahkan cek kembali data anda!'") {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: textError,
+            showConfirmButton: false,
+            timer: 2000,
+          })
+      }
       Pusher.logToConsole = true;
       var pusher = new Pusher('3d5d9fdecf424e5c99f4', {
         cluster: 'ap1'
