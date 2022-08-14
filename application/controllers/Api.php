@@ -121,10 +121,8 @@ class Api extends RestController  {
 
         if (!empty($this->get("page"))) {
             $sisa = $count-intval(($this->perPage*$this->get("page")));
-            $start = $this->get("page") * $this->perPage;
-            if( intval($this->perPage*$this->get("page")) > $count ){
-                $start = intval(($this->perPage * ($this->get("page")-1)));
-            } 
+            $start = intval(($this->perPage * ($this->get("page")-1)));
+             
             if($this->get("page") == 1){
                 $start=0;
             }
