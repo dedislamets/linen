@@ -120,12 +120,21 @@ class Api extends RestController  {
         $count = $this->db->count_all_results('barang');
 
         if (!empty($this->get("page"))) {
+            $sisa = $count-intval(($this->perPage*$this->get("page")));
+            if($this->get("page") > 1){
+                $sisa = $count-intval(($this->perPage * ($this->get("page")-1)));
+            }
 
             $start = $this->get("page") * $this->perPage;
+            if( intval($this->perPage*$this->get("page")) > $count ){
+                $start = $sisa;
+            } 
+            
+            
             $query = $this->admin->api_pagination('barang',$start, $this->perPage);
             $data['products'] = $query;
             $data['count'] = $count;
-            $data['sisa'] = $count-intval(($this->perPage*$this->get("page")));
+            $data['sisa'] = $sisa;
             $data['page'] = $this->get("page");
         } else {
             $query = $this->admin->api_pagination('barang',$this->perPage,$this->perPage);
