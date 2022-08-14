@@ -290,9 +290,9 @@ class Admin extends CI_Model
  
         curl_close($ch);
     }
-    function api_pagination($tabel,$limit='0',$start='10'){
+    function api_pagination($tabel,$limit='10',$start='0'){
         $this->db->from($tabel);
-        $this->db->limit($start,$limit);
+        $this->db->limit($limit,$start);
         $query = $this->db->get();
         return $query->result();    
     }
