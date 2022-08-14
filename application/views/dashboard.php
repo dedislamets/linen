@@ -33,14 +33,14 @@
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/chosen.min.css" />
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/css/buttons.dataTables.min.css">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/animate.min.css"/>
-  <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/south-street/jquery-ui.css" rel="stylesheet">
+  <link href="<?= base_url(); ?>assets/css/jquery-ui.css" rel="stylesheet">
   <link href="<?= base_url(); ?>assets/signature/css/jquery.signature.css" rel="stylesheet">
   <link rel="stylesheet" href="<?= base_url(); ?>assets/css/jquery.gritter.min.css">
   <!--<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-tagsinput.css"> -->
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/jstree/css/style.min.css">
   <!-- the fileinput plugin styling CSS file -->
-  <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
+  <link href="<?= base_url(); ?>assets/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-icons.min.css" crossorigin="anonymous">
 
   <style type="text/css">
     .hidden{
@@ -359,14 +359,14 @@
   <script src="<?= base_url(); ?>assets/js/sweetalert2.js"></script>
   <script src="<?= base_url(); ?>assets/js/bootstrap-tagsinput.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/plugins/jquery.validate.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.4/polyfill.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.x/dist/vue.js"></script>
+  <script src="<?= base_url(); ?>assets/js/polyfill.js"></script>
+  <script src="<?= base_url(); ?>assets/js/vue-278.js"></script>
   <!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue"></script> -->
   <script type="text/javascript" src="<?= base_url(); ?>assets/jstree/js/jstree.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets\switchery\js\switchery.min.js"></script>
   <script src="<?= base_url(); ?>assets/signature/js/jquery.signature.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/signature/js/jquery.ui.touch-punch.min.js"></script>
-  <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+  <script src="<?= base_url(); ?>assets/js/pusher.min.js"></script>
   <script src="<?= base_url(); ?>assets/js/jquery.gritter.min.js"></script>
   
   <!-- <script src="https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js"></script> -->
