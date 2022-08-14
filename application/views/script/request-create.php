@@ -64,18 +64,19 @@
 			<?php else: ?>
 				valid = validateBarangDesktop()
 			<?php endif; ?>
-	 		if(valid) {	
+	 		if(valid) {
+	 			alert('valid');	
 		 		var link = '<?= base_url() ?>listrequest/Save';
 		 		$.post(link,sParam, function(data){
 					if(data.error==false){	
-						alert("Tersimpan");
+						alertOK("Tersimpan");
 						if($("#android").val() != "1"){
 							window.location.href = '<?= base_url(); ?>listrequest';
-						}else{
-							androidObj.showToast("ok");
 						}
+						androidObj.showToast("ok");
+						
 					}else{	
-						alert(data.message);				  	
+						alertError(data.message);				  	
 					}
 				},'json');
 	 		}
