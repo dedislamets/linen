@@ -65,10 +65,9 @@
 				valid = validateBarangDesktop()
 			<?php endif; ?>
 	 		if(valid) {
-	 			alert('valid');	
 		 		var link = '<?= base_url() ?>listrequest/Save';
 		 		$.post(link,sParam, function(data){
-					if(data.error==false){	
+					if(data.error == false){	
 						alertOK("Tersimpan");
 						if($("#android").val() != "1"){
 							window.location.href = '<?= base_url(); ?>listrequest';
