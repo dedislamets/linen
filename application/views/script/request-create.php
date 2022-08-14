@@ -71,8 +71,9 @@
 						alert("Tersimpan");
 						if($("#android").val() != "1"){
 							window.location.href = '<?= base_url(); ?>listrequest';
+						}else{
+							androidObj.showToast("ok");
 						}
-						androidObj.showToast("ok");
 					}else{	
 						alert(data.message);				  	
 					}
