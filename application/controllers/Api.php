@@ -834,6 +834,28 @@ class Api extends RestController  {
         $this->response($response);
     }
 
+    public function vbs_post()
+    {
+        $data =array(
+            "serial"=>$this->post('serial'),
+            "type"=>$this->post('type'),
+            "code"=>$this->post('code'),
+            
+        );
+        $insert = $this->db->insert("tb_vbs", $data);
+        if($insert){
+            $response['status']=200;
+            $response['error']=false;
+            $response['message']='Data berhasil ditambahkan.';
+        }else{
+            // $response['status']=502;
+            $response['error']=true;
+            $response['message']='Data gagal ditambahkan.'; 
+
+        }
+        $this->response($response);
+    }
+
     public function linen_kotor_post()
     {
         $arr_date = explode("/", $this->post('tanggal'));
