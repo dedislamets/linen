@@ -201,6 +201,9 @@
 	        		if(last_status != null && last_status.STATUS != 'CUCI' ){
 						icon = '<i class="fa fa-ban" style="font-size: 30px;color: red;"></i>';
 					}
+					if(last_status != null && last_status.STATUS == 'CUCI'){
+						icon = '<i class="fa fa-check-circle" style="font-size: 30px;color: green;"></i>';
+					}
 					var row_checked =$("tbody").find("[data-checked='"+ EPC +"']");
        				$(icon).appendTo(row_checked);
 	        	})
@@ -256,6 +259,9 @@
 					var icon = '<i class="fa fa-plus-circle" style="font-size: 30px;color: orange;"></i>';
 					if(last_status != null && last_status.STATUS != 'CUCI'){
 						icon = '<i class="fa fa-ban" style="font-size: 30px;color: red;"></i>';
+					}
+					if(last_status != null && last_status.STATUS == 'CUCI'){
+						icon = '<i class="fa fa-check-circle" style="font-size: 30px;color: green;"></i>';
 					}
 					baris += '<td style="text-align:center;" data-checked="'+ EPC +'">'+ icon +'</td>';
 					baris += '</tr>';
