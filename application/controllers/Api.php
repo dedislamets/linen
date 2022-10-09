@@ -839,7 +839,6 @@ class Api extends RestController  {
         $data =array(
             "serial"=>$this->post('serial'),
             "type"=>$this->post('type'),
-            "code"=>$this->post('code'),
             
         );
         $insert = $this->db->insert("tb_vbs", $data);
@@ -860,7 +859,6 @@ class Api extends RestController  {
     {
         $data =array(
             "type"=>$this->post('type'),
-            "code"=>$this->post('code'),
             
         );
         $delete = $this->db->delete("tb_vbs", $data);
