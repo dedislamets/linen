@@ -684,6 +684,24 @@ class Api extends RestController  {
         }
     }
 
+    public function vbs_get()
+    {
+        $vbs = $this->admin->api_array('tb_vbs', array("type" => $this->get('type') ));
+
+        if ($linen_request != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $vbs,
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No users were found'
+            ], 200 );
+        }
+    }
+
     public function history_get()
     {
         $sql = "select * FROM (
