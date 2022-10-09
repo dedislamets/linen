@@ -75,7 +75,7 @@
     });
 
 	$("#btnVB").on('click', function (event) {
-    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Kotor' }, function(data){ 
+    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Bersih' }, function(data){ 
     		var arr_data = data.data;
     		for (var key in arr_data){
     			$('#tbody-table').html('');
