@@ -859,7 +859,6 @@ class Api extends RestController  {
     public function delete_vbs_post()
     {
         $data =array(
-            "serial"=>$this->post('serial'),
             "type"=>$this->post('type'),
             "code"=>$this->post('code'),
             
