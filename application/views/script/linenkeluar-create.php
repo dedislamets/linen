@@ -38,6 +38,25 @@
 			$("#txt_scan").val('');
 		})
 
+		$("#btnVB").on('click', function (event) {
+	    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Keluar' }, function(data){ 
+	    		var arr_data = data.data;
+	    		app.list_scan=[];
+		    	arr_epc = [];
+		    	$.each(app.list_request, function(index, obj) {
+		    		app.list_request[index]['ready'] = 0; 
+		    	})
+		    	start = 0;
+		    	totalqty=0;
+		    	$("#total_qty").text(totalqty);
+		    	$("#total_berat").text(0);
+		    	
+	    		for (var key in arr_data){
+	    			scan_by_reader(arr_data[key].serial);
+	    		}
+	    	})
+	    })
+
 	    if($("#mode").val() == 'edit') {
 	    	app.mode = 'edit';
 	    	$.get('<?= base_url()?>linenkeluar/getDetail', { id: $("#id_keluar").val() }, function(data){ 
