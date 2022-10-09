@@ -50,7 +50,7 @@
 		    	totalqty=0;
 		    	$("#total_qty").text(totalqty);
 		    	$("#total_berat").text(0);
-		    	
+
 	    		for (var key in arr_data){
 	    			scan_by_reader(arr_data[key].serial);
 	    		}
@@ -473,7 +473,7 @@
 			 		var link = '<?= base_url(); ?>linenkeluar/Save';
 			 		$.post(link,sParam, function(data){
 						if(data.error==false){	
-							alert('Data Sukses Tersimpan');
+							alertOK('Data Sukses Tersimpan');
 							window.location.href = '<?= base_url(); ?>linenkeluar';
 						}else{	
 							alertError(data.message);				  	
@@ -497,11 +497,11 @@
     		$.each(app.list_scan, function(index, obj) {
     			if(obj.status != 'BERSIH' && obj.status != 'BARU' && obj.status == 'KIRIM'){
     				flag = false;
-    				alert(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
+    				alertError(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
     				finderr(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
     			}else if (obj.status == 'RUSAK') {
     				flag = false;
-    				alert(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
+    				alertError(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
     				finderr(obj.jenis + '-(' + obj.serial + ') tidak valid.!');
     			}
     		})

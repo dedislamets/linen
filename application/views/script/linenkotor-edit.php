@@ -78,7 +78,7 @@
     	$.get('<?= base_url()?>api/vbs', { type: 'Linen Kotor' }, function(data){ 
     		var arr_data = data.data;
     		$('#tbody-table').html('');
-		    arr_epc = [];
+		   arr_epc = [];
 	    	start = 0;
 	    	totalqty=0;
 	    	$("#total_qty").val(totalqty);
@@ -167,7 +167,7 @@
     	});
    }
  
-   function scan_by_reader(EPC){
+   	function scan_by_reader(EPC){
        if(arr_epc.indexOf(EPC) > -1){
        		$("#txt_scan").val('');
        }else{

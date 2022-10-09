@@ -31,7 +31,26 @@
 	$(document).ready(function(){  
 		$("#tanggal" ).datepicker();
 
-	    if($("#mode").val() == 'edit') {
+		$("#txt_scan").on("change", function(){
+			scan_by_reader($(this).val());
+			$("#txt_scan").val('');
+		})
+
+		$("#btnVB").on('click', function (event) {
+	    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Rusak' }, function(data){ 
+	    		app.list_scan=[];
+		    	arr_epc = [];
+		    	start = 0;
+		    	totalqty=0;
+		    	$("#total_qty").val(totalqty);
+		    	var arr_data = data.data;
+	    		for (var key in arr_data){
+	    			scan_by_reader(arr_data[key].serial);
+	    		}
+	    	})
+	    })
+
+	   if($("#mode").val() == 'edit') {
 	    	app.mode = 'edit';
 	    	$.get('<?= base_url()?>listrusak/getDetail', { id: $("#id_rusak").val() }, function(data){ 
 				$.each(data['data_detail_rusak'], function(index, obj) {
@@ -54,11 +73,11 @@
 	})
 
 	
-    $("#btnCariBarang").on('click', function (event) {
+   $("#btnCariBarang").on('click', function (event) {
     	$('#modalBarang').modal({backdrop: 'static', keyboard: false}) ;
-    });
+   });
 
-    $("#btnStop").on('click', function(e) {
+   $("#btnStop").on('click', function(e) {
     	e.preventDefault();
     	app.list_scan=[];
     	arr_epc = [];
@@ -71,9 +90,9 @@
 		$("#status_koneksi").val("Stop scanning...");
 		$("#status_koneksi").removeClass("error-text");
     	$("#status_koneksi").removeClass("scan-text");
-    })
+   })
 
-    $("#btnScan").on('click', function(e) {
+   $("#btnScan").on('click', function(e) {
     	e.preventDefault();
     	// arr_epc = [];
     	$("#status_koneksi").removeClass("error-text");
@@ -90,9 +109,9 @@
     		return;
     	}
         
-    })
+   })
 
-    function config(){
+   function config(){
     	$.get('<?= base_url()?>api/config', {  }, function(data){ 
     		if(data.status){
     			var Port = data.data[0].port_com;
@@ -131,40 +150,78 @@
     		}
     	});
 
-    }
+   }
 
-    function scanning(){
+   function scan_by_reader(EPC){
+       if(arr_epc.indexOf(EPC) > -1){
+       		$("#txt_scan").val('');
+       }else{
+    		arr_epc.push(EPC);
+        	var params = { epc: EPC};
+        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	         if(data.status == 'success'){
+	         	var last_status = data.history;
+					var jml_cuci = data.jml_cuci;
+					var last = (last_status != null ? last_status.STATUS : 'BARU');
+
+					if(data['data_detail'].length == 0){
+						app.list_scan.push({
+							id:0,
+							serial: EPC,
+		        			jenis: "-",
+		        			berat:0,
+		        			status:'-',
+		        			jml_cuci:0
+						});
+						tmbhqty(0);
+					}else{
+						app.list_scan.push({
+							id:0,
+							serial: EPC,
+		        			jenis: data['data_detail'][0]['jenis'],
+		        			berat: data['data_detail'][0]['berat'],
+		        			status: (last_status != null ? last_status.STATUS : 'BARU'),
+		        			jml_cuci: jml_cuci
+						}); 
+
+			        	tmbhqty();
+					}
+					arr_epc_scan.push(EPC);
+	         }	            
+	    	})
+       }
+   }
+
+   function scanning(){
     	var session = 0;
-	    var QValue = 4;
-	    var scantid=0;
-	    var anteana = 128;
-	    var t=128;
+	   var QValue = 4;
+	   var scantid=0;
+	   var anteana = 128;
+	   var t=128;
        	
-        // var sum = TUHF2000.RFID_Inventory(4,0,0,0,0,10); 
+      // var sum = TUHF2000.RFID_Inventory(4,0,0,0,0,10); 
     	var sum = TUHF2000.RFID_Inventory(QValue,session,scantid,anteana,0,1); 
-        if(sum=="") 
-        {	 	
+      if(sum=="") 
+      {	 	
            // $("#status_koneksi").val("Waiting for scanning...");
-        }else {
+      }else {
+       	var EPC_Len=parseInt(sum.substr(0,2),16);
+        	var EPC=sum.substr(2,EPC_Len*2);
+        	$("#status_koneksi").val("Get data Serial...("+ EPC +")");
 
-	       var EPC_Len=parseInt(sum.substr(0,2),16);
-           var EPC=sum.substr(2,EPC_Len*2);
-           $("#status_koneksi").val("Get data Serial...("+ EPC +")");
+         //Jika exist data di listview
+         if(arr_epc.indexOf(EPC) > -1){          		
+        		if(arr_epc_scan.indexOf(EPC) > -1){
+        			// TUHF2000.RFID_Beep(0);
+        			$("#status_koneksi").val("Waiting for scanning...");
+        		}else{
+        			
+        			arr_epc_scan.push(EPC);
 
-            //Jika exist data di listview
-            if(arr_epc.indexOf(EPC) > -1){
-           		
-           		if(arr_epc_scan.indexOf(EPC) > -1){
-           			// TUHF2000.RFID_Beep(0);
-           			$("#status_koneksi").val("Waiting for scanning...");
-           		}else{
-           			
-           			arr_epc_scan.push(EPC);
+        			$("#status_koneksi").val(EPC + " compare success...");
 
-           			$("#status_koneksi").val(EPC + " compare success...");
-
-			        var params = { epc: EPC};
-		        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+		        	var params = { epc: EPC};
+	        		$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 		        		var last_status = data.history;
 		        		var jml_cuci = data.jml_cuci;
 		        		var last = (last_status != null ? last_status.STATUS : 'BARU');
@@ -190,18 +247,16 @@
 
 				        	tmbhqty();
 						}
-		        		
-		        	})
-           		}
-
-           	//JIka tidak exist di listview
-            }else{
-            	
-           		arr_epc.push(EPC);
-	        	var params = { epc: EPC};
-	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
-		            if(data.status == 'success'){
-		            	
+	        		
+	        		})
+        		}
+        	//JIka tidak exist di listview
+         }else{
+        		arr_epc.push(EPC);
+        		var params = { epc: EPC};
+        		$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	            if(data.status == 'success'){
+	            	
 						var last_status = data.history;
 						var jml_cuci = data.jml_cuci;
 						var last = (last_status != null ? last_status.STATUS : 'BARU');
@@ -228,37 +283,32 @@
 
 				        	tmbhqty();
 						}
-
-						
-						
 						arr_epc_scan.push(EPC);
-		            }
-		    	})
-           }
-        }
-
-        // doclose();
-    }
-    function tmbhqty(){
+	         	}
+	    		})
+      	}
+      }
+   }
+   function tmbhqty(){
     	totalqty = parseInt($("#total_qty").val());
    		totalqty++;
    		$("#total_qty").val(totalqty);
-    }
+   }
 
-    function doclose() 
+   function doclose() 
     { 
     	// var sum = TUHF2000.RFID_TcpClose(); 	
         var sum = TUHF2000.RFID_ComClose(); 	
         // if(sum==0) 	$("#status_koneksi").val("Terputus...");
-    } 
+   } 
 
-    $('#btnBrowse').on('click', function (event) {
+   $('#btnBrowse').on('click', function (event) {
     	$('#modalBrowse').modal({backdrop: 'static', keyboard: false}) ;
-    });
+   });
 
-    $('#btnSave').on('click', function (event) {
+   $('#btnSave').on('click', function (event) {
     	event.preventDefault();
-    	doclose();
+    	// doclose();
 		var valid = false;
     	var sParam = $('#form-rusak').serialize() + "&scan=" + JSON.stringify(app.list_scan) + "&request=" + JSON.stringify(app.list_request);
     	var validator = $('#form-rusak').validate({
@@ -282,7 +332,7 @@
 			 		var link = '<?= base_url(); ?>listrusak/Save';
 			 		$.post(link,sParam, function(data){
 						if(data.error==false){	
-							alert('Data Sukses Tersimpan');
+							alertOK('Data Sukses Tersimpan');
 							window.location.href = '<?= base_url(); ?>listrusak';
 						}else{	
 							alertError(data.message);				  	
@@ -292,7 +342,7 @@
 		 	}
 	 	}
         
-    });
+   });
 
 
 	function validateBarang(){
@@ -306,7 +356,7 @@
     		$.each(app.list_scan, function(index, obj) {
     			if(obj.status == 'RUSAK' ){
     				flag = false;
-    				alert(obj.jenis + '-(' + obj.serial + ') sudah berstatus rusak sebelumnya.!');
+    				alertError(obj.jenis + '-(' + obj.serial + ') sudah berstatus rusak sebelumnya.!');
     				finderr(obj.jenis + '-(' + obj.serial + ') sudah berstatus rusak sebelumnya.!');
     			}
     		})
@@ -315,7 +365,7 @@
     	return flag;
     }
 
-    function finderr(txt){
+   function finderr(txt){
 
 		$("#status_koneksi").removeClass("scan-text");
 		$("#status_koneksi").addClass("error-text");
