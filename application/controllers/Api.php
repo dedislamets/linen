@@ -688,7 +688,7 @@ class Api extends RestController  {
     {
         $vbs = $this->admin->api_array('tb_vbs', array("type" => $this->get('type') ));
 
-        if ($linen_request != FALSE) {
+        if ($vbs != FALSE) {
             $this->response([
                 'status' => true,
                 'data' => $vbs,
