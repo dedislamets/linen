@@ -278,7 +278,10 @@
         <div class="col-sm-4">
           <input type="text" class="form-control" id="txt_scan" name="txt_scan" placeholder="Ketikan Kode EPC" value="">
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-2">
+          <button type="button" class="btn btn-success btn-sm btn-block" id="btnVB">CEK API</button>
+        </div>
+        <div class="col-sm-6">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
       </div>

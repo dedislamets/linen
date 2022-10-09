@@ -122,7 +122,10 @@
         <div class="col-sm-4">
           <input type="text" class="form-control" id="txt_scan" name="txt_scan" placeholder="Ketikan Kode EPC" value="">
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-2">
+          <button type="button" class="btn btn-success btn-sm btn-block" id="btnVB">Cek Data API</button>
+        </div>
+        <div class="col-sm-6">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
       </div>
@@ -171,7 +174,7 @@
                           <!-- <a href="#" id="cari<?=$urut?>" class="btn hor-grd btn-success" onclick="cari_dealer(this)" v-if="last_status != 'BERSIH'">
                             <i class="fa fa-search"></i>&nbsp; Cari
                           </a> -->
-                          <a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)" v-if="last_status != 'BERSIH'"><i class="fa fa-trash"></i>&nbsp; Del</a>
+                          <!-- <a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)" v-if="last_status != 'BERSIH'"><i class="fa fa-trash"></i>&nbsp; Del</a> -->
                         </td>
                         <td> 
                           <input type="text" name="epc<?=$urut?>" id="epc<?=$urut?>" class="form-control" value="<?=$row['epc']?>" readonly /></td>
@@ -200,7 +203,7 @@
           <input type="hidden" name="id_kotor" id="id_kotor" value="<?= empty($data) ? "" : $data['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
           <?php if(!empty($data) && $data['STATUS'] == "CUCI") { ?>
-            <button type="button" class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
+            <!-- <button type="button" class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button> -->
           <?php } ?>
         </div>
       </div>

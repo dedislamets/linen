@@ -74,6 +74,20 @@
 		"autoWidth": true,
     });
 
+	$("#btnVB").on('click', function (event) {
+    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Kotor' }, function(data){ 
+    		var arr_data = data.data;
+    		for (var key in arr_data){
+    			$('#tbody-table').html('');
+		    	arr_epc = [];
+		    	start = 0;
+		    	totalqty=0;
+		    	$("#total_qty").val(totalqty);
+		    	$("#total_berat").val(0);
+    			scan_by_reader(arr_data[key].serial);
+    		}
+    	})
+    })
 	
     $("#btnCariBarang").on('click', function (event) {
     	$('#modalBarang').modal({backdrop: 'static', keyboard: false}) ;
@@ -175,7 +189,6 @@
 		        var params = { epc: EPC};
 	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 	        		var last_status = data.history;
-
 	        		var status = '<select name="flag'+ urut +'" id="flag'+ urut +'" class="form-control">';
 			        status += '<option value="OK" '+ (last_status != null && last_status.STATUS == 'CUCI' ? 'selected' : '') +'>Valid</option>';
 			        status += '<option value="RUSAK">Rusak</option>';
@@ -234,9 +247,9 @@
 					baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ data.data_detail[0].nama_ruangan +'"/></td>';
 					baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ data.data_detail[0].berat +'"></td>';
 					var status = '<select name="flag'+ nomor +'" id="flag'+ nomor +'" class="form-control">';
-			        status += '<option value="OK">Valid</option>';
+			        status += '<option value="OK" '+ (last_status != null && last_status.STATUS == 'CUCI' ? 'selected' : '') +'>Valid</option>';
 			        status += '<option value="RUSAK">Rusak</option>';
-			        status += '<option value="BARU" '+ (last_status == null || last_status.STATUS == 'CUCI' ? 'selected' : '') +'>Tambahan</option>';
+			        status += '<option value="BARU" '+ (last_status == null  ? 'selected' : '') +'>Tambahan</option>';
 			        status += '<option value="exist" '+ (last_status != null && last_status.STATUS != 'CUCI' ? 'selected' : '') +'>Inprocess</option>';
 			        status += '</select>';
 					baris += '<td> <input type="hidden" id="checked'+ nomor +'" name="checked'+ nomor +'" data-epc="'+ EPC +'" class="form-control" value="2">'+ status +'</td>';
@@ -463,7 +476,7 @@
 			 		var link = '<?= base_url(); ?>linenbersih/Save';
 			 		$.post(link,sParam, function(data){
 						if(data.error==false){	
-							alert('Data Sukses Tersimpan');
+							alertOK('Data Sukses Tersimpan');
 							window.location.href = '<?= base_url(); ?>linenbersih';
 						}else{	
 							alertError(data.message);				  	
@@ -488,11 +501,11 @@
 		        if($tds.eq(1).next().children().val() != undefined){
 			        var status = $tds.eq(5).next().children().next().val();
 			        if(status=="exist"){
-			        	alert('Terdapat data yang berstatus inprogress, gagal menyimpan!');
+			        	alertError('Terdapat data yang berstatus inprogress, gagal menyimpan!');
 			        	flag= false;
 			        }
 			        if(status== undefined){
-			        	alert('Terdapat item yang belum di scan..!');
+			        	alertError('Terdapat item yang belum di scan..!');
 			        	flag= false;
 			        }
 			    }
@@ -536,7 +549,7 @@
 	        if($tds.eq(1).next().children().val() != undefined){
 		        var productId = $tds.eq(1).next().children().val().trim();
 		        if(productId==itemno){
-		        	alert('Item No sudah ada, silahkan masukan item lain..');
+		        	alertError('Item No sudah ada, silahkan masukan item lain..');
 		        	x=false;
 		        }
 		    }

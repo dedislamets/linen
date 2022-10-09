@@ -80,6 +80,20 @@
     	$('#modalBarang').modal({backdrop: 'static', keyboard: false}) ;
     });
 
+    $("#btnVB").on('click', function (event) {
+    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Kotor' }, function(data){ 
+    		var arr_data = data.data;
+    		for (var key in arr_data){
+    			$('#tbody-table').html('');
+		    	arr_epc = [];
+		    	start = 0;
+		    	totalqty=0;
+		    	$("#total_qty").val(totalqty);
+		    	$("#total_berat").val(0);
+    			scan_by_reader(arr_data[key].serial);
+    		}
+    	})
+    })
 
 
 	$('#btnAdd').on('click', function (event) {

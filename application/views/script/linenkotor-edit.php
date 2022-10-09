@@ -74,6 +74,21 @@
     	$('#modalBarang').modal({backdrop: 'static', keyboard: false}) ;
     });
 
+   $("#btnVB").on('click', function (event) {
+    	$.get('<?= base_url()?>api/vbs', { type: 'Linen Kotor' }, function(data){ 
+    		var arr_data = data.data;
+    		for (var key in arr_data){
+    			$('#tbody-table').html('');
+		    	arr_epc = [];
+		    	start = 0;
+		    	totalqty=0;
+		    	$("#total_qty").val(totalqty);
+		    	$("#total_berat").val(0);
+    			scan_by_reader(arr_data[key].serial);
+    		}
+    	})
+   });
+
     $("#btnStop").on('click', function(e) {
     	e.preventDefault();
     	doclose();
@@ -108,7 +123,7 @@
         
     })
 
-    function config(){
+   function config(){
     	$.get('<?= base_url()?>api/config', {  }, function(data){ 
     		if(data.status){
     			var Port = data.data[0].port_com;
@@ -149,10 +164,9 @@
 		        
     		}
     	});
-
-    }
+   }
  
-    function scan_by_reader(EPC){
+   function scan_by_reader(EPC){
        if(arr_epc.indexOf(EPC) > -1){
        		$("#txt_scan").val('');
        }else{
@@ -210,8 +224,8 @@
        }
 
         // doclose();
-    }
-    function scanning(session,QValue,anteana){
+   }
+   function scanning(session,QValue,anteana){
 	  
 	    var scantid=0;
 	    var t=128;
@@ -288,16 +302,16 @@
         }
 
         // doclose();
-    }
+   }
 
-    function addRowManual(EPC){
+   function addRowManual(EPC){
     	if(arr_epc.indexOf(EPC) > -1){
        	}else{
        		totalqty++;
        		$("#total_qty").val(totalqty);
        		arr_epc.push(EPC);
-        	var params = { epc: EPC};
-        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
+	        	var params = { epc: EPC};
+	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 	            if(data.status == 'success'){
 
 	            	totalberat = parseFloat($("#total_berat").val());
@@ -305,47 +319,47 @@
 	            	$("#total_berat").val(totalberat.toFixed(1));
 
 		            var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
-					if( nomor != undefined ) 	{
-						nomor = parseInt(nomor) + 1;
-					}else{		
-						nomor = 1
-					}
+						if( nomor != undefined ) 	{
+							nomor = parseInt(nomor) + 1;
+						}else{		
+							nomor = 1
+						}
 
-					var last_status = data.history;
+						var last_status = data.history;
 
-					$('#total-row').val(nomor);
-					$(".no-data").remove();
-					var baris = '<tr>';
-					baris += '<td style="width:1%">'+ nomor+'</td>';
-					baris += '<td width="200"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" />';
-					if($("#mode").val() == 'edit') { 
-						baris += '<a href="javascript:void(0)" id="cari'+ nomor +'" class="btn hor-grd btn-success" onclick="cari_dealer(this)"><i class="fa fa-search"></i>&nbsp; Cari</a><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
-					} 
-					baris += '</td>';
-					baris += '<td><input type="text" name="epc'+ nomor +'" id="epc'+ nomor +'" class="form-control" value="'+ EPC +'" readonly /></td>';
-					baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? '' : data.data_detail[0].jenis) +'" readonly/></td>';
-					baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].nama_ruangan) +'"/></td>';
-					baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat)+'"></td>';
-					baris += '<td>'+ (last_status != null ? last_status.STATUS : '') +'</td>';
-				
-					baris += '</tr>';
+						$('#total-row').val(nomor);
+						$(".no-data").remove();
+						var baris = '<tr>';
+						baris += '<td style="width:1%">'+ nomor+'</td>';
+						baris += '<td width="200"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" />';
+						if($("#mode").val() == 'edit') { 
+							baris += '<a href="javascript:void(0)" id="cari'+ nomor +'" class="btn hor-grd btn-success" onclick="cari_dealer(this)"><i class="fa fa-search"></i>&nbsp; Cari</a><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a>';
+						} 
+						baris += '</td>';
+						baris += '<td><input type="text" name="epc'+ nomor +'" id="epc'+ nomor +'" class="form-control" value="'+ EPC +'" readonly /></td>';
+						baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? '' : data.data_detail[0].jenis) +'" readonly/></td>';
+						baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].nama_ruangan) +'"/></td>';
+						baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="'+ (data.data_detail[0] == undefined ? 0 : data.data_detail[0].berat)+'"></td>';
+						baris += '<td>'+ (last_status != null ? last_status.STATUS : '') +'</td>';
 					
-					var last = $('#tbody-table tr:last').html();
-					if(last== undefined){
-						$(baris).appendTo("#tbody-table");
-					}else{
-						$('#tbody-table tr:last').after(baris);
-					}
+						baris += '</tr>';
+						
+						var last = $('#tbody-table tr:last').html();
+						if(last== undefined){
+							$(baris).appendTo("#tbody-table");
+						}else{
+							$('#tbody-table tr:last').after(baris);
+						}
 	            }
-	    	})
+		    	})
        	}
-    }
+   }
 
-    function doclose() 
-    { 
+   function doclose() 
+   { 
         var sum = TUHF2000.RFID_ComClose(); 	
         // if(sum==0) 	$("#status_koneksi").val("Terputus...");
-    } 
+   } 
 
 	$('#btnAdd').on('click', function (event) {
 		event.preventDefault();
@@ -377,11 +391,11 @@
 		}
 	});
 
-    $('#btnBrowse').on('click', function (event) {
+   $('#btnBrowse').on('click', function (event) {
     	$('#modalBrowse').modal({backdrop: 'static', keyboard: false}) ;
-    });
+   });
 
-    function cari_dealer(val) {
+   function cari_dealer(val) {
 		event.preventDefault();
 		$("#id-row").val($(val).attr('id'));
 		$("#modalBarang").modal({backdrop: 'static', keyboard: false}) ;  	   
@@ -414,7 +428,7 @@
 		 		var link = '<?= base_url(); ?>linenkotor/Save';
 		 		$.post(link,sParam, function(data){
 					if(data.error==false){	
-						alert("Berhasil disimpan..!");
+						alertOK("Berhasil disimpan..!");
 						// window.location.href="<?= base_url(); ?>linenkotor/edit/"+ data.id
 						window.location.href="<?= base_url(); ?>linenkotor";
 						
@@ -431,27 +445,26 @@
 	function validateBarang(){
     	var flag = true;
     	if($("#tbody-table").html().trim() == ""){
-    		alert('Anda belum memasukkan daftar item..');
+    		alertError('Anda belum memasukkan daftar item..');
     		flag = false;
     	}else{
+    		var kategori = $("#kategori").val();
     		$("#tbody-table").find('tr').each(function (i, el) {
-		        var $tds = $(this).find('td');
-		        if($tds.eq(1).next().children().val() != undefined){
-			        var status = $tds.eq(5).next().html().trim();
-			        if(status !="" && status != "KIRIM" ){
-			        	if(status == "CUCI"){
-			        		// flag=true;
-			        	}else if(status == "RUSAK"){
-			        		$("#status_koneksi").val('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
-			        		alert('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
-			        		flag= false;
-			        	}else{
-			        		$("#status_koneksi").val('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
-			        		alert('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
-			        		flag= false;
+		        	var $tds = $(this).find('td');
+		        	if($tds.eq(1).next().children().val() != undefined){
+			        	var status = $tds.eq(5).next().html().trim();
+			        	if(status !="" && status != "KIRIM" ){
+				        	if(status == "CUCI" && kategori == "Cuci Normal"){
+				        		$("#status_koneksi").val('Item No ' + (i+1) + ' sedang dilakukan pencucian..');
+				        		alertError('Item No ' + (i+1) + ' sedang dilakukan pencucian..');
+				        		flag= false;
+				        	}else if(status == "RUSAK"){
+				        		$("#status_koneksi").val('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
+				        		alertError('Item No ' + (i+1) + ' tidak diijinkan untuk disimpan..');
+				        		flag= false;
+				        	}
 			        	}
-			        }
-			    }
+			    	}
 			    if($tds.eq(2).next().children().val() == ""){
 			    	alert('Serial No ' + (i+1) + ' belum terdaftar..');
 			        flag= false;
