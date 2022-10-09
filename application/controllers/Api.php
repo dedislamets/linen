@@ -856,6 +856,28 @@ class Api extends RestController  {
         $this->response($response);
     }
 
+    public function delete_vbs_post()
+    {
+        $data =array(
+            "serial"=>$this->post('serial'),
+            "type"=>$this->post('type'),
+            "code"=>$this->post('code'),
+            
+        );
+        $delete = $this->db->delete("tb_vbs", $data);
+        if($delete){
+            $response['status']=200;
+            $response['error']=false;
+            $response['message']='Data berhasil dihapus.';
+        }else{
+            // $response['status']=502;
+            $response['error']=true;
+            $response['message']='Data gagal dihapus.'; 
+
+        }
+        $this->response($response);
+    }
+
     public function linen_kotor_post()
     {
         $arr_date = explode("/", $this->post('tanggal'));
