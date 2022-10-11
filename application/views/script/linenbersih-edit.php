@@ -82,6 +82,7 @@
 
     $("#btnVB").on('click', function (event) {
     	$.get('<?= base_url()?>api/vbs', { type: 'Linen Kotor' }, function(data){ 
+    		var arr_data = data.data;
     		for (var key in arr_data){
     			scan_by_reader(arr_data[key].serial);
     		}
