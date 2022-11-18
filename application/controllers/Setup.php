@@ -85,7 +85,8 @@ class Setup extends CI_Controller {
                 'speed'   =>  $this->input->post('speed') ,
                 'ip'   =>  $this->input->post('ip') ,
                 'port_ip'   =>  $this->input->post('port_ip') ,
-                'default_scan'   =>  $this->input->post('default_scan')
+                'default_scan'   =>  $this->input->post('default_scan'),
+                'company'   =>  $this->input->post('company')
             );
             if($filename !== ""){
                 $data['Logo'] = $filename;

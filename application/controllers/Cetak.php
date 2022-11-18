@@ -11,6 +11,7 @@ class Cetak extends CI_Controller {
 	public function index()
 	{		
 		$page=$this->input->get("p", TRUE);
+		$data['setup'] = $this->admin->getmaster('tb_setting');
 		if ($page == 'sticker') {
 			$data['title'] = 'Laporan';
 			$this->load->view('cetak_sticker',$data,FALSE);

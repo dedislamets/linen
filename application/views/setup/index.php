@@ -68,15 +68,21 @@
                   </div><!-- col-3 -->
                 </div>
               </div>
+              
+            </div>
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Logo</label>
               <div class="col-sm-4">
                 <input id="file" name="file" type="file" accept="image/png, image/jpg, image/jpeg"  />
                 <div class="az-img-user" style="width: 110px; height: 110px;margin-top: 20px">
-                  <img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo  ?>" alt="">
+                  <img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" alt="">
                 </div>
               </div>
+              <label class="col-sm-2 col-form-label">Company</label>
+              <div class="col-sm-4">
+                <input type="text" id="company" name="company" class="form-control" value="<?php echo $setup[0]->company ?>">
+              </div>
             </div>
-
           </fieldset>
           <fieldset>
             <div class="form-group">

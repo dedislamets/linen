@@ -42,17 +42,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
 								<h3 style="text-align: center;">Laporan Jumlah Linen Khusus Tenaga Medis</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -110,7 +110,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
@@ -138,17 +138,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
-								<h3 style="text-align: center;">Laporan Jumlah Linen Khusus Tenaga Medis</h3>
+								<h3 style="text-align: center;">Laporan Jumlah Linen Khusus Tenaga Non Medis</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -206,7 +206,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
@@ -234,17 +234,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
 								<h3 style="text-align: center;">Laporan Linen Rawat Inap Infeksius (Kg)</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -304,7 +304,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
@@ -332,17 +332,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
 								<h3 style="text-align: center;">Laporan Linen Rawat Inap Infeksius (Kg)</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -402,7 +402,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
@@ -430,17 +430,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
 								<h3 style="text-align: center;">Laporan Linen Rawat Inap Infeksius (Lembar)</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -500,7 +500,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
@@ -528,17 +528,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
 								<h3 style="text-align: center;">Laporan Linen Rawat Inap Non Infeksius (Lembar)</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -598,7 +598,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
@@ -626,17 +626,17 @@
 					<table class="table" style="margin-bottom: 0;">
 						<tr>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 							<td style="border:none">
 								<h3 style="text-align: center;">Laporan Linen Rawat Inap Non Infeksius (Lembar)</h3>
 								<h4 style="font-size: 18px;text-align: center;">
-									RSUD Gambiran Kota Kediri<br>
+									<?= $setup[0]->company ?><br>
 									Instalasi Laundry
 								</h4>
 							</td>
 							<td style="border:none">
-								<img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="height: 80px;width: 80px;" class="">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
 							</td>
 						</tr>
 					</table>
@@ -666,7 +666,7 @@
 				<table style="margin-bottom: 0;width: 100%">
 					<tr>
 						<td width="30%" style="border:none;padding-top: 30px;">
-							<p style="margin-bottom: 0;text-align: center;">RSUD GAMBIRAN KOTA KEDIRI</p>
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
 							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
 							<br>
 							<br>
