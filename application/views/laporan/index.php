@@ -151,8 +151,6 @@
               <h6 class="card-title">Laporan Linen Tenaga Non Medis 
                 <button class="btn btn-light btn-rounded " id="btnCetakNonMedis" style="width: 150px"><i class="fa fa-print"></i>&nbsp; Print</button>
               </h6>
-
-
               <div class="table-responsive">
                 <table class="table table-bordered">
                   <thead>
@@ -310,7 +308,7 @@
                   <h6 class="card-title">Laporan Linen Rewash</h6>
                 </div>
                 <div class="col-2 pd-t-15 pd-b-15">
-                  <button class="btn btn-light btn-rounded btn-block" id="btnCetakRawat4"><i class="fa fa-print"></i>&nbsp; Print</button>
+                  <button class="btn btn-light btn-rounded btn-block" id="btnCetakRewash"><i class="fa fa-print"></i>&nbsp; Print</button>
                 </div>
               </div>
               <div class="table-responsive">

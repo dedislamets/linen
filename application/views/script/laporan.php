@@ -38,4 +38,7 @@
 	$('#btnCetakRawat4').on('click', function (event) {
 		window.location.href="<?= base_url(); ?>cetak?p=rawat_non_infeksius_lb&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
 	})
+	$('#btnCetakRewash').on('click', function (event) {
+		window.location.href="<?= base_url(); ?>cetak?p=rewash&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
+	})
 </script>

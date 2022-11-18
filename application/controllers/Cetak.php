@@ -185,6 +185,30 @@ class Cetak extends CI_Controller {
 					$data['laporan_rawat_non_inf_2']= $arr;
 					$data['laporan_rawat_non_inf_sum_2']= $arr_sum;
 					$this->load->view('cetak',$data,FALSE); 
+				}elseif ($page == 'rewash') {
+					$laporan_rewash  = $this->db->query("SELECT `tb_ruangan`.`ruangan`,finfeksius,DAY(tanggal)tgl,epc ,jenis,berat,fmedis
+										FROM `linen_kotor` 
+										LEFT JOIN `linen_kotor_detail` ON `linen_kotor_detail`.`no_transaksi`=`linen_kotor`.`NO_TRANSAKSI` 
+										LEFT JOIN  tb_ruangan ON tb_ruangan.ruangan=linen_kotor_detail.`ruangan`
+										LEFT JOIN  barang ON barang.`serial`=linen_kotor_detail.`epc`
+										LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+										WHERE MONTH(tanggal)='".$bln ."' AND YEAR(tanggal)=".$thn ." AND kategori='Rewash'
+										ORDER BY tanggal,jenis;")->result();
+					foreach ($laporan_rewash as $key => $value) {
+						$total = 0;
+						$sum = 0;
+						if(!empty($arr[$value->jenis][$value->tgl])){
+							$total = $arr[$value->jenis][$value->tgl];
+						}
+						if(!empty($arr_sum[$value->tgl])){
+							$sum = $arr_sum[$value->tgl];
+						}
+						$arr[$value->jenis][$value->tgl] = $total +1;
+						$arr_sum[$value->tgl] = $sum + 1 ;
+					}
+					$data['laporan_rewash']= $arr;
+					$data['laporan_rewash_sum']= $arr_sum;
+					$this->load->view('cetak',$data,FALSE); 
 				}elseif($page == 'keluar'){
 
 					$id=$this->input->get("id", TRUE);
