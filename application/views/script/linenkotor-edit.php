@@ -42,7 +42,7 @@
 			$("#txt_scan").val('');
 		})
 
-		$("#tanggal" ).datepicker();
+		// $("#tanggal" ).datepicker();
 		if($("#mode").val() == 'edit') {
 			// app.mode = 'edit';
 

@@ -148,28 +148,10 @@
                   </tbody>
                 </table>
               </div>
-              <h6 class="card-title">Laporan Linen Tenaga Non Medis</h6>
-              <div class="card-header">
-                <div class="row">
-                  
-                  <div class="col-4 col-md-4 col-xl">
-                    <div class="form-group row">
-                      <label class="col-sm-1 col-form-label" style="font-weight: bold;"></label>
-                      <div class="col-sm-3">
-                        
-                      </div>
-                      <div class="col-2">
-                        <button class="btn btn-indigo btn-rounded btn-block" id="btnMedis"><i class="fa fa-eye"></i>&nbsp; Lihat</button>
+              <h6 class="card-title">Laporan Linen Tenaga Non Medis 
+                <button class="btn btn-light btn-rounded " id="btnCetakNonMedis" style="width: 150px"><i class="fa fa-print"></i>&nbsp; Print</button>
+              </h6>
 
-                      </div>
-                      <div class="col-2">
-                        <button class="btn btn-light btn-rounded btn-block" id="btnCetakMedis" ><i class="fa fa-print"></i>&nbsp; Print</button>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div><!-- row -->
-              </div>
 
               <div class="table-responsive">
                 <table class="table table-bordered">

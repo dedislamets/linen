@@ -57,6 +57,27 @@ class Setup extends CI_Controller {
 
 
         if ($this->form_validation->run() == TRUE) {
+
+            $config['allowed_types']   = 'gif|jpg|jpeg|png';
+            $config['upload_path']     = './upload/logo/';
+            $config['overwrite']       = true;
+
+            $this->load->library('upload', $config);
+            $this->upload->initialize($config);
+
+            $filename = "";
+            // print("<pre>".print_r($_FILES['file'],true)."</pre>");exit();
+
+            if(!empty($_FILES['file'])){
+                if (!$this->upload->do_upload('file')) {
+                    $data['error'] = 'The following error occured : '.$this->upload->display_errors().'Click on "Remove" and try again!';
+                    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+                } else {
+                    $uploaded_data = $this->upload->data();
+                    $filename =$uploaded_data['file_name'];
+                }
+            }
+
             $data = array(
                 'port_com'         =>  $this->input->post('serial_com') ,
                 'power'   =>  $this->input->post('power') ,
@@ -66,6 +87,9 @@ class Setup extends CI_Controller {
                 'port_ip'   =>  $this->input->post('port_ip') ,
                 'default_scan'   =>  $this->input->post('default_scan')
             );
+            if($filename !== ""){
+                $data['Logo'] = $filename;
+            }
             $this->db->set($data);
             $this->db->update('tb_setting');
 

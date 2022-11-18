@@ -11,7 +11,7 @@
       </div>
       <div class="card-content" >
         <?php echo $this->session->flashdata('message'); ?>
-        <form method="post" action="<?php echo base_url() ?>setup/simpan" class="form-horizontal">
+        <form method="post" action="<?php echo base_url() ?>setup/simpan" class="form-horizontal" enctype="multipart/form-data">
           <fieldset>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Serial COM</label>
@@ -68,10 +68,13 @@
                   </div><!-- col-3 -->
                 </div>
               </div>
-              <!-- <label class="col-sm-2 col-form-label">Port</label>
+              <label class="col-sm-2 col-form-label">Logo</label>
               <div class="col-sm-4">
-                <input type="text" id="port_ip" name="port_ip" class="form-control" value="<?php echo $setup[0]->port_ip ?>">
-              </div> -->
+                <input id="file" name="file" type="file" accept="image/png, image/jpg, image/jpeg"  />
+                <div class="az-img-user" style="width: 110px; height: 110px;margin-top: 20px">
+                  <img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo  ?>" alt="">
+                </div>
+              </div>
             </div>
 
           </fieldset>

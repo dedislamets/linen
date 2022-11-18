@@ -21,18 +21,21 @@
 	})
 
 	$('#btnCetakMedis').on('click', function (event) {
-		window.open("<?= base_url(); ?>cetak?p=medis&b="+ $("#bulan_medis").val() + "&t=" + $("#tahun_medis").val(),'_blank' );
+		window.location.href="<?= base_url(); ?>cetak?p=medis&b="+ $("#bulan_medis").val() + "&t=" + $("#tahun_medis").val();
+	})
+	$('#btnCetakNonMedis').on('click', function (event) {
+		window.location.href="<?= base_url(); ?>cetak?p=nonmedis&b="+ $("#bulan_medis").val() + "&t=" + $("#tahun_medis").val();
 	})
 	$('#btnCetakRawat1').on('click', function (event) {
-		window.open("<?= base_url(); ?>cetak?p=rawat_infeksius_kg&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val(),'_blank' );
+		window.location.href="<?= base_url(); ?>cetak?p=rawat_infeksius_kg&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
 	})
 	$('#btnCetakRawat2').on('click', function (event) {
-		window.open("<?= base_url(); ?>cetak?p=rawat_non_infeksius_kg&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val(),'_blank' );
+		window.location.href="<?= base_url(); ?>cetak?p=rawat_non_infeksius_kg&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
 	})
 	$('#btnCetakRawat3').on('click', function (event) {
-		window.open("<?= base_url(); ?>cetak?p=rawat_infeksius_lb&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val(),'_blank' );
+		window.location.href="<?= base_url(); ?>cetak?p=rawat_infeksius_lb&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
 	})
 	$('#btnCetakRawat4').on('click', function (event) {
-		window.open("<?= base_url(); ?>cetak?p=rawat_non_infeksius_lb&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val(),'_blank' );
+		window.location.href="<?= base_url(); ?>cetak?p=rawat_non_infeksius_lb&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
 	})
 </script>
