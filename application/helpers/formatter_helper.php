@@ -97,17 +97,20 @@ function filter_null($data)
 
 }
 
-function menu(){
-    // print("<pre>".print_r($id,true)."</pre>");exit();
-    
+function menu(){    
 
     $ci =& get_instance();
     $ci->load->database();
     $ci->load->library('session');
 
     $recLogin = $ci->session->userdata('role_id');
-    
+    // print("<pre>".print_r($ci->session->userdata,true)."</pre>");
     $arr_menu=array();
+
+    if(empty($recLogin)){
+        return $arr_menu;
+    }
+    
     $menu = $ci->db->query("SELECT tmp.* FROM (
                                 SELECT A.*,B.`menu` AS parent_menu 
                                 FROM tb_menu A

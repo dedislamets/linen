@@ -436,6 +436,7 @@ class Users extends CI_Controller {
         $response['error'] = TRUE; 
         $response['msg']= "Gagal menyimpan.. Terjadi kesalahan pada sistem";
         $recLogin = $this->session->userdata('user_id');
+        $user = $this->admin->get_array('tb_user',array( 'id_user' => trim($this->input->post('id',TRUE))));
         $data = array(
               'nama_user'   => $this->input->post('nama_user',TRUE),
               'email'       => $this->input->post('email',TRUE),
@@ -469,6 +470,30 @@ class Users extends CI_Controller {
             $this->db->where('id_user', $this->input->post('id',TRUE));
             $result  =  $this->db->update('tb_user');  
 
+            $group = $this->admin->get_array('tb_group_role',array( 'group' => $this->input->post('department',TRUE)));
+            $group_last = $this->admin->get_array('tb_group_role',array( 'group' => trim($user['department'])));
+
+            $group_user = $this->admin->get_array('tb_group_user',
+               array( 
+                  'id_group_role' => $group['id'], 
+                  'id_user' => $this->input->post('id',TRUE)
+               ));
+            //hapus dullu
+            $this->db->from('tb_group_user');
+            $this->db->where(
+               array( 
+                  'id_group_role' => $group_last['id'], 
+                  'id_user' => $this->input->post('id',TRUE)
+               )
+            )->delete();
+
+            //insert ulang
+            $arr_data = array(
+               'id_group_role'=> $group['id'], 
+               'id_user'=> $this->input->post('id',TRUE)
+            );
+            $this->db->insert('tb_group_user',$arr_data);
+
             if(!$result){
                   print("<pre>".print_r($this->db->error(),true)."</pre>");
             }else{
@@ -477,8 +502,16 @@ class Users extends CI_Controller {
         }else{  
 
             $result  = $this->db->insert('tb_user', $data);
-              
+            $insert_id = $this->db->insert_id();
+
             if(!$result){
+                  $group = $this->admin->get_array('tb_group_role',array( 'group' => trim($this->input->post('department',TRUE))));
+                  $arr_data = array(
+                     'id_group_role'=> $group['id'], 
+                     'id_user'=> $insert_id, 
+                  );
+                  $this->db->insert('tb_group_user',$arr_data);
+
                   print("<pre>".print_r($this->db->error(),true)."</pre>");
             }else{
                   $response['error']= FALSE;
