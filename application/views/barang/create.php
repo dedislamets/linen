@@ -159,6 +159,13 @@
   .card-5 {
     background: radial-gradient(#f588d8, #c0a3e5);
   }
+  .child {
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    font-weight: bold;
+    font-size: 50px;
+  }
 </style>
 
 <div class="card z-depth-0" id="app">
@@ -187,38 +194,51 @@
   </div>
   <div class="card-block" style="padding: 10px;">
     <form id="form-barang" name="form-wizard" action="" method="" style="padding-top: 20px;">
-
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">TANGGAL </label>
-        <div class="col-sm-10">
-          <input class="form-control form-bg-inverse" type="text" id="tanggal" name="tanggal" value="<?=  date("m/d/Y") ?>" readonly />
+      <div class="row">
+        <div class="col-sm-9">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" style="font-weight: bold;">TANGGAL </label>
+            <div class="col-sm-9">
+              <input class="form-control form-bg-inverse" type="text" id="tanggal" name="tanggal" value="<?=  date("m/d/Y") ?>" readonly />
+            </div>
+          </div>
+          
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" style="font-weight: bold;">Jenis Barang</label>
+            <div class="col-sm-9">
+              <select id="id_jenis" name="id_jenis" class="form-control" >
+                <?php 
+                foreach($jenis as $row)
+                { 
+                  echo '<option value="'.$row->id.'">'.$row->jenis.'</option>';
+                }?>
+                
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" style="font-weight: bold;">Ruangan (Default)</label>
+            <div class="col-sm-9">
+              <select id="ruangan" name="ruangan" class="form-control" >
+                <?php 
+                foreach($ruangan as $row)
+                { 
+                  echo '<option value="'.$row->ruangan.'">'.$row->ruangan.'</option>';
+                }?>
+                
+              </select>
+            </div>
+          </div>       
         </div>
-      </div>
-      
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">Jenis Barang</label>
-        <div class="col-sm-10">
-          <select id="id_jenis" name="id_jenis" class="form-control" >
-            <?php 
-            foreach($jenis as $row)
-            { 
-              echo '<option value="'.$row->id.'">'.$row->jenis.'</option>';
-            }?>
-            
-          </select>
-        </div>
-      </div>
-      <div class="form-group row">
-        <label class="col-sm-2 col-form-label" style="font-weight: bold;">Ruangan (Default)</label>
-        <div class="col-sm-10">
-          <select id="ruangan" name="ruangan" class="form-control" >
-            <?php 
-            foreach($ruangan as $row)
-            { 
-              echo '<option value="'.$row->ruangan.'">'.$row->ruangan.'</option>';
-            }?>
-            
-          </select>
+        <div class="col-sm-3">
+          <div class="form-group row">
+            <label class="col-sm-3 col-form-label" style="font-weight: bold;">Total </label>
+            <div class="col-sm-9">
+              <div style="height: 140px;border: solid 1px gray;text-align: center;font-size: 24px;position: relative;">
+                <div class="child">{{ list_scan.length }}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
