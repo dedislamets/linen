@@ -12,19 +12,19 @@
             <table style="width: 100%;" class="full-border">
                 <tr style="border-top: unset;">
                     <td style="border-top: unset;width: 40%;padding: 10px;">       
-                        <img src="<?= base_url(); ?>assets\images\logo rsud gambiran.png" style="width: 60px;height: 60px;">
+                        <img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="width: 60px;height: 60px;">
                     </td>
                     <td style="border-top: unset;width: 40%;padding: 10px;">
-                        <img src="<?= base_url(); ?>assets\images\logo kars.png" style="width: 60px;height: 60px;">
+                        
                     </td>
                     <td style="border-top: unset;width: 40%;padding: 10px;">
-                        <img src="<?= base_url(); ?>assets\images\logo instalasi.png" style="width: 60px;height: 60px;">
+                        <img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="width: 60px;height: 60px;">
                     </td>
                 </tr>
                 <tr>
                     <td colspan="3">
                         <div class="headerSubTitleNormal">
-                            UNIT INSTALASI LAUNDRY RSUD GAMBIRAN KOTA KEDIRI
+                            UNIT INSTALASI LAUNDRY <?= $setup[0]->company ?>
                         </div>
                     </td>
                 </tr>
@@ -50,7 +50,7 @@
                                             <td class="no-border">-</td>
                                         </tr>
                                         <tr class="no-border">
-                                            <td colspan="3" class="no-border">RSUD GAMBIRAN KOTA KEDIRI</td>
+                                            <td colspan="3" class="no-border"><?= $setup[0]->company ?></td>
                                         </tr>
                                     </table>
                                 </td>
