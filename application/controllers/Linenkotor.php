@@ -699,9 +699,9 @@ class Linenkotor extends CI_Controller {
       $this->db->select("barang.*,jenis,berat");
       $this->db->from("barang");
       $this->db->join('jenis_barang', 'barang.id_jenis = jenis_barang.id');
-      $data['data_detail'] =$this->db->where("serial", $epc)->get()->result_array();
-      $data['history'] = $this->admin->getLastHistory($epc);
-      $data['jml_cuci'] = $this->admin->getJumlahCuci($epc);
+      $data['data_detail'] =$this->db->where("serial", strtoupper($epc))->get()->result_array();
+      $data['history'] = $this->admin->getLastHistory(strtoupper($epc));
+      $data['jml_cuci'] = $this->admin->getJumlahCuci(strtoupper($epc));
 
       $this->output->set_content_type('application/json')->set_output(json_encode($data));
       
