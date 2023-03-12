@@ -153,11 +153,11 @@
    }
 
    function scan_by_reader(EPC){
-       if(arr_epc.indexOf(EPC) > -1){
+       if(arr_epc.indexOf(EPC.toUpperCase()) > -1){
        		$("#txt_scan").val('');
        }else{
-    		arr_epc.push(EPC);
-        	var params = { epc: EPC};
+    		arr_epc.push(EPC.toUpperCase());
+        	var params = { epc: EPC.toUpperCase()};
         	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 	         if(data.status == 'success'){
 	         	var last_status = data.history;
@@ -167,7 +167,7 @@
 					if(data['data_detail'].length == 0){
 						app.list_scan.push({
 							id:0,
-							serial: EPC,
+							serial: EPC.toUpperCase(),
 		        			jenis: "-",
 		        			berat:0,
 		        			status:'-',
@@ -177,7 +177,7 @@
 					}else{
 						app.list_scan.push({
 							id:0,
-							serial: EPC,
+							serial: EPC.toUpperCase(),
 		        			jenis: data['data_detail'][0]['jenis'],
 		        			berat: data['data_detail'][0]['berat'],
 		        			status: (last_status != null ? last_status.STATUS : 'BARU'),
@@ -186,7 +186,7 @@
 
 			        	tmbhqty();
 					}
-					arr_epc_scan.push(EPC);
+					arr_epc_scan.push(EPC.toUpperCase());
 	         }	            
 	    	})
        }

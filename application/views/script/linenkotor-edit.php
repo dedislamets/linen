@@ -168,11 +168,11 @@
    }
  
    	function scan_by_reader(EPC){
-       if(arr_epc.indexOf(EPC) > -1){
+       if(arr_epc.indexOf(EPC.toUpperCase()) > -1){
        		$("#txt_scan").val('');
        }else{
-       		arr_epc.push(EPC);
-        	var params = { epc: EPC};
+       		arr_epc.push(EPC.toUpperCase());
+        	var params = { epc: EPC.toUpperCase()};
         	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 	            if(data.status == 'success'){
 

@@ -165,12 +165,12 @@
         $("#status_koneksi").val("Get data Serial...("+ EPC +")");
 
         //Jika exist data di listview
-        if(arr_epc.indexOf(EPC) > -1){
+        if(arr_epc.indexOf(EPC.toUpperCase()) > -1){
        		
-       		if(arr_epc_scan.indexOf(EPC) > -1){
+       		if(arr_epc_scan.indexOf(EPC.toUpperCase()) > -1){
        			$("#status_koneksi").val("Waiting for scanning...");
        		}else{
-       			arr_epc_scan.push(EPC);
+       			arr_epc_scan.push(EPC.toUpperCase());
 
        			$("#status_koneksi").val(EPC + " compare success...");
 
@@ -179,7 +179,7 @@
        			$(row_status).val(1);
        			
 
-		        var params = { epc: EPC};
+		        var params = { epc: EPC.toUpperCase()};
 	        	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 	        		var last_status = data.history;
 	        		var status = '<select name="flag'+ urut +'" id="flag'+ urut +'" class="form-control">';
@@ -208,8 +208,8 @@
        	//JIka tidak exist di listview
         }else{
 
-       		arr_epc.push(EPC);
-        	var params = { epc: EPC};
+       		arr_epc.push(EPC.toUpperCase());
+        	var params = { epc: EPC.toUpperCase()};
         	$.get('<?= base_url() ?>linenkotor/getItemScan', params, function(data){ 
 	            if(data.status == 'success'){
 	            	totalberat = parseFloat($("#total_berat").val());
@@ -266,7 +266,7 @@
 						$('#tbody-table tr:last').after(baris);
 					}
 
-					arr_epc_scan.push(EPC);
+					arr_epc_scan.push(EPC.toUpperCase());
 	            }
 	    	})
         }
