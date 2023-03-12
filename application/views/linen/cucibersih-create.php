@@ -35,7 +35,7 @@
           <div class="form-group row">
             <label class="col-sm-4 col-form-label" style="font-weight: bold;">TANGGAL </label>
             <div class="col-sm-8">
-              <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= date("m/d/Y") ?>" />
+              <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= date("Y-m-d") ?>" />
             </div>
           </div>
           <div class="form-group row">
