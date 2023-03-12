@@ -163,12 +163,12 @@
   <?php include("application/views/Browser.php");
   $browser = new Browser();
   if( $browser->getBrowser() != Browser::BROWSER_IE ) : ?>
-  <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
+  <!-- <div class="alert alert-solid-danger mg-b-10 animate__animated animate__bounce animate__infinite" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
       <span aria-hidden="true">×</span>
     </button>
     <strong>Peringatan !</strong> Halaman ini diharuskan menggunakan browser Internet Explorer dikarenakan terdapat Engine yang hanya support pada browser IE saja.
-  </div>
+  </div> -->
   <?php endif; ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
@@ -266,14 +266,20 @@
       
       <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
       <div class="form-group row">
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnScan" disabled><i class="fa fa-barcode"></i> Start Scan</button>
-        </div>
+        </div> -->
         <?php if($mode == 'new') : ?>
-        <div class="col-sm-2">
+        <!-- <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnStop" ><i class="fa fa-undo"></i> Repeat Scan</button>
-        </div>
+        </div> -->
         <?php endif; ?>
+        <div class="col-sm-4">
+          <input type="text" class="form-control" id="txt_scan" name="txt_scan" placeholder="Ketikan Kode EPC" value="">
+        </div>
+        <div class="col-sm-2">
+          <button type="button" class="btn btn-success btn-sm btn-block" id="btnVB">CEK API</button>
+        </div>
         <div class="col-sm-8">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
@@ -378,7 +384,7 @@
           <input type="hidden" name="id_bersih" id="id_bersih" value="<?= empty($bersih) ? "" : $bersih['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
 
-          <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status != 'CLOSED'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
+          <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status == 'INPUT'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
         </div>
       </div>
     
