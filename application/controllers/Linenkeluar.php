@@ -665,6 +665,22 @@ class LinenKeluar extends CI_Controller {
           "id" => $this->input->post('id_keluar') ,
         ));
       $this->db->update('linen_keluar');
+
+
+      $keluar = $this->admin->get_array('linen_keluar',array( 'id' => $this->input->post('id_keluar')));
+      $msg = 'No #'. $keluar['NO_TRANSAKSI'] .' sudah diterima ke ruangan ' . $keluar['RUANGAN'];
+
+      $user_data = $this->admin->get_result_array('tb_group_user',array( 'id_group_role' => 4));
+      foreach ($user_data as $key => $value) {
+        $data_notif = array(
+          'short_msg'   => $msg,
+          'long_msg'    => $msg,
+          'url'         => 'linenkeluar/detail/'. $this->input->post('id_keluar'),
+          'sent_to'     => $value['id_user'],      
+        );
+        $this->db->insert('tb_notifikasi', $data_notif);
+      }
+      
       $this->session->set_flashdata('message', 'Berhasil disimpan!');
       redirect(site_url('linenkeluar/detail/'. $this->input->post('id_keluar')));
   }
