@@ -280,7 +280,7 @@
         <div class="col-sm-2">
           <button type="button" class="btn btn-success btn-sm btn-block" id="btnVB">CEK API</button>
         </div>
-        <div class="col-sm-8">
+        <div class="col-sm-6">
           <input type="text" class="form-control" readonly id="status_koneksi" name="status_koneksi" placeholder="" >
         </div>
       </div>
@@ -384,7 +384,7 @@
           <input type="hidden" name="id_bersih" id="id_bersih" value="<?= empty($bersih) ? "" : $bersih['id'] ?>">
           <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
 
-          <button class="btn btn-block btn-success" id="btn-finish" v-if="last_status == 'INPUT'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
+          <button type="button" class="btn btn-block btn-success" id="btn-finish" v-if="last_status == 'INPUT'"><i class="fa fa-save"></i>&nbsp; Simpan</button>
         </div>
       </div>
     
