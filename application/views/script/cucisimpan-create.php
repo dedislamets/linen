@@ -402,7 +402,7 @@
 
      $('#btn-finish').on('click', function (event) {
      	event.preventDefault();
-     	doclose();
+     	//doclose();
      	var valid = false;
      	var sParam = $('#form-routing').serialize();
      	var validator = $('#form-routing').validate({
