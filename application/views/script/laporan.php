@@ -41,4 +41,7 @@
 	$('#btnCetakRewash').on('click', function (event) {
 		window.location.href="<?= base_url(); ?>cetak?p=rewash&b="+ $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val();
 	})
+	$('#btnStorage').on('click', function (event) {
+		window.location.href="<?= base_url(); ?>cetak?p=storage";
+	})
 </script>

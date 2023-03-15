@@ -30,12 +30,19 @@ class Dashboard extends CI_Controller {
 			$data['total_kotor'] = $query->row_array(); 
 
 
-			$this->db->select('count(ifnull(epc,0)) total');
-			$this->db->from('linen_bersih');
-			$this->db->join('linen_bersih_detail','linen_bersih_detail.no_transaksi=linen_bersih.NO_TRANSAKSI','LEFT');
+			$this->db->select('count(ifnull(SERIAL,0)) total');
+			$this->db->from('barang');
+			$this->db->join('linen_kotor_detail','linen_kotor_detail.`epc`=barang.`serial`','LEFT');
+            $this->db->where('linen_kotor_detail.epc IS NULL');
+            $query = $this->db->get();
+			$data['total_serial_blm_pakai'] = $query->row_array(); 
+
+            $this->db->select('count(ifnull(epc,0)) total');
+            $this->db->from('linen_bersih');
+            $this->db->join('linen_bersih_detail','linen_bersih_detail.no_transaksi=linen_bersih.NO_TRANSAKSI','LEFT');
             $this->db->where('keluar','0');
             $query = $this->db->get();
-			$data['total_bersih'] = $query->row_array(); 
+            $data['total_bersih'] = $query->row_array(); 
 			// echo $this->db->last_query(); exit();
 
 			$this->db->select('count(ifnull(epc,0)) total');

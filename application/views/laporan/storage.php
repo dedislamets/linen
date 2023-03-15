@@ -25,7 +25,7 @@
             <div class="form-group row">
           
               <div class="col-2">
-                <button class="btn btn-light btn-rounded btn-block" id="btnCetakMedis" ><i class="fa fa-print"></i>&nbsp; Print</button>
+                <button class="btn btn-light btn-rounded btn-block" id="btnStorage" ><i class="fa fa-print"></i>&nbsp; Print</button>
               </div>
             </div>
           </div>

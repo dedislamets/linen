@@ -337,11 +337,17 @@ class Laporan extends CI_Controller {
 				$thn=$this->input->get("t", TRUE);
 			}
 			
-			$laporan_storage  = $this->db->query("SELECT linen_bersih_detail.* , jenis_barang.`jenis`, `spesifikasi`, berat
+			$laporan_storage  = $this->db->query("SELECT linen_bersih_detail.epc , jenis_barang.`jenis`, `spesifikasi`, berat
 				FROM linen_bersih_detail 
 				INNER JOIN barang ON barang.`serial`=linen_bersih_detail.`epc`
 				LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-				WHERE status_linen <>'RUSAK' AND keluar=0")->result();
+				WHERE status_linen <>'RUSAK' AND keluar=0
+				UNION
+				SELECT barang.`serial` AS epc , jenis_barang.`jenis`, `spesifikasi`, berat 
+				FROM barang 
+				LEFT JOIN linen_kotor_detail lkd ON lkd.`epc`=barang.`serial`
+				LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+				WHERE lkd.epc IS NULL")->result();
 			
 			$data['laporan_storage']= $laporan_storage;
 

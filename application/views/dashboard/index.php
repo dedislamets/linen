@@ -72,7 +72,7 @@
           <div class="col-7 col-md-8">
             <div class="numbers">
               <p class="card-category">Linen Bersih</p>
-              <p class="card-title"><?= $total_bersih['total'] ?></p>
+              <p class="card-title"><?= $total_bersih['total'] + $total_serial_blm_pakai['total'] ?></p>
             </div>
           </div>
         </div>
