@@ -12,7 +12,9 @@
 			"bPaginate": true,	
 			// "ordering": false,
 			"autoWidth": true,
-
+			order: [
+	            [0, 'desc']
+	        ],
 	    });
 
 	})

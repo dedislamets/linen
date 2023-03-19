@@ -60,7 +60,9 @@
 	        processing	: true,
 			serverSide	: true,			
 			"bPaginate": true,	
-
+			order: [
+	            [0, 'desc']
+	        ],
 	    });
 
 	$('#ModalTableBrg').DataTable({

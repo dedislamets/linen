@@ -1,7 +1,13 @@
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/plugins/piexif.min.js" type="text/javascript"></script>
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/plugins/sortable.min.js" type="text/javascript"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/plugins/piexif.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/plugins/sortable.min.js" type="text/javascript"></script> -->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.2.6/js/fileinput.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/plugins/buffer.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/plugins/filetype.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/plugins/piexif.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/plugins/sortable.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/fileinput.min.js"></script>
 <script type="text/javascript">
 	
 
@@ -74,7 +80,7 @@
 			             
 			 //          	});
 				// },'json'); 
-				$('.file').fileinput('upload'); 
+				//$('.file').fileinput('upload'); 
 				$.ajax({
 				    type: 'POST',
 				    url: '<?= base_url(); ?>pengawasan/save',
@@ -112,10 +118,10 @@
 						fileType: "any",
 						dropZoneEnabled: false,
 						maxFileCount: 5,
-						showUpload: false,
+						showUpload: true,
 						showRemove: false,
 						uploadUrl: "<?=base_url()?>pengawasan/upload",
-						uploadAsync: false,
+						uploadAsync: true,
 						initialPreviewAsData: true, 
 						initialPreviewDownloadUrl: "<?=base_url()?>upload/pengawasan/{filename}",
 						// previewFileIconSettings: { // configure your icon file extensions
@@ -154,7 +160,9 @@
 				        setTimeout(function() {
 				            alert('File deletion was successful! ' + krajeeGetCount('file-6'));
 				        }, 900);
-				    });
+				    }).on("filebatchselected", function(event, files) {
+					    $("#filefoto"+ id_soal_detail).fileinput("upload");
+					});
 				},'json');
 
 		    }

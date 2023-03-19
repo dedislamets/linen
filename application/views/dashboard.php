@@ -39,9 +39,10 @@
   <!--<link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-tagsinput.css"> -->
   <link rel="stylesheet" type="text/css" href="<?= base_url(); ?>assets/jstree/css/style.min.css">
   <!-- the fileinput plugin styling CSS file -->
-  <link href="<?= base_url(); ?>assets/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
-  <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-icons.min.css" crossorigin="anonymous">
-
+  <!-- <link href="<?= base_url(); ?>assets/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" /> -->
+  <link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/css/fileinput.min.css" media="all" rel="stylesheet" type="text/css" />
+  <!-- <link rel="stylesheet" href="<?= base_url(); ?>assets/css/bootstrap-icons.min.css" crossorigin="anonymous"> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
   <style type="text/css">
     .hidden{
       display: none;

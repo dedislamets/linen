@@ -11,9 +11,9 @@
 	        processing	: true,
 			serverSide	: true,			
 			"bPaginate": true,	
-			// order: [
-	  //           [0, 'desc']
-	  //       ],
+			order: [
+	            [0, 'desc']
+	        ],
 	  //       "columnDefs": [
 	  //           {
 	  //               "targets": [ 0 ],
