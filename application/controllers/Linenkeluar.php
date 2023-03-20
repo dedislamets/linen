@@ -491,7 +491,8 @@ class LinenKeluar extends CI_Controller {
 
         }
     }else{  
-
+        $data['penerima'] = "";
+        $data['signature'] = "";
         $result  = $this->db->insert('linen_keluar', $data);
         $last_id = $this->db->insert_id();
         $response['id']= $last_id;
