@@ -107,6 +107,7 @@
 		baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
         baris += loadcities("");
         baris += '</select></td>';
+        baris += '<td width="100"><a class="nav-link-detail" href="javascript::void(0)" onclick="showModalDetail(this)">Detail</a></td>';
 		baris += '<td width="120"><input type="number" onChange="changeQty(this)" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		
 	
