@@ -12,7 +12,9 @@
 			"bPaginate": true,	
 			// "ordering": false,
 			"autoWidth": true,
-
+			"columnDefs": [
+			    { "width": "20%", "targets": 5 }
+			  ]
 	    });
 
 	})
@@ -70,6 +72,9 @@
     	var validator = $('#Form').validate({
 							rules: {
 									requestor: {
+							  			required: true
+									},
+									remark: {
 							  			required: true
 									},
 								}

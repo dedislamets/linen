@@ -62,7 +62,7 @@ class LinenKeluar extends CI_Controller {
           5=>'STATUS',
       );
       $valid_sort = array(
-          0=>'TANGGAL',
+          0=>'CURRENT_INSERT',
           1=>'NO_TRANSAKSI',
           2=>'PIC',
           3=>'RUANGAN',
@@ -105,6 +105,8 @@ class LinenKeluar extends CI_Controller {
       // $this->db->WHERE("status <>'CUCI'");
 
       $pengguna = $this->db->get();
+
+      // echo $this->db->last_query(); exit();
       $data = array();
       foreach($pengguna->result() as $r)
       {
@@ -342,7 +344,7 @@ class LinenKeluar extends CI_Controller {
       $data['ruangan'] = $this->admin->getmaster('tb_ruangan');
       $data['pic'] = $this->admin->getmaster('tb_user');
    
-      // print("<pre>".print_r($data['data_detail_keluar'],true)."</pre>");exit();
+      // print("<pre>".print_r($data['keluar'],true)."</pre>");exit();
 
       $this->load->view('dashboard',$data,FALSE); 
     }else{
@@ -764,9 +766,9 @@ class LinenKeluar extends CI_Controller {
 
       $data['data_detail_keluar'][$key]['jenis'] = $jenis['jenis'];
       $data['data_detail_keluar'][$key]['berat'] = $jenis['berat'];
-      $data['data_detail_keluar'][$key]['qty'] = $request['qty'];
-      $data['data_detail_keluar'][$key]['ready'] = $request['qty_keluar'];
-      $data['data_detail_keluar'][$key]['id_request'] = $request['id'];
+      $data['data_detail_keluar'][$key]['qty'] = empty($request) ? 0 : $request['qty'];
+      $data['data_detail_keluar'][$key]['ready'] = empty($request) ? 0 : $request['qty_keluar'];
+      $data['data_detail_keluar'][$key]['id_request'] = empty($request) ? 0 : $request['id'];
 
       foreach ($data['request'] as $k => $v) {
         if($v['jenis'] == $jenis['jenis']){

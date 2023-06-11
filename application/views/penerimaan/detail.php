@@ -1,4 +1,8 @@
 <style type="text/css">
+  .nav-link-detail {
+    color: #596882;
+    text-decoration: underline;
+  }
   select[readonly]
   {
       pointer-events: none;
@@ -111,6 +115,9 @@
                         </th>
                         <th>
                           Nama Barang
+                        </th>
+                        <th>
+                          Informasi
                         </th>
                         <th>
                           Jumlah

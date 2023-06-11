@@ -31,6 +31,9 @@
                           PIC Jemput
                         </th>
                         <th>
+                          Remark
+                        </th>
+                        <th>
                           Status
                         </th>
                         <th>

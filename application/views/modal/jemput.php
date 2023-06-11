@@ -34,6 +34,10 @@
 						<label style="font-weight: bold;">Requestor</label>
 						<input type="text" id="requestor" name="requestor" class="form-control" required />
 					</div>
+					<div class="form-group">
+						<label style="font-weight: bold;">Catatan</label>
+						<textarea id="remark" name="remark" class="form-control" required maxlength="200"></textarea>
+					</div>
 					<div class="form-group hidden">
 						<label style="font-weight: bold;">Status</label>
 						<input type="text" id="status" name="status" class="form-control"  readonly />

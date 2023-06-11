@@ -12,23 +12,6 @@
 		}
 	})
 
-	function editmodal(val){
-
-		$.get('barang/edit', { id: $(val).data('id') }, function(data){ 
-			$("#lbl-title").text("Edit");
-     		$("#jenis").val(data[0]['jenis_barang']);
-			$("#jenis").change();
-			$("#satuan").val(data[0]['satuan']);
-			$("#satuan").change();
-			$("#nama_barang").val(data[0]['nama_barang']);
-			$("#berat_barang").val(data[0]['berat_barang']);
-			$("#id_barang").val(data[0]['id_barang']);
-       		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
-           
-        });
-
-	}
-
 
 	$('#btn-finish').on('click', function (e) {
 		event.preventDefault();
@@ -124,7 +107,7 @@
 		baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
         baris += loadcities("");
         baris += '</select></td>';
-		baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
+		baris += '<td width="120"><input type="number" onChange="changeQty(this)" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		
 	
 		baris += '</tr>';
@@ -145,35 +128,33 @@
 			var baris;
 			tbody.html('');
 			$.each(data['data_detail'], function(_, obj) {
+				var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
+				if( $.isNumeric( nomor ) ) 	{
+					nomor = parseInt(nomor) + 1;
+				}else{		
+					nomor = 1
+				}
 
+				$('#total-row').val(nomor);
+				$(".no-data").remove();
+				var baris = '<tr>';
+				baris += '<td style="width:1%">'+ nomor+'</td>';
+				baris += '<td width="120"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="' + obj.id+'" /><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a></td>';
+				baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control" >';
+		        baris += loadcities(obj.jenis);
+		        baris += '</select></td>';
+		        baris += '<td width="100"><a class="nav-link-detail" href="javascript::void(0)" data-id="' + obj.id_jenis+'" onclick="showModalDetail(this)">Detail</a></td>';
+				baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" onChange="changeQty(this)" placeholder="" class="form-control" value="' + obj.qty+'"></td>';
 				
-					var nomor = $('#tbody-table tr:nth-last-child(1) td:first-child').html();
-					if( $.isNumeric( nomor ) ) 	{
-						nomor = parseInt(nomor) + 1;
-					}else{		
-						nomor = 1
-					}
-
-					$('#total-row').val(nomor);
-					$(".no-data").remove();
-					var baris = '<tr>';
-					baris += '<td style="width:1%">'+ nomor+'</td>';
-					baris += '<td width="120"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="' + obj.id+'" /><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a></td>';
-					baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
-			        baris += loadcities(obj.jenis);
-			        baris += '</select></td>';
-					baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="' + obj.qty+'"></td>';
-					
+			
+				baris += '</tr>';
 				
-					baris += '</tr>';
-					
-					var last = $('#tbody-table tr:last').html();
-					if(last== undefined){
-						$(baris).appendTo("#tbody-table");
-					}else{
-						$('#tbody-table tr:last').after(baris);
-					}
-				
+				var last = $('#tbody-table tr:last').html();
+				if(last== undefined){
+					$(baris).appendTo("#tbody-table");
+				}else{
+					$('#tbody-table tr:last').after(baris);
+				}
 			})
 		})
 	}
@@ -188,11 +169,13 @@
 
 	function loadcities(val){
 		var option = "";
+		var id_jenis = 0;
 		for(var i = 0;i < cities.length; i ++){
 			var city = cities[i];
 			var selected="";
 			if(val == city.jenis){
 				selected = "selected";
+				id_jenis = cities.id;
 			}
 			option +='<option value="'+city.jenis+'" label="'+city.jenis+'" '+ selected +'></option>';
 		}
@@ -212,6 +195,30 @@
 			$(val).parent().parent().remove();
 		}
 		$(val).parent().parent().remove();
+
+	}
+
+	function changeQty(val) {
+		if($(val).val() < 0){
+			alertError('Qty tidak boleh minus!!');
+			$(val).val(val.defaultValue);
+		}
+	}
+
+	function showModalDetail(val){
+		var name_jenis = $(val).parent().prev().children().val();
+		var id_jenis_array = cities.filter(item => item.jenis.includes(name_jenis));
+		var id_jenis = id_jenis_array[0].id;
+
+		$.get('<?= base_url()?>jenis/edit', { id: id_jenis }, function(data){ 
+     		$("#nama_item").text(data[0]['jenis']);
+			$("#spesifikasi").text(data[0]['spesifikasi']);
+			$("#berat").text(data[0]['berat']);
+			$("#harga").text(data[0]['harga']);
+			$("#jenis").text(data[0]['fmedis']);
+       		$('#ModalDetail').modal({backdrop: 'static', keyboard: false}) ;
+           
+        });
 
 	}
 </script>

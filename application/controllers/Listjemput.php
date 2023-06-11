@@ -116,6 +116,7 @@ class Listjemput extends CI_Controller {
                     $r->ruangan,
                     $r->requestor,
                     $r->pic_jemput,
+                    $r->remark,
                     $r->status_request,
                     $btn,
                );
@@ -199,6 +200,7 @@ class Listjemput extends CI_Controller {
           'tgl_request'   => date("Y-m-d", strtotime($this->input->post('tanggal'))),
           'requestor'       => $this->input->post('requestor'),
           'ruangan'       => $this->input->post('ruangan'),
+          'remark'       => $this->input->post('remark'),
           'status_request'     => "Pending",           
       );
 

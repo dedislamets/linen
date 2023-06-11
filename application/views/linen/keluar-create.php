@@ -368,17 +368,17 @@
           </div>
         </div>
       </div>
-      <?php if(!empty($keluar['signature'])): ?>
+      
         <table class="table table-bordered mg-t-15">
           <tr>
             <td style="width:300px;">Diterima Tanggal</td>
             <td width="10">:</td>
-            <td><?= empty($keluar) ? "" : tgl_waktu_indo($keluar['tgl_terima']) ?></td>
+            <td><?= empty($keluar) ? "" : (empty($keluar['penerima']) ? "-" : tgl_waktu_indo($keluar['tgl_terima'])) ?></td>
           </tr>
           <tr>
             <td style="width:300px;">Diterima Oleh</td>
             <td width="10">:</td>
-            <td><?= empty($keluar) ? "" : $keluar['penerima'] ?></td>
+            <td><?= empty($keluar) ? "-" : $keluar['penerima'] ?></td>
           </tr>
           <tr>
             <td style="width:300px;">Signature</td>
@@ -390,7 +390,6 @@
             </td>
           </tr>
         </table>
-      <?php endif; ?>
     
     </form>
 

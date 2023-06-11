@@ -319,7 +319,11 @@ class Pembelian extends CI_Controller {
 
       $this->db->from('tb_penerimaan_detail');
       $this->db->where('no_penerimaan', $data['data']['no_penerimaan']);
-      $data['data_detail'] = $this->db->get()->result_array();  
+      $data['data_detail'] = $this->db->get()->result_array(); 
+      foreach ($data['data_detail'] as $key => $value) {
+        $jenis = $this->admin->get_array('jenis_barang',array( 'jenis' => $value['jenis']));
+        $data['data_detail'][$key]['id_jenis'] = $jenis['id'];
+      } 
       $this->output->set_content_type('application/json')->set_output(json_encode($data));
       
     }else{

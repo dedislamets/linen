@@ -220,6 +220,9 @@
     .back-green {
       background-color: rgb(46 182 63);
     }
+    .error {
+      color: red;
+    }
   </style>
 </head>
 

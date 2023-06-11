@@ -152,7 +152,7 @@
 		baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
         baris += loadcities("");
         baris += '</select></td>';
-		baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
+		baris += '<td width="120"><input type="number" min="0" onchange="changeQty(this)" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		
 	
 		baris += '</tr>';
@@ -190,7 +190,7 @@
         baris +='        </div>';
         baris +='        <div class="media-contact-name">';
         baris +='            <span style="width: 85px">Jumlah</span>';
-        baris +='            <input type="number" id="qty'+ nomor+'" name="qty'+ nomor+'" placeholder="" class="form-control qty" value="0">';
+        baris +='            <input type="number" id="qty'+ nomor+'" onchange="changeQty(this)" name="qty'+ nomor+'" placeholder="" class="form-control qty" value="0">';
         baris +='        </div>';
         baris +='    </div>';
 	
@@ -258,7 +258,7 @@
 					baris += '<td><select name="jenis'+ nomor+'" id="jenis'+ nomor+'" class="form-control">';
 			        baris += loadcities(obj.jenis);
 			        baris += '</select></td>';
-					baris += '<td width="120"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="' + obj.qty+'"></td>';
+					baris += '<td width="120"><input type="number" onchange="changeQty(this)" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="' + obj.qty+'"></td>';
 					
 				
 					baris += '</tr>';
@@ -310,5 +310,12 @@
 		// }
 		$(val).parent().parent().remove();
 
+	}
+
+	function changeQty(val) {
+		if($(val).val() < 0){
+			alertError('Qty tidak boleh minus!!');
+			$(val).val(0);
+		}
 	}
 </script>
