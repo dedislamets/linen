@@ -22,6 +22,7 @@
 		$.get('room/edit', { id: $(val).data('id') }, function(data){ 
 				$("#lbl-title").text("Edit");
 				$("#nama_ruangan").val(data[0]['ruangan']);
+				$("#total_bed").val(data[0]['total_bed']);
 				// $("#finfeksius").val(data[0]['finfeksius']);
 				$("#id_ruangan").val(data[0]['id']);
            		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
@@ -33,7 +34,7 @@
 	$('#btnAdd').on('click', function (event) {
 		$("#lbl-title").text('Tambah');
 		$("#nama_ruangan").val('');
-		// $("#finfeksius").val("Infeksius");
+		$("#total_bed").val(0);
 		$("#id_ruangan").val('');
 		$('#Form').find(':input:disabled').removeAttr('disabled');
 		

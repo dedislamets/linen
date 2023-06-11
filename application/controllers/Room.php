@@ -101,7 +101,7 @@ class Room extends CI_Controller {
 
             $data[] = array( 
                         $r->ruangan,
-                        // $r->finfeksius,
+                        $r->total_bed,
                         '<button type="button" rel="tooltip" class="btn btn-warning btn-sm " onclick="editmodal(this)"  data-id="'.$r->id.'"  >
                           <i class="icofont icofont-ui-edit"></i>Edit
                         </button>
@@ -163,6 +163,7 @@ class Room extends CI_Controller {
       $recLogin = $this->session->userdata('user_id');
       $data = array(
           'ruangan'   => $this->input->post('nama_ruangan'),
+          'total_bed' => $this->input->post('total_bed'),
           'finfeksius'   => $this->input->post('finfeksius'),
       );
 

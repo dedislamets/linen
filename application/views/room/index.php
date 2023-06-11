@@ -18,9 +18,9 @@
                         <th>
                           Nama Ruangan
                         </th>
-                        <!-- <th>
-                          Jenis
-                        </th> -->
+                        <th>
+                          Total Bed
+                        </th>
                         
                         <th class="text-left" style="width: 120px;">
                           Aksi
