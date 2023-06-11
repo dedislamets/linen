@@ -101,43 +101,48 @@
 					$("#status").removeAttr("checked");
 				}
 
-				if(data['parent'][0]['ada_bawahan'] == 1){
-					$("#ada_bawahan").prop('checked', true);
-					$("#data-bawahan").css('display','block');
+				if(data['parent'][0]['department'] == "Supervisor"){
+					$("#isShow").css("display","block");
+					if(data['parent'][0]['ada_bawahan'] == 1){
+						$("#ada_bawahan").prop('checked', true);
+						$("#data-bawahan").css('display','block');
+					}else{
+						$("#ada_bawahan").removeAttr("checked");
+						$("#data-bawahan").css('display','none');
+					}
+
+					$("#id").val(data['parent'][0]['id_user']);
+
+					app.myTable = $('#ViewTableUser').DataTable({
+						dom: 'frtip',
+						ajax: {		            
+				            "url": "users/dataTableModalBahawan?id=" + $(val).data('id'),
+				            "type": "GET"
+				        },
+				        processing	: true,
+						serverSide	: true,			
+						"bPaginate": true,	
+						"autoWidth": true,
+						"destroy": true,
+			            
+				    });
+
+					app.myTable2 = $('#ModalTableUser').DataTable({
+						dom: 'frtip',
+						ajax: {		            
+				            "url": "users/dataTableModal",
+				            "type": "GET"
+				        },
+				        processing	: true,
+						serverSide	: true,			
+						"bPaginate": true,	
+						"autoWidth": true,
+						"destroy": true,
+			            
+				    });
 				}else{
-					$("#ada_bawahan").removeAttr("checked");
-					$("#data-bawahan").css('display','none');
+					$("#isShow").css("display","none");
 				}
-
-				$("#id").val(data['parent'][0]['id_user']);
-
-				app.myTable = $('#ViewTableUser').DataTable({
-					dom: 'frtip',
-					ajax: {		            
-			            "url": "users/dataTableModalBahawan?id=" + $(val).data('id'),
-			            "type": "GET"
-			        },
-			        processing	: true,
-					serverSide	: true,			
-					"bPaginate": true,	
-					"autoWidth": true,
-					"destroy": true,
-		            
-			    });
-
-				app.myTable2 = $('#ModalTableUser').DataTable({
-					dom: 'frtip',
-					ajax: {		            
-			            "url": "users/dataTableModal",
-			            "type": "GET"
-			        },
-			        processing	: true,
-					serverSide	: true,			
-					"bPaginate": true,	
-					"autoWidth": true,
-					"destroy": true,
-		            
-			    });
 
            		$('#ModalAdd').modal({backdrop: 'static', keyboard: false}) ;
            

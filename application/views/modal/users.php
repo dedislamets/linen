@@ -49,43 +49,45 @@
 								<label>Aktif</label><br>
 								<input type="checkbox" id="status" name="status" />
 							</div>
-							<div class="form-group">
-								<label>Punya Bawahan ?</label><br>
-								<input type="checkbox" id="ada_bawahan" name="ada_bawahan" />
-							</div>
+                            <div id="isShow">
+    							<div class="form-group">
+    								<label>Punya Bawahan ?</label><br>
+    								<input type="checkbox" id="ada_bawahan" name="ada_bawahan" />
+    							</div>
 
-							<div class="col-lg-12" id="data-bawahan" style="display: none;">
-                                <div class="p-20 z-depth-0 waves-effect" > 
-                                    <div class="card-header" style="background-color: #404E67;color:#fff">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <h4>Bawahan</h4>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <a href="javascrip:void(0)" class="btn btn-success btn-block" id="btnAddUser"  data-toggle="modal" data-target="#ModalUser"><i class="icofont icofont-ui-add"></i> Tambah</a>
+    							<div class="col-lg-12" id="data-bawahan" style="display: none;">
+                                    <div class="p-20 z-depth-0 waves-effect" > 
+                                        <div class="card-header" style="background-color: #404E67;color:#fff">
+                                            <div class="row">
+                                                <div class="col-sm-8">
+                                                    <h4>Bawahan</h4>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <a href="javascrip:void(0)" class="btn btn-success btn-block" id="btnAddUser"  data-toggle="modal" data-target="#ModalUser"><i class="icofont icofont-ui-add"></i> Tambah</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="dt-responsive table-responsive">
-                                        <table id="ViewTableUser" class="table table-striped" style="width: 100%">
-                                            <thead class="text-primary">
-                                                <tr>
-                                                    <th>
-                                                      User Name
-                                                    </th>
-                                                    <th>
-                                                      Email
-                                                    </th>
-                                                    
-                                                    <th class="text-left">
-                                                      Aksi
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                              
-                                            </tbody>
-                                        </table>
+                                        <div class="dt-responsive table-responsive">
+                                            <table id="ViewTableUser" class="table table-striped" style="width: 100%">
+                                                <thead class="text-primary">
+                                                    <tr>
+                                                        <th>
+                                                          User Name
+                                                        </th>
+                                                        <th>
+                                                          Email
+                                                        </th>
+                                                        
+                                                        <th class="text-left">
+                                                          Aksi
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                  
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
