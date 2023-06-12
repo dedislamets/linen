@@ -141,7 +141,7 @@
 		baris += '<td width="120"><input type="hidden" name="id_detail'+ nomor +'" id="id_detail'+ nomor +'" class="form-control" value="" /><a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)"><i class="fa fa-trash"></i>&nbsp; Del</a></td>';
 		baris += '<td><input type="text" id="jenis'+ nomor +'" name="jenis'+ nomor +'" placeholder="" class="form-control" value=""></td>';
 		baris += '<td><input type="text" id="spesifikasi'+ nomor +'" name="spesifikasi'+ nomor +'" placeholder="" class="form-control" value=""></td>';
-		baris += '<td width="90"><input type="number" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
+		baris += '<td width="90"><input type="number" onChange="changeQty(this)" id="qty'+ nomor +'" name="qty'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 		baris += '<td><input type="text" id="link'+ nomor +'" name="link'+ nomor +'" placeholder="" class="form-control" value=""></td>';
 		baris += '<td ></td>';
 		baris +='<td></td>';
@@ -293,5 +293,12 @@
 		// }
 		$(val).parent().parent().remove();
 
+	}
+
+	function changeQty(val) {
+		if($(val).val() < 0){
+			alertError('Qty tidak boleh minus!!');
+			$(val).val(val.defaultValue);
+		}
 	}
 </script>

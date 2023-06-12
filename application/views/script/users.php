@@ -65,7 +65,7 @@
 			$("#data-bawahan").css('display','none');
 
 			$("#id").val('');
-
+			$("#isShow").css("display","none");
 			$('#ModalAdd').modal({ keyboard: false}) ;
 		});
 
@@ -77,6 +77,14 @@
 	    }
 	    else{
 	    	$("#data-bawahan").css('display','none');
+	    }
+	});
+
+	$("#department").change(function() {
+	    if($(this).val() == "Supervisor"){
+	    	$("#isShow").css("display","block");
+	    }else{
+	    	$("#isShow").css("display","none");
 	    }
 	});
 
@@ -100,7 +108,7 @@
 				}else{
 					$("#status").removeAttr("checked");
 				}
-
+				$("#id").val(data['parent'][0]['id_user']);
 				if(data['parent'][0]['department'] == "Supervisor"){
 					$("#isShow").css("display","block");
 					if(data['parent'][0]['ada_bawahan'] == 1){
@@ -110,8 +118,6 @@
 						$("#ada_bawahan").removeAttr("checked");
 						$("#data-bawahan").css('display','none');
 					}
-
-					$("#id").val(data['parent'][0]['id_user']);
 
 					app.myTable = $('#ViewTableUser').DataTable({
 						dom: 'frtip',
