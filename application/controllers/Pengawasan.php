@@ -653,7 +653,7 @@ class Pengawasan extends CI_Controller {
   	public function upload(){
   		$config['upload_path'] = './upload/pengawasan/';
 	    $config['allowed_types'] = 'gif|jpg|png|jpeg|xls|xlsx|pdf';
-	    $config['max_size'] = '5120';
+	    $config['max_size'] = '10240';
 
 	    $data['success'] = TRUE;
 
