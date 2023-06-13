@@ -211,7 +211,7 @@
 			<ul id="course-list" class="item-list" role="main">
 			<?php 
 				foreach($soal as $row): ?>
-		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>,<?= $row->tanggal ?>)">
+		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>)">
 			   			<div class="row">
 			   				<div class="col-md-4 col-sm-4">
 								<div class="item-avatar" >

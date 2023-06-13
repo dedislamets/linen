@@ -36,11 +36,10 @@
         },
         methods: {
         	
-		    getSoal: function(id, tgl){
+		    getSoal: function(id){
 		    	var that = this;
 		    	that.list_soal = [];
 		    	that.id_soal = id;
-		    	// that.tanggal = tgl;
 		    	var link = '<?= base_url(); ?>pengawasan/soal/'+ id;
 		 		$.get(link,{tanggal: that.tanggal}, function(data){
 					that.list_soal = data['soal'];
@@ -95,7 +94,7 @@
 			             icon: 'success',
 			             showConfirmButton: false,
 			             willClose: () => {
-			               app.getSoal(app.id_soal, app.tanggal);
+			               app.getSoal(app.id_soal);
 			             }
 			          	});
 				    },
@@ -181,7 +180,7 @@
 		const param_soal = urlParams.get('soal');
 
 		if(param_soal != null){
-			app.getSoal(param_soal, param_tgl);
+			app.getSoal(param_soal);
 			app.tanggal = param_tgl;
 		}else{
 			var now = new Date();
