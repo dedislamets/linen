@@ -183,6 +183,9 @@
 		if(param_soal != null){
 			app.getSoal(param_soal, param_tgl);
 			app.tanggal = param_tgl;
+		}else{
+			var now = new Date();
+			app.tanggal = moment(now).format('YYYY-MM-DD');
 		}
 	});
 
