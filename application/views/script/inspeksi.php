@@ -40,9 +40,9 @@
 		    	var that = this;
 		    	that.list_soal = [];
 		    	that.id_soal = id;
-		    	that.tanggal = tgl;
+		    	// that.tanggal = tgl;
 		    	var link = '<?= base_url(); ?>pengawasan/soal/'+ id;
-		 		$.get(link,{tanggal: tgl}, function(data){
+		 		$.get(link,{tanggal: that.tanggal}, function(data){
 					that.list_soal = data['soal'];
 					that.judul_soal = data['deskripsi'];
 					that.task = data['task'];
@@ -51,11 +51,11 @@
 					that.section_isi= true;
 					for (let index = 0; index < data['soal'].length; ++index) {
 					    const element = that.list_soal[index];
-					    that.loadJQ(element['id'], tgl);
+					    that.loadJQ(element['id'], that.tanggal);
 					    if(element['sub'] != undefined){
 					    	for (var key in element["sub"]) {
 					    		for (var k in element["sub"][key]['data']) {
-									that.loadJQ(element["sub"][key]['data'][k]['id'], tgl);
+									that.loadJQ(element["sub"][key]['data'][k]['id'], that.tanggal);
 								}
 							}
 					    }
