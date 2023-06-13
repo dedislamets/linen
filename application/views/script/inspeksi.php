@@ -32,15 +32,17 @@
         	tanggal:'',
         	task:'',
         	total_penilaian:'',
+        	disabled : false
         },
         methods: {
         	
-		    getSoal: function(id){
+		    getSoal: function(id, tgl){
 		    	var that = this;
 		    	that.list_soal = [];
 		    	that.id_soal = id;
+		    	that.tanggal = tgl;
 		    	var link = '<?= base_url(); ?>pengawasan/soal/'+ id;
-		 		$.get(link,null, function(data){
+		 		$.get(link,{tanggal: tgl}, function(data){
 					that.list_soal = data['soal'];
 					that.judul_soal = data['deskripsi'];
 					that.task = data['task'];
@@ -49,11 +51,11 @@
 					that.section_isi= true;
 					for (let index = 0; index < data['soal'].length; ++index) {
 					    const element = that.list_soal[index];
-					    that.loadJQ(element['id']);
+					    that.loadJQ(element['id'], tgl);
 					    if(element['sub'] != undefined){
 					    	for (var key in element["sub"]) {
 					    		for (var k in element["sub"][key]['data']) {
-									that.loadJQ(element["sub"][key]['data'][k]['id']);
+									that.loadJQ(element["sub"][key]['data'][k]['id'], tgl);
 								}
 							}
 					    }
@@ -65,20 +67,20 @@
 		    	event.preventDefault();
 		    	that.section_judul = true;
 				that.section_isi= false;
-				window.location.reload();
+				window.location.href = "<?= base_url(); ?>pengawasan";
 		    },
 		    submitForm: function(event){
 		    	event.preventDefault();
-		  // 		var link = '<?= base_url(); ?>pengawasan/save';
-		 	// 	$.post(link, $("#frm").serialize() , function(data){
-		  // 				$('.file').fileinput('upload'); 
-		 	// 		   	Swal.fire({ title: "Berhasil disimpan..!",
-			 //             text: "Berhasil tersimpan",
-			 //             timer: 2000,
-			 //             icon: 'success',
-			 //             showConfirmButton: false,
+		  		// 		var link = '<?= base_url(); ?>pengawasan/save';
+		 		// 	$.post(link, $("#frm").serialize() , function(data){
+		  		// 				$('.file').fileinput('upload'); 
+		 		// 		   	Swal.fire({ title: "Berhasil disimpan..!",
+			 	//             text: "Berhasil tersimpan",
+			 	//             timer: 2000,
+			 	//             icon: 'success',
+			 	//             showConfirmButton: false,
 			             
-			 //          	});
+			 	//          	});
 				// },'json'); 
 				//$('.file').fileinput('upload'); 
 				$.ajax({
@@ -93,7 +95,7 @@
 			             icon: 'success',
 			             showConfirmButton: false,
 			             willClose: () => {
-			               app.getSoal(app.id_soal);
+			               app.getSoal(app.id_soal, app.tanggal);
 			             }
 			          	});
 				    },
@@ -104,12 +106,14 @@
 				  });
 		  		
 		    },
-		    loadJQ: function(id_soal_detail){	
+		    loadJQ: function(id_soal_detail, tgl){	
+		    	var that = this;
 		    	var data_arr = [];
 		    	var link = '<?= base_url(); ?>pengawasan/getimages/' + id_soal_detail;
-		 		$.get(link,null, function(data){
+		 		$.get(link,{tanggal: tgl}, function(data){
 					data_arr= data;
-					
+					var role = "<?= $this->session->userdata('role') ?>";
+					that.disabled = (role == 'Pengawas') ? true : false;
 			    	$("#filefoto"+ id_soal_detail).fileinput({
 			    		theme: 'fa',
 			    		autoReplace: false,
@@ -118,7 +122,8 @@
 						fileType: "any",
 						dropZoneEnabled: false,
 						maxFileCount: 5,
-						showUpload: true,
+						showUpload: that.disabled ,
+						showBrowse:  that.disabled,
 						showRemove: false,
 						uploadUrl: "<?=base_url()?>pengawasan/upload",
 						uploadAsync: true,
@@ -139,7 +144,8 @@
 					    uploadExtraData : function (previewId, index) {
 						    return {
 					            id_soal: app.id_soal,
-					            id_soal_detail: id_soal_detail
+					            id_soal_detail: id_soal_detail,
+					            tanggal: app.tanggal
 					        };
 					    },
 					    deleteExtraData : function (previewId, index) {
@@ -170,7 +176,14 @@
     });
 
     $(document).ready(function() {
-    	
+    	const urlParams = new URLSearchParams(window.location.search);
+		const param_tgl = urlParams.get('tanggal');
+		const param_soal = urlParams.get('soal');
+
+		if(param_soal != null){
+			app.getSoal(param_soal, param_tgl);
+			app.tanggal = param_tgl;
+		}
 	});
 
 

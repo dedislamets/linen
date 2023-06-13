@@ -159,7 +159,7 @@
 	  transition:.5s;
 	  &:hover{
 	    color: #4CAF50  ;
-	    transform: rotate(22deg);
+	    /*transform: rotate(22deg);*/
 	  }
 	}
 	.project-list-showcase .project-grid .project-grid-inner {
@@ -207,11 +207,11 @@
 <div class="row" id="app" style="display: block;">
 	<form id="frm" method="post" class="needs-validation" enctype='multipart/form-data'>
 		<section id="section-judul" v-if="section_judul">
-			<h2 class="heading">Formulir Pengawasan</h2>
+			<h2 class="heading">Formulir Pengawasan <a href="<?= base_url() ?>pengawasan/history" class="btn btn-dark btn-with-icon" style="float: right"><i class="typcn typcn-folder"></i> History</a></h2>
 			<ul id="course-list" class="item-list" role="main">
 			<?php 
 				foreach($soal as $row): ?>
-		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>)">
+		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>,<?= $row->tanggal ?>)">
 			   			<div class="row">
 			   				<div class="col-md-4 col-sm-4">
 								<div class="item-avatar" >
@@ -230,7 +230,7 @@
 			                 		<div class="item-desc">
 			                 			<?= $row->deskripsi ?>
 									</div>
-									<input type="hidden" name="tanggal" id="tanggal" value="tanggal">
+									<input type="hidden" name="tanggal" id="tanggal" value="<?= $row->tanggal ?>">
 									<?php if(!empty($row->current_date)): ?>
 										<p style="background-color: yellow;padding: 5px 10px;display: inline;font-style: italic;">Terakhir diubah : <?= tgl_waktu_indo($row->current_date) ?></p>
 									<?php endif; ?>
@@ -252,6 +252,7 @@
 				</div>
 			</div>
 	    	<input type="hidden" name="id_soal" id="id_soal" :value="id_soal">
+	    	<input type="hidden" name="tanggal" id="tanggal" :value="tanggal">
 	      	<div class="accordion" id="accordion" role="tablist" aria-multiselectable="true" v-for="(log, index) in list_soal">
 	          <div class="card mg-b-20">
 	            <div class="card-header tx-medium bd-0 tx-white bg-gray-800" :id="'headingOne'+ (index+1)">
@@ -309,9 +310,12 @@
 	       		<div class="col-sm-6 col-md-3 col-6">
 		       		<button class="btn btn-info btn-rounded btn-block" v-on:click="kembali($event)"><< Kembali</button>  
 		       	</div>
+		       	<?php 
+		       	if($this->session->userdata('role') == "Pengawas"): ?>
 		       	<div class="col-sm-6 col-md-9 col-6">
 	       			<button class="btn btn-success btn-rounded btn-block" v-if="judul_soal != ''" v-on:click="submitForm($event)"><span class="fa fa-save"></span>&nbsp;&nbsp;Simpan</button> 
 	       		</div> 
+	       		<?php endif; ?>
 	       	</div>
 	    </section>
     </form>

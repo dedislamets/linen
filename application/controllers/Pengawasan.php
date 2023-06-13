@@ -11,6 +11,7 @@ class Pengawasan extends CI_Controller {
 	}
 	public function index()
 	{		
+		// var_dump($this->session->userdata());
     	if(!empty($this->input->get('user_id', true))){
     		$checking = $this->admin->getmaster('tb_user', array('id_user' => $this->input->get('user_id', true)));
     		if (!empty($checking)) {
@@ -49,11 +50,16 @@ class Pengawasan extends CI_Controller {
 	  		}
 
 			foreach ($data['soal'] as $key => $value) {
-	      		$arr_par = array( 
-		      		'id_soal' => $value->id ,
-		      		'tanggal' => $tanggal
-		      	);
-		      	$inspeksi_image = $this->admin->get_array('tb_inspeksi_image',$arr_par,'current_date desc');
+	      		$data['soal'][$key]->tanggal = $tanggal;
+
+		      	$this->db->from("tb_inspeksi A");
+	      		$this->db->join("tb_inspeksi_image B","A.id=B.id_inspeksi");
+	      		$this->db->where("A.id_soal",$value->id);
+	      		$this->db->where("A.tanggal",$tanggal);
+	      		$this->db->where("A.id_pengawas",$this->session->userdata('user_id'));
+	      		$this->db->order_by('A.current_date desc');
+	      		$inspeksi_image = $this->db->get()->row_array(); 
+
 		      	if(!empty($inspeksi_image)){
 		      		$data['soal'][$key]->flag = TRUE;
 		      		$data['soal'][$key]->current_date = $inspeksi_image['current_date'];
@@ -71,6 +77,179 @@ class Pengawasan extends CI_Controller {
 	    }				  
 						
 	}
+
+	public function history()
+	{		
+		if($this->admin->logged_id())
+	    {
+	      	if(CheckMenuRole('pengawasan')){
+	        	redirect("errors");
+	      	}
+			$data['title'] = 'Riwayat Pengawasan';
+			$data['main'] = 'inspeksi/history';
+			$data['js'] = 'script/pengawasan-history';
+
+			$this->load->view('dashboard',$data,FALSE); 
+
+	    }else{
+	        redirect("login");
+	    }				  
+						
+	}
+
+	public function dataTable()
+  	{
+      	$draw = intval($this->input->get("draw"));
+      	$start = intval($this->input->get("start"));
+      	$length = intval($this->input->get("length"));
+      	$order = $this->input->get("order");
+      	$search= $this->input->get("search");
+      	$search = $search['value'];
+      	$col = 10;
+      	$dir = "";
+
+      	if(!empty($order))
+      	{
+          	foreach($order as $o)
+          	{
+              $col = $o['column'];
+              $dir= $o['dir'];
+          	}
+      	}
+
+      	if($dir != "asc" && $dir != "desc")
+      	{
+          	$dir = "desc";
+      	}
+
+      	$valid_columns = array(
+          0=>'tanggal',
+          1=>'judul',
+          2=>'pengawas',
+          3=>'supervisor',
+          4=>'jml',
+          5=>'soal_dinilai',
+          6=>'soal_blm_dinilai',
+          7=>'status',
+      	);
+      	$valid_sort = array(
+          0=>'tanggal',
+          1=>'judul',
+          2=>'pengawas',
+          3=>'supervisor',
+          4=>'jml',
+          5=>'soal_dinilai',
+          6=>'soal_blm_dinilai',
+          7=>'status',
+      	);
+      	if(!isset($valid_sort[$col]))
+      	{
+          $order = null;
+      	}
+      	else
+      	{
+          $order = $valid_sort[$col];
+      	}
+      	if($order !=null)
+      	{
+          $this->db->order_by($order, $dir);
+      	}
+      
+      	if(!empty($search))
+      	{
+          	$x=0;
+          	foreach($valid_columns as $sterm)
+          	{
+              	if($x==0)
+              	{
+                  $this->db->like($sterm,$search);
+              	}
+              	else
+              	{
+                  $this->db->or_like($sterm,$search);
+              	}
+              $x++;
+          	}                 
+      	}
+      	$sql_select = "select tanggal,id_pengawas, id_soal,ts.judul ,count(id_soal_detail) as jml,sum(nilai>0) as soal_dinilai, 
+      		(select count(*) from tb_inspeksi_image tii where tii.tanggal = ti.tanggal and tii.id_soal = ti.id_soal ) as diinput,
+				sum(nilai = 0) as soal_blm_dinilai ,
+				total_skor,sum(nilai*bobot) as skor,
+				case when 
+						(select count(*) from tb_inspeksi_image tii where tii.tanggal = ti.tanggal and tii.id_soal = ti.id_soal ) = count(id_soal_detail)
+						and sum(nilai>0) = count(id_soal_detail) then 'Complete' 
+					when 
+						(select count(*) from tb_inspeksi_image tii where tii.tanggal = ti.tanggal and tii.id_soal = ti.id_soal ) = count(id_soal_detail)
+						and sum(nilai>0) > 0 then 'Waiting'
+					when 
+						(select count(*) from tb_inspeksi_image tii where tii.tanggal = ti.tanggal and tii.id_soal = ti.id_soal ) = count(id_soal_detail) 
+						and sum(nilai>0) = 0 then 'Finish Input'
+					else 'Draft' 
+				end as status, tu.nama_user as supervisor, tus.nama_user as pengawas ";
+		$sql = "from tb_inspeksi ti
+				join tb_soal ts on ts.id = ti.id_soal
+				join tb_soal_detail tsd on tsd.id_judul =ts.id and tsd.id =ti.id_soal_detail 
+				left join tb_user tu on tu.id_user = ti.id_inspektor
+				left join tb_user tus on tus.id_user = ti.id_pengawas ";
+		if( $this->session->userdata('role') == "Supervisor"){
+			$sql .= "where id_inspektor = ".$this->session->userdata('user_id') ;
+		}else{
+			$sql .= "where id_pengawas = ".$this->session->userdata('user_id') ;
+		}
+				
+			$sql .= " and (
+						tanggal LIKE '%".$this->input->get('search')['value']."%' 
+						OR tu.nama_user LIKE '%".$this->input->get('search')['value']."%'
+						OR tus.nama_user LIKE '%".$this->input->get('search')['value']."%'
+						OR judul LIKE '%".$this->input->get('search')['value']."%'
+					)
+				group by tanggal,id_soal,id_pengawas  ";
+      	$limit = ") tbl limit ". $start .",". ($start+$length);
+
+      	// echo $sql_select . $sql . $limit; exit();
+      	$pengguna = $this->db->query("select * from (" . $sql_select . $sql . $limit);
+      
+      	$data = array();
+      	foreach($pengguna->result() as $r)
+      	{
+
+          	$data[] = array( 
+                      $r->tanggal,
+                      $r->judul,
+                      $r->pengawas,
+                      $r->supervisor,
+                      $r->jml,
+                      $r->diinput,
+                      $r->soal_dinilai,
+                      $r->soal_blm_dinilai,
+                      $r->skor,
+                      $r->status,
+                      '<a href="'. base_url() . 'pengawasan/?tanggal='. $r->tanggal .'&soal='. $r->id_soal.'"  class="btn btn-warning btn-sm "  >
+                        <i class="icofont icofont-edit"></i>Lihat
+                      </a>',
+                 );
+      	}
+      	$total_pengguna = $this->totalPengguna($search, $valid_columns, $sql_select . $sql);
+
+      	$output = array(
+          	"draw" => $draw,
+          	"recordsTotal" => $total_pengguna,
+          	"recordsFiltered" => $total_pengguna,
+          	"data" => $data
+      	);
+      	echo json_encode($output);
+      	exit();
+  	}
+
+  	public function totalPengguna($search, $valid_columns, $sql)
+  	{
+  		// echo $sql;
+	    $query = $this->db->query("select COUNT(*) as num from (". $sql .") x");
+	    $result = $query->row();
+
+	    if(isset($result)) return $result->num;
+	    return 0;
+  	}
 
 	public function penilaian()
 	{	
@@ -107,7 +286,6 @@ class Pengawasan extends CI_Controller {
 			$data['modal'] = 'modal/penilaian';
 
 			$tanggal = date("Y-m-d");
-	      	// print("<pre>".print_r($tanggal,true)."</pre>");exit();
 
 	  		if(!empty(htmlspecialchars($this->input->get('tanggal', true)))){
 	  			$tanggal = date("Y-m-d", strtotime(htmlspecialchars($this->input->get('tanggal', true)))) ;
@@ -335,7 +513,7 @@ class Pengawasan extends CI_Controller {
 			                'id_soal' => htmlspecialchars($this->input->post('id_soal', true)),
 			                'id_soal_detail' => $value,
 			                'nilai' => 0,
-			                'tanggal' => date("Y-m-d"),
+			                'tanggal' => htmlspecialchars($this->input->post('tanggal', true)),
 			                'catatan' => htmlspecialchars($this->input->post('catatan', true)[$key]),
 			                'id_pengawas' => $this->session->userdata('user_id'),
 			                'id_inspektor' => $this->session->userdata('id_atasan'),
@@ -346,12 +524,13 @@ class Pengawasan extends CI_Controller {
 		            	$arr = [
 			                'catatan' => htmlspecialchars($this->input->post('catatan', true)[$key]),
 		            	];
+
 		            	$this->db->set($arr);
-				        $this->db->where(array( 'id_soal_detail' => $value, 'tanggal' => date("Y-m-d")));
+				        $this->db->where(array( 'id_soal_detail' => $value, 'tanggal' => $this->input->post('tanggal', true)));
 				        $result  =  $this->db->update('tb_inspeksi');  
 		            }
 		    	}
-
+		    	exit();
 		    	$data['success'] = TRUE;
 
 		    	$msg = $this->session->userdata('username') .'  melakukan submit data pengawasan checksheet A hari ini.';
@@ -566,8 +745,8 @@ class Pengawasan extends CI_Controller {
   	}
   	public function getImages($id_soal_detail){
   		$tanggal = date("Y-m-d");
-  		if(!empty(htmlspecialchars($this->input->post('tanggal', true)))){
-  			$tanggal = htmlspecialchars($this->input->post('tanggal', true));
+  		if(!empty(htmlspecialchars($this->input->get('tanggal', true)))){
+  			$tanggal = htmlspecialchars($this->input->get('tanggal', true));
   		}
       	$arr_par = array( 
       		'id_soal_detail' => $id_soal_detail ,
@@ -686,11 +865,37 @@ class Pengawasan extends CI_Controller {
 			    	$data['filename'][] = $filename;
 			    	$data['upload'] = "done";
 
+			    	$arr_par = array( 
+			      		'id_soal_detail' => htmlspecialchars($this->input->post('id_soal_detail', true)) ,
+			      		'tanggal' => $this->input->post('tanggal', true),
+			      		'id_pengawas' => $this->session->userdata('user_id')
+			      	);
+			      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+			      	// echo $this->db->last_query();
+
+			      	$insert_id = 0;
+			      	if(empty($inspeksi)){
+			      		$arr_inspeksi = [
+			                'id_soal' => htmlspecialchars($this->input->post('id_soal', true)),
+			                'id_soal_detail' => htmlspecialchars($this->input->post('id_soal_detail', true)),
+			                'nilai' => 0,
+			                'tanggal' => $this->input->post('tanggal', true),
+			                'catatan' => "",
+			                'id_pengawas' => $this->session->userdata('user_id'),
+			                'id_inspektor' => $this->session->userdata('id_atasan'),
+		            	];
+
+			        	$this->db->insert('tb_inspeksi', $arr_inspeksi);
+			        	$insert_id = $this->db->insert_id();
+			      	}else{
+			      		$insert_id = $inspeksi['id'];
+			      	}
 			    	$arr = [
 		                'id_soal' => htmlspecialchars($this->input->post('id_soal', true)),
 		                'id_soal_detail' => htmlspecialchars($this->input->post('id_soal_detail', true)),
+		                'id_inspeksi' => $insert_id,
 		                'filename' => $filename,
-		                'tanggal' => date("Y-m-d"),
+		                'tanggal' => $this->input->post('tanggal', true),
 	            	];
 
 	        		$this->db->insert('tb_inspeksi_image', $arr);
