@@ -235,7 +235,7 @@
 									<?php if(!empty($row->current_date)): ?>
 										<p style="background-color: yellow;padding: 5px 10px;display: inline;font-style: italic;">Terakhir diubah : <?= tgl_waktu_indo($row->current_date) ?></p><br/>
 										<div class="row" style="margin-left: 0;">
-											<?php foreach($ruangan_ready as $ruang): ?>
+											<?php foreach($ruangan_ready[$row->id] as $ruang): ?>
 												<a href="<?= base_url() ?>pengawasan/?tanggal=<?= $row->tanggal ?>&soal=<?= $row->id ?>&ruangan=<?= $ruang['id'] ?>" style="background-color: khaki;padding: 5px 10px;margin-top: 10px;margin-right: 5px;"><?= $ruang['ruangan'] ?></a>
 											<?php endforeach; ?>
 										</div>

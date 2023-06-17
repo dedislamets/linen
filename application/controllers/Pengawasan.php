@@ -70,7 +70,7 @@ class Pengawasan extends CI_Controller {
 		      		foreach ($inspeksi_image as $key_im => $im) {
 			      		$data['soal'][$key]->current_date = $inspeksi_image[$key_im]['current_date'];
 			      		if (!in_array($inspeksi_image[$key_im]['id_ruangan'], $data['ruangan_ready'])) {
-						    $data['ruangan_ready'][$inspeksi_image[$key_im]['id_ruangan']] = array( 
+						    $data['ruangan_ready'][$value->id][$inspeksi_image[$key_im]['id_ruangan']] = array( 
 				      			'id' => $inspeksi_image[$key_im]['id_ruangan'], 
 				      			'ruangan' => $inspeksi_image[$key_im]['ruangan']);
 						}
