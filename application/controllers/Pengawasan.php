@@ -644,8 +644,14 @@ class Pengawasan extends CI_Controller {
 	      		'id_ruangan' => $ruangan
 	      	);
 	      	$data['soal'][$key]->nilai = 0;
-	      	$inspeksi = $this->admin->get_array('tb_inspeksi',$arr_par);
+
+	      	$this->db->from('tb_inspeksi');
+			$this->db->join('tb_ruangan','tb_ruangan.id=tb_inspeksi.id_ruangan','LEFT');
+            $this->db->where($arr_par);
+
+	      	$inspeksi = $this->db->get()->row_array();
 	      	if(!empty($inspeksi)){
+	      		$data['nama_ruangan'] = $inspeksi['ruangan'] ;
 	      		$data['soal'][$key]->id_inspeksi = $inspeksi['id'];
 	      		$data['soal'][$key]->catatan = $inspeksi['catatan'];
 	      		$data['soal'][$key]->nilai = intval($inspeksi['nilai']);
