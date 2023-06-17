@@ -190,7 +190,7 @@ class Pengawasan extends CI_Controller {
 				left join tb_ruangan r on r.id=ti.id_ruangan ";
 		if( $this->session->userdata('role') == "Supervisor"){
 			$sql .= "where id_inspektor = ".$this->session->userdata('user_id') ;
-		}else{
+		}elseif($this->session->userdata('role') == "Pengawas"){
 			$sql .= "where id_pengawas = ".$this->session->userdata('user_id') ;
 		}
 				
