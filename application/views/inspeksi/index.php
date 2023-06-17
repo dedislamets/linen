@@ -208,14 +208,15 @@
 	<form id="frm" method="post" class="needs-validation" enctype='multipart/form-data'>
 		<section id="section-judul" v-if="section_judul">
 			<h2 class="heading">Formulir Pengawasan <a href="<?= base_url() ?>pengawasan/history" class="btn btn-dark btn-with-icon" style="float: right"><i class="typcn typcn-folder"></i> History</a></h2>
+			
 			<ul id="course-list" class="item-list" role="main">
 			<?php 
 				foreach($soal as $row): ?>
-		        <li class="li-soal"  v-on:click="getSoal(<?= $row->id ?>)">
+		        <li class="li-soal"  >
 			   			<div class="row">
 			   				<div class="col-md-4 col-sm-4">
 								<div class="item-avatar" >
-									<a class="" href="#" title="">
+									<a class="" href="#" title="" v-on:click="getSoal(<?= $row->id ?>,<?= $row->tanggal ?>,0)">
 										<img src="<?= base_url() ?>assets/images/checklist.png" class="attachment-full size-full wp-post-image" style="max-height: 200px;border: solid 2px darkgray;padding: 10px;">
 									</a>					
 								</div>
@@ -232,7 +233,12 @@
 									</div>
 									<input type="hidden" name="tanggal" id="tanggal" value="<?= $row->tanggal ?>">
 									<?php if(!empty($row->current_date)): ?>
-										<p style="background-color: yellow;padding: 5px 10px;display: inline;font-style: italic;">Terakhir diubah : <?= tgl_waktu_indo($row->current_date) ?></p>
+										<p style="background-color: yellow;padding: 5px 10px;display: inline;font-style: italic;">Terakhir diubah : <?= tgl_waktu_indo($row->current_date) ?></p><br/>
+										<div class="row" style="margin-left: 0;">
+											<?php foreach($ruangan_ready as $ruang): ?>
+												<a href="<?= base_url() ?>pengawasan/?tanggal=<?= $row->tanggal ?>&soal=<?= $row->id ?>&ruangan=<?= $ruang['id'] ?>" style="background-color: khaki;padding: 5px 10px;margin-top: 10px;margin-right: 5px;"><?= $ruang['ruangan'] ?></a>
+											<?php endforeach; ?>
+										</div>
 									<?php endif; ?>
 								</div>
 							</div>
@@ -243,6 +249,22 @@
 		</section>
 		<section id="section-isi" v-if="section_isi">
 		    <h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
+		    <div class="form-group row" style="margin-top: 20px;">
+	            <label class="col-sm-2 col-form-label" style="font-weight: bold;font-size: 20px;">NAMA RUANGAN</label>
+	            <div class="col-sm-4">
+	            	<input type="hidden" name="ruangan" v-model="id_ruangan" class="form-control" v-if="mode == 'edit'" />
+	            	<input type="text" name="nama_ruangan" class="form-control" v-if="mode == 'edit'" v-model="nama_ruangan" style="border: 5px solid" readonly />
+	              <select id="ruangan" name="ruangan" v-if="mode == 'new'" v-model="id_ruangan" class="form-control" style="border: 5px solid" >
+	                <?php 
+	                echo '<option value="0">--Pilih Ruangan--</option>';
+	                foreach($ruangan as $row)
+	                { 
+	                  echo '<option value="'.$row->id.'">'.$row->ruangan.'</option>';
+	                }?>
+	                
+	              </select>
+	            </div>
+	         </div>
 	    	<div class="row">
 				<div class="col-sm-6 col-12">
 					<p class="status-sign-left" v-html="task"></p>
@@ -287,7 +309,7 @@
 	            		<h2 class="title-sub">{{ ind }}</h2>
 	            		<template v-for="l in lo.data">
 				            <div class="card-body bd bd-t-0" style="margin-bottom: 10px;">
-				            	<h3 class="h3-title h3-soal title-sub-sub" >{{ l.soal }}</h3>
+				            	<h3 :class="`${l.flag ? 'h3-title h3-soal title-sub-sub ganti-sukses' : 'h3-title h3-soal title-sub-sub'}`" >{{ l.soal }}</h3>
 				            	<h4 class="mg-t-10 h4-title" style="border-bottom: solid 2px;padding-bottom: 15px;padding-top: 10px;">Dokumen yang harus disiapkan : 
 				            		<div class="item-desc-small-sub">{{ log.keterangan }}</div>
 				            	</h4>

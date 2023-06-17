@@ -329,25 +329,22 @@ class Laporan extends CI_Controller {
 			$data['title'] = 'Laporan Penyimpanan Linen';
 			$data['main'] = 'laporan/storage';
 			$data['js'] = 'script/laporan';
-			$bln = date('m');
-			$thn = date('Y');
 
-			if(!empty($this->input->get("b", TRUE))){
-				$bln=$this->input->get("b", TRUE);
-				$thn=$this->input->get("t", TRUE);
-			}
-			
-			$laporan_storage  = $this->db->query("SELECT linen_bersih_detail.epc , jenis_barang.`jenis`, `spesifikasi`, berat
-				FROM linen_bersih_detail 
-				INNER JOIN barang ON barang.`serial`=linen_bersih_detail.`epc`
-				LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-				WHERE status_linen <>'RUSAK' AND keluar=0
-				UNION
-				SELECT barang.`serial` AS epc , jenis_barang.`jenis`, `spesifikasi`, berat 
-				FROM barang 
-				LEFT JOIN linen_kotor_detail lkd ON lkd.`epc`=barang.`serial`
-				LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
-				WHERE lkd.epc IS NULL")->result();
+			$laporan_storage  = $this->db->query("select id, jenis, spesifikasi, count(id) jml from (
+					select * from (
+						SELECT linen_bersih_detail.epc ,jenis_barang.id , jenis_barang.`jenis`, `spesifikasi`, berat
+						FROM linen_bersih_detail 
+						INNER JOIN barang ON barang.`serial`=linen_bersih_detail.`epc`
+						LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+						WHERE status_linen <>'RUSAK' AND keluar=0
+						UNION
+						SELECT barang.`serial` AS epc ,jenis_barang.id , jenis_barang.`jenis`, `spesifikasi`, berat 
+						FROM barang 
+						LEFT JOIN linen_kotor_detail lkd ON lkd.`epc`=barang.`serial`
+						LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+						WHERE lkd.epc IS null
+					) tgl_serial where epc not in (select epc from linen_rusak_detail lrd)
+				) tbl_storage group by id, jenis, spesifikasi")->result();
 			
 			$data['laporan_storage']= $laporan_storage;
 

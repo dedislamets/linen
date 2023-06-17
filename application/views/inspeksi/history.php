@@ -19,6 +19,9 @@
                           Tanggal
                         </th>
                         <th>
+                          Ruangan
+                        </th>
+                        <th>
                           Soal
                         </th>
                         <th>

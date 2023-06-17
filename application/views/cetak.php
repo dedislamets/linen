@@ -813,26 +813,28 @@
 						<thead>
 							<tr>
 								<th class="vcenter">No</th>
-								<th  class="vcenter">EPC/Serial</th>
 								<th  class="vcenter">Nama Barang</th>
 								<th  class="vcenter">Spesifikasi</th>
-								<th  class="vcenter">Berat</th>
+								<th  class="vcenter">Jumlah</th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php 
-				              $urut=1;
+				              $urut=1; $total = 0;
 				              foreach($laporan_storage as $row): ?>
 				                <tr>
 				                  <td width="10"><?=$urut?></td>
-				                  <td><?=$row->epc ?></td>
 				                  <td><?=$row->jenis?></td>
 				                  <td><?=$row->spesifikasi ?></td>
-				                  <td><?=$row->berat?></td>
+				                  <td style="text-align: right;"><?=$row->jml?></td>
 				                  
 				                </tr>
-				                <?php $urut++?>
+				                <?php $urut++; $total += $row->jml; ?>
 				              <?php endforeach; ?>
+				              <tr>
+				                <td colspan="3" style="text-align: right;font-size: 21px;font-weight: bold;">Total</td>
+				                <td style="text-align: right;font-size: 21px;font-weight: bold;"><?= number_format($total) ?></td>
+				              </tr>
 						</tbody>
 					</table>
 				</div>
