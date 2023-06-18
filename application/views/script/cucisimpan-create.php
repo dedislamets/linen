@@ -377,7 +377,7 @@
      	baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control"/></td>';
      	baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
 
-
+        baris += '<td></td>';
      	baris += '</tr>';
 
      	var last = $('#tbody-table tr:last').html();

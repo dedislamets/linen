@@ -380,7 +380,7 @@
 		baris += '<td><input type="text" name="jenis'+ nomor +'" id="jenis'+ nomor +'" class="form-control" value="" readonly/></td>';
 		baris += '<td><input type="text" readonly name="ruangan'+ nomor +'" id="ruangan'+ nomor +'" class="form-control"/></td>';
 		baris += '<td><input type="number" readonly id="berat'+ nomor +'" name="berat'+ nomor +'" placeholder="" class="form-control" value="0"></td>';
-		
+		baris += '<td></td>';
 	
 		baris += '</tr>';
 		
@@ -508,6 +508,8 @@
 
 
 	function cancel(val) {
+        let epc = $(val).parent().next().children().val();
+
 		var id=$(val).prevAll().val();
 		if(id != ""){
 			var r = confirm("Yakin dihapus?");
@@ -523,6 +525,10 @@
 		}else{
 			$(val).parent().parent().remove();
 			hitungBerat();
+		}
+		if(epc != ""){
+			const newArr = arr_epc.filter(e => e !== epc)
+			arr_epc = newArr;
 		}
 	}
 	function hitungBerat(){

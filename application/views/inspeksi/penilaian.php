@@ -315,7 +315,7 @@
 			foreach($soal as $row): ?>
 			      	<div class="col-12 col-md-6 col-xl-6">
 						<div class="card carder <?= $row->class ?>">
-					      	<p class="card__number"><?= $row->nama_user ?></p>
+					      	<p class="card__number"><?= $row->nama_user ?> | <?= $row->ruangan ?></p>
 					      	<div class="row">
 						      	<div class="col-md-4 col-12">
 						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid img-check" >
@@ -329,7 +329,7 @@
 							      	</div>
 							      	<div style="padding-bottom: 10px;" class="row">
 										<div class="col-12">
-								      		<button v-on:click="getSoal(<?= $row->id_judul ?>, '<?= $row->tanggal ?>')" class="btn btn-success btn-rounded btn-block"><span class="fa fa-edit"></span>&nbsp; Mulai Nilai</button>
+								      		<button v-on:click="getSoal(<?= $row->id_judul ?>,'<?= $row->tanggal ?>',<?= $row->id_ruangan ?>)" class="btn btn-success btn-rounded btn-block"><span class="fa fa-edit"></span>&nbsp; Mulai Nilai</button>
 								      	</div>
 									</div>
 						      	</div>
@@ -345,7 +345,7 @@
 			foreach($pending as $row): ?>
 			      	<div class="col-12 col-md-6 col-xl-6">
 						<div class="card carder <?= $row->class ?>">
-					      	<p class="card__number"><?= $row->nama_user ?></p>
+					      	<p class="card__number"><?= $row->nama_user ?> | <?= $row->ruangan ?></p>
 					      	<div class="row">
 						      	<div class="col-md-4 col-12">
 						      		<img src="<?= base_url() ?>assets/images/checklist.png" class="img img-fluid img-check" >
@@ -355,11 +355,11 @@
 							      	<p class="card__owner"><?= $row->task ?></p>
 							      	<p class="card__owner deskripsi"  style="font-size: 13px"><?= $row->deskripsi ?></p>
 							      	<div class="card__info">
-							        	<p class="card__integral">Waktu Inspeksi : <?= $row->last_update ?></p>
+							        	<p class="card__integral">Waktu Inspeksi : <?= $row->tanggal ?></p>
 							      	</div>
 							      	<div style="padding-bottom: 10px;" class="row">
 										<div class="col-12">
-								      		<button v-on:click="getSoal(<?= $row->id_judul ?>, '<?= $row->tanggal ?>')" class="btn btn-success btn-rounded btn-block"><span class="fa fa-edit"></span>&nbsp; Mulai Nilai</button>
+								      		<button v-on:click="getSoal(<?= $row->id_judul ?>,'<?= $row->tanggal ?>',<?= $row->id_ruangan ?>)" class="btn btn-success btn-rounded btn-block"><span class="fa fa-edit"></span>&nbsp; Mulai Nilai</button>
 								      	</div>
 									</div>
 						      	</div>
@@ -372,6 +372,13 @@
 	<section id="section-isi" v-if="section_isi">
 		<form id="frm" method="post" class="needs-validation" enctype='multipart/form-data'>
 			<h2 class="heading heading-sheet" >{{ judul_soal }}</h2>
+			<div class="form-group row" style="margin-top: 20px;">
+	            <label class="col-sm-2 col-form-label" style="font-weight: bold;font-size: 20px;">NAMA RUANGAN</label>
+	            <div class="col-sm-4">
+	            	<input type="hidden" name="ruangan" v-model="id_ruangan" class="form-control"  />
+	            	<input type="text" name="nama_ruangan" class="form-control" v-model="nama_ruangan" style="border: 5px solid" readonly />
+	            </div>
+	         </div>
 			<div class="row">
 				<div class="col-sm-6 col-12">
 					<p class="status-sign-left" v-html="task"></p>
