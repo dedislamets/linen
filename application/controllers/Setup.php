@@ -16,7 +16,7 @@ class Setup extends CI_Controller {
             
             $data['title'] = 'Home';
             $data['main'] = 'setup/index';
-            $data['js'] = 'script/no-script';
+            $data['js'] = 'script/setup';
             $data['setup'] = $this->admin->getmaster('tb_setting');
             $this->load->view('dashboard',$data,FALSE); 
 
@@ -223,7 +223,48 @@ class Setup extends CI_Controller {
         $data = $this->admin->getmaster('app_tbl',$arr_par);
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
+    public function Reset()
+    {             
+      $response = [];
+      $response['msg']= "";
+      $response['error']= FALSE;
+      
+      try
+      {
+        $this->db->truncate('linen_kotor_detail');
+        $this->db->truncate('linen_kotor');
+        $this->db->truncate('linen_bersih_detail');
+        $this->db->truncate('linen_bersih');
+        $this->db->truncate('linen_keluar_detail');
+        $this->db->truncate('linen_keluar');
+        $this->db->truncate('linen_rusak');
+        $this->db->truncate('linen_rusak_detail');
+        $this->db->truncate('new_request_linen');
+        $this->db->truncate('new_request_linen_detail');
+        $this->db->truncate('new_request_linen_detail_image');
+        $this->db->truncate('request_jemput');
+        $this->db->truncate('request_linen');
+        $this->db->truncate('request_linen_detail');
+        $this->db->truncate('tb_notifikasi');
+        $this->db->truncate('tb_inspeksi');
+        $this->db->truncate('tb_inspeksi_image');
+        $this->db->truncate('tb_penerimaan');
+        $this->db->truncate('tb_penerimaan_detail');
+        $this->db->truncate('tb_vbs');
 
+        $db_error = $this->db->error();
+        if (!empty($db_error)) {
+            throw new Exception('Database error! Error Code [' . $db_error['code'] . '] Error: ' . $db_error['message']);
+        }
+      }
+      catch (Exception $e)
+      {
+        $response['msg']= $e->getMessage();
+        $response['error']= TRUE;
+      }
+      
+      $this->output->set_content_type('application/json')->set_output(json_encode($response));
+    }
     public function Save()
     {       
         

@@ -51,7 +51,7 @@
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Default Scan</label>
-              <div class="col-sm-10">
+              <div class="col-sm-4">
                 
                 <div class="row mg-t-10">
                   <div class="col-lg-3">
@@ -68,7 +68,10 @@
                   </div><!-- col-3 -->
                 </div>
               </div>
-              
+              <label class="col-sm-2 col-form-label">Company</label>
+              <div class="col-sm-4">
+                <input type="text" id="company" name="company" class="form-control" value="<?php echo $setup[0]->company ?>">
+              </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-2 col-form-label">Logo</label>
@@ -78,16 +81,13 @@
                   <img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" alt="">
                 </div>
               </div>
-              <label class="col-sm-2 col-form-label">Company</label>
-              <div class="col-sm-4">
-                <input type="text" id="company" name="company" class="form-control" value="<?php echo $setup[0]->company ?>">
-              </div>
             </div>
           </fieldset>
           <fieldset>
-            <div class="form-group">
+            <div class="form-group row">
               <input type="hidden" id="csrf_token" name="<?=$this->security->get_csrf_token_name();?>" value="<?=$this->security->get_csrf_hash();?>" >
-              <button type="submit" class="btn btn-fill btn-info" style="margin-left: 10px">Submit</button>
+              <button type="submit" class="btn btn-fill btn-rounded btn-info" style="margin-left: 10px;margin-right: 20px;">Submit</button>
+              <button type="button" id="btnReset" class="btn btn-danger btn-rounded btn-with-icon "><i class="typcn typcn-refresh"></i> Reset Data</button>
             </div>
           </fieldset>
         </form>
