@@ -172,6 +172,48 @@ class Api extends RestController  {
         }
     }
 
+    public function infoserial_get()
+    {
+        $sql = "SELECT serial,nama_ruangan as ruangan,jenis FROM barang INNER JOIN jenis_barang ON barang.`id_jenis`=jenis_barang.`id` where serial='". $this->get('serial',true) ."'";
+        $data = $this->db->query($sql)->row_array();
+        if ($data != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $data
+            ], 200 );
+        }else{
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 404 );
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        
+    }
+
+    public function exist_kotor_get()
+    {
+        $sql = "SELECT b.* 
+                FROM linen_kotor a 
+                JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi 
+                WHERE STATUS='CUCI' and epc='". $this->get('serial',true) ."' and a.NO_TRANSAKSI ='". $this->get('no',true) ."'";
+
+        $data = $this->db->query($sql)->row_array();
+        if ($data != FALSE) {
+            $this->response([
+                'status' => true,
+                'data' => $data
+            ], 200 );
+        }else{
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 404 );
+        }
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+        
+    }
+
     public function serial_get()
     {
         $sql = "SELECT serial,nama_ruangan as ruangan,jenis FROM barang INNER JOIN jenis_barang ON barang.`id_jenis`=jenis_barang.`id`";
