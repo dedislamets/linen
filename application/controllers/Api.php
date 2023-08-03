@@ -186,7 +186,7 @@ class Api extends RestController  {
                 'status' => false,
                 'data' => [],
                 'message' => 'No data were found'
-            ], 404 );
+            ], 200 );
         }
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
         
