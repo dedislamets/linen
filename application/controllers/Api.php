@@ -174,7 +174,7 @@ class Api extends RestController  {
 
     public function infoserial_get()
     {
-        $sql = "SELECT serial,nama_ruangan as ruangan,jenis FROM barang INNER JOIN jenis_barang ON barang.`id_jenis`=jenis_barang.`id` where serial='". $this->get('serial',true) ."'";
+        $sql = "SELECT serial,nama_ruangan as ruangan,jenis,berat FROM barang INNER JOIN jenis_barang ON barang.`id_jenis`=jenis_barang.`id` where serial='". $this->get('serial',true) ."'";
         $data = $this->db->query($sql)->row_array();
         if ($data != FALSE) {
             $this->response([
