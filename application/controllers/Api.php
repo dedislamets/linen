@@ -184,6 +184,7 @@ class Api extends RestController  {
         }else{
             $this->response( [
                 'status' => false,
+                'data' => [],
                 'message' => 'No data were found'
             ], 404 );
         }
