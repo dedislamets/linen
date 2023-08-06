@@ -938,6 +938,11 @@ class Api extends RestController  {
 
     public function linen_kotor_post()
     {
+
+        $response['error']=true;
+        $response['message']='Data gagal ditambahkan.';
+
+
         $arr_date = explode("/", $this->post('tanggal'));
         $data =array(
             "NO_TRANSAKSI"  => $this->post('no_transaksi'),
@@ -951,17 +956,48 @@ class Api extends RestController  {
             "TOTAL_QTY"        => $this->post('total_qty'),
         );
 
-        $response['error']=true;
-        $response['message']='Data gagal ditambahkan.';
+        //print("<pre>".print_r($data,true)."</pre>");exit();
+        
+        $this->db->trans_start();
 
         $data_exist = $this->admin->get_array('linen_kotor',array( 'NO_TRANSAKSI' => $this->post('no_transaksi')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_kotor", $data);
+        }
+
+        $data =array(
+            "no_transaksi"  => $this->post('no_transaksi'),
+            "epc"           => $this->post('epc'),
+            "ruangan"        => $this->post('room')
+        );
+
+        $data_exist = $this->admin->get_array('linen_kotor_detail',array( 'no_transaksi' => $this->post('no_transaksi'), 'epc' => $this->post('epc') ));
+        if(empty($data_exist)){
+            $insert = $this->db->insert("linen_kotor_detail", $data);
             if($insert){
-                $response['status']=200;
-                $response['error']=false;
-                $response['message']='Data berhasil ditambahkan.';
+
+                $this->db->set(array("kotor" => 1));
+                $this->db->where(array( "epc" => $this->post('epc'), "kotor" => 0 ));
+                $this->db->update('linen_keluar_detail');
+
+                $this->db->set(array("nama_ruangan" => $this->post('room')));
+                $this->db->where(array( "serial" => $this->post('epc') ));
+                $this->db->update('barang');
+                
             }
+
+        }
+
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $response['status']=200;
+            $response['error']=false;
+            $response['message']='Data berhasil ditambahkan.';
         }
         
         $this->response($response);
@@ -1183,7 +1219,6 @@ class Api extends RestController  {
 
     public function barang_post()
     {
-        // print("<pre>".print_r($this->post(),true)."</pre>");exit();
         $data =array(
             "serial"            => $this->post('serial'),
             "tanggal_register"  => date("Y-m-d", strtotime($this->post('tanggal_register'))),
