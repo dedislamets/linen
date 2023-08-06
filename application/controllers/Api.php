@@ -981,7 +981,9 @@ class Api extends RestController  {
         foreach ($this->post('detail') as $key => $value) {
 
             $last_history = $this->last_history(trim($value['epc']));
-            if($last_history->status !== "keluar"){
+            // print("<pre>".print_r($last_history,true)."</pre>");exit();
+
+            if(!empty($last_history) && $last_history->status !== "keluar"){
                 $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;                
             }else{
                 $data =array(
@@ -1015,7 +1017,6 @@ class Api extends RestController  {
             
         }
         
-        // print("<pre>".print_r($this->db->trans_status(),true)."</pre>");exit();
 
         if ($this->db->trans_status() === FALSE || $response['error'] === true)
         {
