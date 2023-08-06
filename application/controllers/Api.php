@@ -48,7 +48,7 @@ use chriskacerguis\RestServer\RestController;
 
 class Api extends RestController  {
 
-    private $perPage = 50;
+    private $perPage = 10;
     public function __construct()
     {
         parent::__construct();
@@ -443,8 +443,50 @@ class Api extends RestController  {
             
         }
     }
+    public function linen_kotor_all_get($value='')
+    {
+        
+        $count = $this->db->count_all_results('linen_kotor');
 
-    public function linen_kotor_all_get()
+        if (!empty($this->get("page"))) {
+            $sisa = $count-intval(($this->perPage*$this->get("page")));
+            $start = intval(($this->perPage * ($this->get("page")-1)));
+             
+            if($this->get("page") == 1){
+                $start=0;
+            }
+            
+            $query = $this->admin->api_pagination('linen_kotor',$this->perPage, $start);
+            $this->response([
+                'data' => $query,
+                'page' => $this->get("page"),
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+        } else {
+            $query = $this->admin->api_pagination('linen_kotor',$this->perPage,0);
+            $this->response([
+                'data' => $query,
+                'page' => 1,
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+        }
+
+        if ($data!= FALSE) {
+
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
+
+    public function linen_kotor_all_old_get()
     {
         $linen_kotor = $this->admin->api_array('linen_kotor');
         $linen_kotor_detail = $this->admin->api_array('linen_kotor_detail');
