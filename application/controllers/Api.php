@@ -956,7 +956,6 @@ class Api extends RestController  {
             "TOTAL_QTY"        => $this->post('total_qty'),
         );
 
-        //print("<pre>".print_r($data,true)."</pre>");exit();
         
         $this->db->trans_start();
 
@@ -965,28 +964,35 @@ class Api extends RestController  {
             $insert = $this->db->insert("linen_kotor", $data);
         }
 
-        $data =array(
-            "no_transaksi"  => $this->post('no_transaksi'),
-            "epc"           => $this->post('epc'),
-            "ruangan"        => $this->post('room')
-        );
+        foreach ($this->post('detail') as $key => $value) {
+            //print("<pre>".print_r(trim($value['epc']),true)."</pre>");exit();
 
-        $data_exist = $this->admin->get_array('linen_kotor_detail',array( 'no_transaksi' => $this->post('no_transaksi'), 'epc' => $this->post('epc') ));
-        if(empty($data_exist)){
-            $insert = $this->db->insert("linen_kotor_detail", $data);
-            if($insert){
+            $data =array(
+                "no_transaksi"  => $value['no_transaksi'],
+                "epc"           => trim($value['epc']),
+                "ruangan"        => $value['room']
+            );
 
-                $this->db->set(array("kotor" => 1));
-                $this->db->where(array( "epc" => $this->post('epc'), "kotor" => 0 ));
-                $this->db->update('linen_keluar_detail');
+            $data_exist = $this->admin->get_array('linen_kotor_detail',
+                array( 'no_transaksi' => $this->post('no_transaksi'), 
+                    'epc' => trim($value['epc'])
+                ));
+            if(empty($data_exist)){
+                $insert = $this->db->insert("linen_kotor_detail", $data);
+                if($insert){
 
-                $this->db->set(array("nama_ruangan" => $this->post('room')));
-                $this->db->where(array( "serial" => $this->post('epc') ));
-                $this->db->update('barang');
-                
+                    $this->db->set(array("kotor" => 1));
+                    $this->db->where(array( "epc" => trim($value['epc']), "kotor" => 0 ));
+                    $this->db->update('linen_keluar_detail');
+
+                    $this->db->set(array("nama_ruangan" => $value['room']));
+                    $this->db->where(array( "serial" => trim($value['epc'])));
+                    $this->db->update('barang');
+                    
+                }
             }
-
         }
+        
 
         if ($this->db->trans_status() === FALSE)
         {
