@@ -798,6 +798,20 @@ class Api extends RestController  {
         }
     }
 
+    function last_history($epc)
+    {
+        $sql = "select * FROM (
+                    select no_transaksi,current_insert,epc,'kotor' as status from linen_kotor_detail WHERE epc='". $epc ."'
+                    UNION  
+                    SELECT no_transaksi,current_insert,epc,'bersih' AS STATUS FROM linen_bersih_detail WHERE epc='". $epc ."'
+                    UNION  
+                    SELECT no_transaksi,current_insert,epc,'keluar' AS STATUS FROM linen_keluar_detail WHERE epc='". $epc ."'
+                    UNION  
+                    SELECT no_transaksi,current_insert,epc,'rusak' AS STATUS FROM linen_rusak_detail WHERE epc='". $epc ."'
+                )history ORDER BY current_insert DESC limit 1";
+        return $story = $this->db->query($sql)->row();
+    }
+
     public function hapus_room_get()
     {
         // echo $this->get('id');exit();
@@ -950,9 +964,9 @@ class Api extends RestController  {
             "PIC"           => $this->post('pic'),
             "STATUS"        => 'CUCI',
             "KATEGORI"        => $this->post('kategori'),
-            "F_INFEKSIUS"        => $this->post('infeksius'),
-            "TOTAL_BERAT"        => $this->post('total_berat'),
-            "TOTAL_BERAT_REAL"   => $this->post('total_berat_real'),
+            "F_INFEKSIUS"     => $this->post('infeksius'),
+            "TOTAL_BERAT"     => $this->post('total_berat'),
+            "TOTAL_BERAT_REAL" => $this->post('total_berat_real'),
             "TOTAL_QTY"        => $this->post('total_qty'),
         );
 
@@ -965,48 +979,57 @@ class Api extends RestController  {
         }
 
         foreach ($this->post('detail') as $key => $value) {
-            //print("<pre>".print_r(trim($value['epc']),true)."</pre>");exit();
 
-            $data =array(
-                "no_transaksi"  => $value['no_transaksi'],
-                "epc"           => trim($value['epc']),
-                "ruangan"        => $value['room']
-            );
+            $last_history = $this->last_history(trim($value['epc']));
+            if($last_history->status !== "keluar"){
+                $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;                
+            }else{
+                $data =array(
+                    "no_transaksi"  => $value['no_transaksi'],
+                    "epc"           => trim($value['epc']),
+                    "ruangan"        => $value['room']
+                );
 
-            $data_exist = $this->admin->get_array('linen_kotor_detail',
-                array( 'no_transaksi' => $this->post('no_transaksi'), 
-                    'epc' => trim($value['epc'])
-                ));
-            if(empty($data_exist)){
-                $insert = $this->db->insert("linen_kotor_detail", $data);
-                if($insert){
+                $data_exist = $this->admin->get_array('linen_kotor_detail',
+                    array( 'no_transaksi' => $this->post('no_transaksi'), 
+                        'epc' => trim($value['epc'])
+                    ));
+                if(empty($data_exist)){
+                    $insert = $this->db->insert("linen_kotor_detail", $data);
+                    if($insert){
 
-                    $this->db->set(array("kotor" => 1));
-                    $this->db->where(array( "epc" => trim($value['epc']), "kotor" => 0 ));
-                    $this->db->update('linen_keluar_detail');
+                        $this->db->set(array("kotor" => 1));
+                        $this->db->where(array( "epc" => trim($value['epc']), "kotor" => 0 ));
+                        $this->db->update('linen_keluar_detail');
 
-                    $this->db->set(array("nama_ruangan" => $value['room']));
-                    $this->db->where(array( "serial" => trim($value['epc'])));
-                    $this->db->update('barang');
-                    
+                        $this->db->set(array("nama_ruangan" => $value['room']));
+                        $this->db->where(array( "serial" => trim($value['epc'])));
+                        $this->db->update('barang');
+                        
+                    }
                 }
+
+                $response['error']=false;
             }
+
+            
         }
         
+        // print("<pre>".print_r($this->db->trans_status(),true)."</pre>");exit();
 
-        if ($this->db->trans_status() === FALSE)
+        if ($this->db->trans_status() === FALSE || $response['error'] === true)
         {
+            $response['status']=500;
             $this->db->trans_rollback();
         }
         else
         {
             $this->db->trans_commit();
             $response['status']=200;
-            $response['error']=false;
             $response['message']='Data berhasil ditambahkan.';
         }
         
-        $this->response($response);
+        $this->response($response, $response['status']);
     }
 
     public function linen_keluar_post()
