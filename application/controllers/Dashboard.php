@@ -33,7 +33,9 @@ class Dashboard extends CI_Controller {
 			$this->db->select('count(ifnull(SERIAL,0)) total');
 			$this->db->from('barang');
 			$this->db->join('linen_kotor_detail','linen_kotor_detail.`epc`=barang.`serial`','LEFT');
+            $this->db->join('linen_keluar_detail','linen_keluar_detail.`epc`=barang.`serial`','LEFT');
             $this->db->where('linen_kotor_detail.epc IS NULL');
+            $this->db->where('linen_keluar_detail.epc IS NULL');
             $this->db->where('serial not in (select epc from linen_rusak_detail lrd)');
             $query = $this->db->get();
 			$data['total_serial_blm_pakai'] = $query->row_array(); 
