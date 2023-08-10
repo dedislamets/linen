@@ -443,6 +443,37 @@ class Api extends RestController  {
             
         }
     }
+
+    public function kotor_get()
+    {
+        $linen_kotor = $this->admin->get_array('linen_kotor',"NO_TRANSAKSI='". $this->get("no") . "'");
+        $linen_kotor_detail = $this->admin->api_array('linen_kotor_detail',"no_transaksi = '". $this->get("no") . "'");
+
+        foreach ($linen_kotor_detail as $key => $value) {
+            $this->db->from('barang');
+            $this->db->join('jenis_barang','barang.id_jenis=jenis_barang.id');
+            $this->db->where(array( 'serial' => $value['epc']));
+            $data_exist = $this->db->get()->row();
+            if(!empty($data_exist)){
+                $linen_kotor_detail[$key]['item'] = $data_exist->jenis;
+            }
+        }
+
+        if ($linen_kotor != FALSE) {
+            $linen_kotor['detail'] = $linen_kotor_detail;
+            $this->response([
+                'status' => true,
+                'data' => $linen_kotor
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No users were found'
+            ], 500 );
+        }
+    }
+
     public function linen_kotor_all_get($value='')
     {
         
