@@ -1056,11 +1056,14 @@ class Api extends RestController  {
         foreach ($this->post('detail') as $key => $value) {
 
             $last_history = $this->last_history(trim($value['epc']));
-            // print("<pre>".print_r($last_history,true)."</pre>");exit();
+                // print("<pre>".print_r($last_history,true)."</pre>");
 
             if(!empty($last_history) && $last_history->status !== "keluar"){
-                $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;                
+                $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;   
+                $response['error']=true;      
+                break;       
             }else{
+
                 $data =array(
                     "no_transaksi"  => $value['no_transaksi'],
                     "epc"           => trim($value['epc']),
@@ -1073,6 +1076,7 @@ class Api extends RestController  {
                     ));
                 if(empty($data_exist)){
                     $insert = $this->db->insert("linen_kotor_detail", $data);
+
                     if($insert){
 
                         $this->db->set(array("kotor" => 1));
