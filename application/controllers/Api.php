@@ -1064,7 +1064,7 @@ class Api extends RestController  {
                 $data =array(
                     "no_transaksi"  => $value['no_transaksi'],
                     "epc"           => trim($value['epc']),
-                    "ruangan"        => $value['room']
+                    "ruangan"        => $value['ruangan']
                 );
 
                 $data_exist = $this->admin->get_array('linen_kotor_detail',
@@ -1079,7 +1079,7 @@ class Api extends RestController  {
                         $this->db->where(array( "epc" => trim($value['epc']), "kotor" => 0 ));
                         $this->db->update('linen_keluar_detail');
 
-                        $this->db->set(array("nama_ruangan" => $value['room']));
+                        $this->db->set(array("nama_ruangan" => $value['ruangan']));
                         $this->db->where(array( "serial" => trim($value['epc'])));
                         $this->db->update('barang');
                         
