@@ -446,7 +446,7 @@ class Api extends RestController  {
 
     public function kotor_get()
     {
-        $linen_kotor = $this->admin->get_array('linen_kotor',"NO_TRANSAKSI='". $this->get("no") . "'");
+        $linen_kotor = $this->admin->get('linen_kotor',"NO_TRANSAKSI='". $this->get("no") . "'");
         $linen_kotor_detail = $this->admin->api_array('linen_kotor_detail',"no_transaksi = '". $this->get("no") . "'");
 
         foreach ($linen_kotor_detail as $key => $value) {
@@ -456,11 +456,13 @@ class Api extends RestController  {
             $data_exist = $this->db->get()->row();
             if(!empty($data_exist)){
                 $linen_kotor_detail[$key]['item'] = $data_exist->jenis;
+                $linen_kotor_detail[$key]['berat'] = $data_exist->berat;
             }
         }
+        // print("<pre>".print_r($linen_kotor,true)."</pre>");exit();
 
         if ($linen_kotor != FALSE) {
-            $linen_kotor['detail'] = $linen_kotor_detail;
+            $linen_kotor[0]->detail = $linen_kotor_detail;
             $this->response([
                 'status' => true,
                 'data' => $linen_kotor
