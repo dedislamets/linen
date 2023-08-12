@@ -1032,23 +1032,23 @@ class Api extends RestController  {
         $response['message']='Data gagal ditambahkan.';
 
 
-        $arr_date = explode("/", $this->post('tanggal'));
+        $arr_date = explode("/", $this->post('TANGGAL'));
         $data =array(
-            "NO_TRANSAKSI"  => $this->post('no_transaksi'),
+            "NO_TRANSAKSI"  => $this->post('NO_TRANSAKSI'),
             "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
-            "PIC"           => $this->post('pic'),
+            "PIC"           => $this->post('PIC'),
             "STATUS"        => 'CUCI',
-            "KATEGORI"        => $this->post('kategori'),
-            "F_INFEKSIUS"     => $this->post('infeksius'),
-            "TOTAL_BERAT"     => $this->post('total_berat'),
-            "TOTAL_BERAT_REAL" => $this->post('total_berat_real'),
-            "TOTAL_QTY"        => $this->post('total_qty'),
+            "KATEGORI"        => $this->post('KATEGORI'),
+            "F_INFEKSIUS"     => $this->post('F_INFEKSIUS'),
+            "TOTAL_BERAT"     => $this->post('TOTAL_BERAT'),
+            "TOTAL_BERAT_REAL" => $this->post('TOTAL_BERAT_REAL'),
+            "TOTAL_QTY"        => $this->post('TOTAL_QTY'),
         );
 
         
         $this->db->trans_start();
 
-        $data_exist = $this->admin->get_array('linen_kotor',array( 'NO_TRANSAKSI' => $this->post('no_transaksi')));
+        $data_exist = $this->admin->get_array('linen_kotor',array( 'NO_TRANSAKSI' => $this->post('NO_TRANSAKSI')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_kotor", $data);
         }
@@ -1068,7 +1068,7 @@ class Api extends RestController  {
                 );
 
                 $data_exist = $this->admin->get_array('linen_kotor_detail',
-                    array( 'no_transaksi' => $this->post('no_transaksi'), 
+                    array( 'no_transaksi' => $this->post('NO_TRANSAKSI'), 
                         'epc' => trim($value['epc'])
                     ));
                 if(empty($data_exist)){
