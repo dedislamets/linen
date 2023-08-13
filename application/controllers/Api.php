@@ -459,7 +459,6 @@ class Api extends RestController  {
                 $linen_kotor_detail[$key]['berat'] = $data_exist->berat;
             }
         }
-        // print("<pre>".print_r($linen_kotor,true)."</pre>");exit();
 
         if ($linen_kotor != FALSE) {
             $linen_kotor[0]->detail = $linen_kotor_detail;
@@ -476,9 +475,39 @@ class Api extends RestController  {
         }
     }
 
+    public function bersih_get()
+    {
+        $linen_bersih = $this->admin->get('linen_bersih',"NO_TRANSAKSI='". $this->get("no") . "'");
+        $linen_bersih_detail = $this->admin->api_array('linen_bersih_detail',"no_transaksi = '". $this->get("no") . "'");
+
+        foreach ($linen_bersih_detail as $key => $value) {
+            $this->db->from('barang');
+            $this->db->join('jenis_barang','barang.id_jenis=jenis_barang.id');
+            $this->db->where(array( 'serial' => $value['epc']));
+            $data_exist = $this->db->get()->row();
+            if(!empty($data_exist)){
+                $linen_bersih_detail[$key]['item'] = $data_exist->jenis;
+                $linen_bersih_detail[$key]['berat'] = $data_exist->berat;
+            }
+        }
+
+        if ($linen_bersih != FALSE) {
+            $linen_bersih[0]->detail = $linen_bersih_detail;
+            $this->response([
+                'status' => true,
+                'data' => $linen_bersih
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
+
     public function linen_kotor_all_get($value='')
     {
-        
         $count = $this->db->count_all_results('linen_kotor');
         $where = array();
         if(!empty($this->get("STATUS"))){
@@ -492,6 +521,7 @@ class Api extends RestController  {
             if($this->get("page") == 1){
                 $start=0;
             }
+
             $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage, $start);
             $this->response([
                 'data' => $query,
@@ -500,7 +530,9 @@ class Api extends RestController  {
                 'total' => $count,
                 'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
             ], 200 );
+
         } else {
+
             $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage,0);
             $this->response([
                 'data' => $query,
@@ -509,6 +541,55 @@ class Api extends RestController  {
                 'total' => $count,
                 'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
             ], 200 );
+
+        }
+
+        if ($data!= FALSE) {
+
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
+    public function linen_bersih_all_get($value='')
+    {
+        $count = $this->db->count_all_results('linen_bersih');
+        $where = array();
+        if(!empty($this->get("STATUS"))){
+            $where['STATUS'] = $this->get("STATUS");
+        }
+
+        if (!empty($this->get("page"))) {
+            $sisa = $count-intval(($this->perPage*$this->get("page")));
+            $start = intval(($this->perPage * ($this->get("page")-1)));
+             
+            if($this->get("page") == 1){
+                $start=0;
+            }
+
+            $query = $this->admin->api_pagination('linen_bersih', $where, $this->perPage, $start);
+            $this->response([
+                'data' => $query,
+                'page' => $this->get("page"),
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+
+        } else {
+
+            $query = $this->admin->api_pagination('linen_bersih', $where, $this->perPage,0);
+            $this->response([
+                'data' => $query,
+                'page' => 1,
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+
         }
 
         if ($data!= FALSE) {
@@ -551,7 +632,7 @@ class Api extends RestController  {
             ], 200 );
         }
     }
-    public function linen_bersih_all_get()
+    public function linen_bersih_all_old_get()
     {
         $linen_bersih = $this->admin->api_array('linen_bersih');
         $linen_bersih_detail = $this->admin->api_array('linen_bersih_detail');
@@ -660,7 +741,6 @@ class Api extends RestController  {
             ], 200 );
         }
     }
-
 
     public function linen_kotor_get()
     {
