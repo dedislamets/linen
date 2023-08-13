@@ -480,6 +480,10 @@ class Api extends RestController  {
     {
         
         $count = $this->db->count_all_results('linen_kotor');
+        $where = array();
+        if(!empty($this->get("STATUS"))){
+            $where['STATUS'] = $this->get("STATUS");
+        }
 
         if (!empty($this->get("page"))) {
             $sisa = $count-intval(($this->perPage*$this->get("page")));
@@ -488,8 +492,7 @@ class Api extends RestController  {
             if($this->get("page") == 1){
                 $start=0;
             }
-            
-            $query = $this->admin->api_pagination('linen_kotor',$this->perPage, $start);
+            $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage, $start);
             $this->response([
                 'data' => $query,
                 'page' => $this->get("page"),
@@ -498,7 +501,7 @@ class Api extends RestController  {
                 'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
             ], 200 );
         } else {
-            $query = $this->admin->api_pagination('linen_kotor',$this->perPage,0);
+            $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage,0);
             $this->response([
                 'data' => $query,
                 'page' => 1,
