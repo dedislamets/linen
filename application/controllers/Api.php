@@ -1275,13 +1275,12 @@ class Api extends RestController  {
         $data_exist = $this->admin->get_array('linen_bersih',array( 'NO_TRANSAKSI' => $this->post('NO_TRANSAKSI')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_bersih", $data);
-            if($insert){
-                unset($data);
-                $data['status'] = 'BERSIH';
-                $this->db->set($data);
-                $this->db->where('NO_TRANSAKSI', $this->input->post('NO_TRANSAKSI'));
-                $result  =  $this->db->update('linen_kotor');  
-            }
+            
+            unset($data);
+            $data['status'] = 'BERSIH';
+            $this->db->set($data);
+            $this->db->where('NO_TRANSAKSI', $this->input->post('NO_TRANSAKSI'));
+            $result  =  $this->db->update('linen_kotor'); 
         }
 
         foreach ($this->post('detail') as $key => $value) {
