@@ -1139,13 +1139,19 @@ class Api extends RestController  {
         foreach ($this->post('detail') as $key => $value) {
 
             $last_history = $this->last_history(trim($value['epc']));
-                // print("<pre>".print_r($last_history,true)."</pre>");
 
             if(!empty($last_history) && $last_history->status !== "keluar"){
                 $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;   
                 $response['error']=true;      
                 break;       
             }else{
+
+                $data_exist_barang = $this->admin->get_array('barang',array( 'serial' => trim($value['epc']) ));
+                if(empty($data_exist_barang)){
+                    $response['message'] = "Serial " . trim($value['epc']) ." tidak terdaftar";   
+                    $response['error']=true;      
+                    break;     
+                }
 
                 $data =array(
                     "no_transaksi"  => $value['no_transaksi'],
@@ -1175,8 +1181,6 @@ class Api extends RestController  {
 
                 $response['error']=false;
             }
-
-            
         }
         
 
@@ -1254,38 +1258,84 @@ class Api extends RestController  {
 
     public function linen_bersih_post()
     {
-        $arr_tgl = explode("/",$this->post('tanggal') );
+        $arr_tgl = explode("/",$this->post('TANGGAL') );
         $tgl = $arr_tgl[2] . "-" . $arr_tgl[1] . "-" . $arr_tgl[0];
         $data =array(
-            "NO_TRANSAKSI"  => $this->post('no_transaksi'),
+            "NO_TRANSAKSI"  => $this->post('NO_TRANSAKSI'),
             "TANGGAL"       => $tgl,
-            "PIC"           => $this->post('pic'),
-            "STATUS"        => $this->post('status'),
+            "PIC"           => $this->post('PIC'),
+            "STATUS"        => $this->post('STATUS'),
             "KATEGORI"      => "",
-            "TOTAL_BERAT"   => $this->post('total_berat'),
-            "TOTAL_QTY"     => $this->post('total_qty'),
+            "TOTAL_BERAT"   => $this->post('TOTAL_BERAT'),
+            "TOTAL_QTY"     => $this->post('TOTAL_QTY'),
         );
 
-        $response['error']=true;
-        $response['message']='Data gagal ditambahkan.';
+        $this->db->trans_start();
 
-        $data_exist = $this->admin->get_array('linen_bersih',array( 'NO_TRANSAKSI' => $this->post('no_transaksi')));
+        $data_exist = $this->admin->get_array('linen_bersih',array( 'NO_TRANSAKSI' => $this->post('NO_TRANSAKSI')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_bersih", $data);
             if($insert){
-                $response['status']=200;
-                $response['error']=false;
-                $response['message']='Data berhasil ditambahkan.';
-
                 unset($data);
                 $data['status'] = 'BERSIH';
                 $this->db->set($data);
-                $this->db->where('NO_TRANSAKSI', $this->input->post('no_transaksi'));
+                $this->db->where('NO_TRANSAKSI', $this->input->post('NO_TRANSAKSI'));
                 $result  =  $this->db->update('linen_kotor');  
             }
         }
+
+        foreach ($this->post('detail') as $key => $value) {
+            $last_history = $this->last_history(trim($value['epc']));
+            if(!empty($last_history) && $last_history->status !== "kotor"){
+                $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;   
+                $response['error']=true;      
+                break;       
+            }else{
+                $data_exist_barang = $this->admin->get_array('barang',array( 'serial' => trim($value['epc']) ));
+                if(empty($data_exist_barang)){
+                    $response['message'] = "Serial " . trim($value['epc']) ." tidak terdaftar";   
+                    $response['error']=true;      
+                    break;     
+                }
+
+                $data =array(
+                    "no_transaksi"  => $this->post('NO_TRANSAKSI'),
+                    "epc"           => trim($value['epc']),
+                    "ruangan"        => $value['ruangan'],
+                    "status_linen"   => $value['status_linen'],
+                    "checked"        => $value['checked']
+                );
+
+                $response['error']=true;
+                $response['message']='Data gagal ditambahkan.';
+
+                $data_exist = $this->admin->get_array('linen_bersih_detail',array( 'no_transaksi' => $this->post('NO_TRANSAKSI'), 'epc' => trim($value['epc']) ));
+                if(empty($data_exist)){
+                    $insert = $this->db->insert("linen_bersih_detail", $data);
+                    if($insert){
+                        $response['status']=200;
+                        $response['error']=false;
+                        $response['message']='Data berhasil ditambahkan.';
+                    }
+                }
+
+                $response['error']=false;
+            }
+        }
         
-        $this->response($response);
+        if ($this->db->trans_status() === FALSE || $response['error'] === true)
+        {
+            $response['status']=500;
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $response['status']=200;
+            $response['message']='Data berhasil ditambahkan.';
+        }
+
+        $this->response($response, $response['status']);
     }
 
     public function linen_kotor_detail_post()
