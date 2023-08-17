@@ -1027,7 +1027,6 @@ class Api extends RestController  {
 
     public function room_post()
     {
-        // print("<pre>".print_r($this->post(),true)."</pre>");exit();
         $data =array(
             "ruangan"=>$this->post('ruangan'),
             
@@ -1274,12 +1273,13 @@ class Api extends RestController  {
 
         $data_exist = $this->admin->get_array('linen_bersih',array( 'NO_TRANSAKSI' => $this->post('NO_TRANSAKSI')));
         if(empty($data_exist)){
+
             $insert = $this->db->insert("linen_bersih", $data);
-            
+
             unset($data);
             $data['status'] = 'BERSIH';
             $this->db->set($data);
-            $this->db->where('NO_TRANSAKSI', $this->input->post('NO_TRANSAKSI'));
+            $this->db->where('NO_TRANSAKSI', $this->post('NO_TRANSAKSI'));
             $result  =  $this->db->update('linen_kotor'); 
         }
 
