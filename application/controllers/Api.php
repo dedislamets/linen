@@ -474,7 +474,6 @@ class Api extends RestController  {
             ], 500 );
         }
     }
-
     public function bersih_get()
     {
         $linen_bersih = $this->admin->get('linen_bersih',"NO_TRANSAKSI='". $this->get("no") . "'");
@@ -505,7 +504,36 @@ class Api extends RestController  {
             ], 500 );
         }
     }
+    public function keluar_get()
+    {
+        $linen_keluar = $this->admin->get('linen_keluar',"NO_TRANSAKSI='". $this->get("no") . "'");
+        $linen_keluar_detail = $this->admin->api_array('linen_keluar_detail',"no_transaksi = '". $this->get("no") . "'");
 
+        foreach ($linen_keluar_detail as $key => $value) {
+            $this->db->from('barang');
+            $this->db->join('jenis_barang','barang.id_jenis=jenis_barang.id');
+            $this->db->where(array( 'serial' => $value['epc']));
+            $data_exist = $this->db->get()->row();
+            if(!empty($data_exist)){
+                $linen_keluar_detail[$key]['item'] = $data_exist->jenis;
+                $linen_keluar_detail[$key]['berat'] = $data_exist->berat;
+            }
+        }
+
+        if ($linen_keluar != FALSE) {
+            $linen_keluar[0]->detail = $linen_keluar_detail;
+            $this->response([
+                'status' => true,
+                'data' => $linen_keluar
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
     public function linen_kotor_all_get($value='')
     {
         $count = $this->db->count_all_results('linen_kotor');
@@ -1160,7 +1188,6 @@ class Api extends RestController  {
         $response['error']=true;
         $response['message']='Data gagal ditambahkan.';
 
-
         $arr_date = explode("/", $this->post('TANGGAL'));
         $data =array(
             "NO_TRANSAKSI"  => $this->post('NO_TRANSAKSI'),
@@ -1247,32 +1274,91 @@ class Api extends RestController  {
 
     public function linen_keluar_post()
     {
-        $arr_date = explode("/", $this->post('tanggal'));
-        $data =array(
-            "NO_TRANSAKSI"  => $this->post('no_transaksi'),
-            "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
-            "PIC"           => $this->post('pic'),
-            "STATUS"        => 'KIRIM',
-            "RUANGAN"        => $this->post('ruangan'),
-            "NO_REFERENSI"        => $this->post('no_referensi'),
-        );
-
         $response['error']=true;
         $response['message']='Data gagal ditambahkan.';
 
-        $data_exist = $this->admin->get_array('linen_keluar',array( 'NO_TRANSAKSI' => $this->post('no_transaksi')));
+        $arr_date = explode("/", $this->post('TANGGAL'));
+        $data =array(
+            "NO_TRANSAKSI"  => $this->post('NO_TRANSAKSI'),
+            "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
+            "PIC"           => $this->post('PIC'),
+            "STATUS"        => 'KIRIM',
+            "RUANGAN"        => $this->post('RUANGAN'),
+            "NO_REFERENSI"        => $this->post('NO_REFERENSI'),
+        );
+
+        $this->db->trans_start();
+
+        $data_exist = $this->admin->get_array('linen_keluar',array( 'NO_TRANSAKSI' => $this->post('NO_TRANSAKSI')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_keluar", $data);
-            if($insert){
-                $response['status']=200;
-                $response['error']=false;
-                $response['message']='Data berhasil ditambahkan.';
-            }
+        }
 
-             
+        foreach ($this->post('detail') as $key => $value) {
+
+            $last_history = $this->last_history(trim($value['epc']));
+
+            if(!empty($last_history) && $last_history->status !== "bersih"){
+                $response['message'] = "Serial " . trim($value['epc']) ." berstatus ". $last_history->status . " di transaksi ". $last_history->no_transaksi;   
+                $response['error']=true;      
+                break;       
+            }else{
+
+                $data_exist_barang = $this->admin->get_array('barang',array( 'serial' => trim($value['epc']) ));
+                if(empty($data_exist_barang)){
+                    $response['message'] = "Serial " . trim($value['epc']) ." tidak terdaftar";   
+                    $response['error']=true;      
+                    break;     
+                }
+
+                $data =array(
+                    "no_transaksi"  => $value['no_transaksi'],
+                    "epc"           => trim($value['epc'])
+                );
+
+                $data_exist = $this->admin->get_array('linen_keluar_detail',
+                    array( 'no_transaksi' => $this->post('NO_TRANSAKSI'), 
+                        'epc' => trim($value['epc'])
+                    ));
+                if(empty($data_exist)){
+                    $insert = $this->db->insert("linen_keluar_detail", $data);
+
+                    if($insert){
+
+                        $this->db->set(array("keluar" => 1));
+                        $this->db->where(array( "epc" => $this->post('epc'), "keluar" => 0 ));
+                        $this->db->update('linen_bersih_detail');  
+
+                        unset($data);
+                        $data['nama_ruangan'] = $this->input->post('RUANGAN');
+                        $this->db->set($data);
+                        $this->db->where(
+                            array( 
+                              "serial" => $this->post('epc')
+                            ));
+                        $this->db->update('barang');
+                        
+                    }
+                }
+
+                $response['error']=false;
+            }
         }
         
-        $this->response($response);
+
+        if ($this->db->trans_status() === FALSE || $response['error'] === true)
+        {
+            $response['status']=500;
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $response['status']=200;
+            $response['message']='Data berhasil ditambahkan.';
+        }
+        
+        $this->response($response, $response['status']);
     }
 
     public function linen_rusak_post()
