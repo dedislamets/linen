@@ -290,12 +290,12 @@ class Admin extends CI_Model
  
         curl_close($ch);
     }
-    function api_pagination($tabel, $where = [], $limit='10', $start='0'){
+    function api_pagination($tabel, $where = [], $limit='10', $start='0', $order = "CURRENT_INSERT"){
         $this->db->from($tabel);
         if(!empty($where)){
             $this->db->where($where);
         }
-        $this->db->order_by("CURRENT_INSERT", "DESC");
+        $this->db->order_by($order, "DESC");
         $this->db->limit($limit,$start);
         $query = $this->db->get();
         return $query->result();    

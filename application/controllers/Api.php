@@ -696,7 +696,7 @@ class Api extends RestController  {
                 $start=0;
             }
 
-            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, $start);
+            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, $start, "created_date");
             $this->response([
                 'data' => $query,
                 'page' => $this->get("page"),
@@ -707,7 +707,7 @@ class Api extends RestController  {
 
         } else {
 
-            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage,0);
+            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, 0, "created_date");
             $this->response([
                 'data' => $query,
                 'page' => 1,
