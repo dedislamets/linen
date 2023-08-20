@@ -508,6 +508,7 @@ class Api extends RestController  {
     {
         $linen_keluar = $this->admin->get('linen_keluar',"NO_TRANSAKSI='". $this->get("no") . "'");
         $linen_keluar_detail = $this->admin->api_array('linen_keluar_detail',"no_transaksi = '". $this->get("no") . "'");
+        $request_linen_detail = $this->admin->api_array('request_linen_detail',"no_request = '". $linen_keluar[0]->NO_REFERENSI . "'");
 
         foreach ($linen_keluar_detail as $key => $value) {
             $this->db->from('barang');
@@ -522,6 +523,7 @@ class Api extends RestController  {
 
         if ($linen_keluar != FALSE) {
             $linen_keluar[0]->detail = $linen_keluar_detail;
+            $linen_keluar[0]->request = $request_linen_detail;
             $this->response([
                 'status' => true,
                 'data' => $linen_keluar
@@ -1338,6 +1340,36 @@ class Api extends RestController  {
                             ));
                         $this->db->update('barang');
                         
+                    }
+
+                    foreach ($this->post('request') as $key => $value_req) {
+                        //update detail request linen
+                        if($value_req['jenis'] == $value['jenis']){
+                            unset($data);
+                            $data['qty_keluar'] = $value_req['ready'];
+                            $data['flag_ambil'] = (intval($value_req['ready']) == intval($value_req['qty']) ? 2 : 1);
+
+                            $this->db->set($data);
+                            $this->db->where(
+                                array( 
+                                  "no_request" => $this->input->post('NO_REFERENSI') ,
+                                  "jenis" => $value_req['jenis']
+                                ));
+                            $this->db->update('request_linen_detail');
+
+                            //Jika flag ambil (ready=qty) = 1, maka update header
+                            if(intval($value_req['ready']) == intval($value_req['qty'])){
+                                unset($data);
+                                $data['status_request'] = 'Done';
+
+                                $this->db->set($data);
+                                $this->db->where(
+                                    array( 
+                                        "no_request" => $this->input->post('NO_REFERENSI') 
+                                ));
+                                $this->db->update('request_linen');
+                            }
+                        }
                     }
                 }
 
