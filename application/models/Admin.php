@@ -295,6 +295,7 @@ class Admin extends CI_Model
         if(!empty($where)){
             $this->db->where($where);
         }
+        $this->db->order_by("CURRENT_INSERT", "DESC");
         $this->db->limit($limit,$start);
         $query = $this->db->get();
         return $query->result();    
