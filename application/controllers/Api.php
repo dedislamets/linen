@@ -1343,6 +1343,7 @@ class Api extends RestController  {
                     }
 
                     foreach ($this->post('request') as $key => $value_req) {
+
                         //update detail request linen
                         if($value_req['jenis'] == $value['jenis']){
                             unset($data);
@@ -1352,10 +1353,11 @@ class Api extends RestController  {
                             $this->db->set($data);
                             $this->db->where(
                                 array( 
-                                  "no_request" => $this->input->post('NO_REFERENSI') ,
+                                  "no_request" => $this->post('NO_REFERENSI') ,
                                   "jenis" => $value_req['jenis']
                                 ));
                             $this->db->update('request_linen_detail');
+
 
                             //Jika flag ambil (ready=qty) = 1, maka update header
                             if(intval($value_req['ready']) == intval($value_req['qty'])){
@@ -1365,7 +1367,7 @@ class Api extends RestController  {
                                 $this->db->set($data);
                                 $this->db->where(
                                     array( 
-                                        "no_request" => $this->input->post('NO_REFERENSI') 
+                                        "no_request" => $this->post('NO_REFERENSI') 
                                 ));
                                 $this->db->update('request_linen');
                             }
