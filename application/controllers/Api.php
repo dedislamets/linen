@@ -685,7 +685,7 @@ class Api extends RestController  {
         $count = $this->db->count_all_results('request_linen');
         $where = array();
         if(!empty($this->get("STATUS"))){
-            $where['STATUS'] = $this->get("STATUS");
+            $where['status_request'] = $this->get("STATUS");
         }
 
         if (!empty($this->get("page"))) {
