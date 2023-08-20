@@ -680,6 +680,53 @@ class Api extends RestController  {
             ], 500 );
         }
     }
+    public function request_linen_all_get($value='')
+    {
+        $count = $this->db->count_all_results('request_linen');
+        $where = array();
+        if(!empty($this->get("STATUS"))){
+            $where['STATUS'] = $this->get("STATUS");
+        }
+
+        if (!empty($this->get("page"))) {
+            $sisa = $count-intval(($this->perPage*$this->get("page")));
+            $start = intval(($this->perPage * ($this->get("page")-1)));
+             
+            if($this->get("page") == 1){
+                $start=0;
+            }
+
+            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, $start);
+            $this->response([
+                'data' => $query,
+                'page' => $this->get("page"),
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+
+        } else {
+
+            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage,0);
+            $this->response([
+                'data' => $query,
+                'page' => 1,
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+        }
+
+        if ($data!= FALSE) {
+
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
     public function linen_kotor_all_old_get()
     {
         $linen_kotor = $this->admin->api_array('linen_kotor');
@@ -769,7 +816,7 @@ class Api extends RestController  {
             ], 200 );
         }
     }
-    public function request_linen_all_get()
+    public function request_linen_all_old_get()
     {
         $linen_request = $this->admin->api_array('request_linen');
         $linen_request_detail = $this->admin->api_array('request_linen_detail');
