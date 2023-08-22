@@ -504,6 +504,36 @@ class Api extends RestController  {
             ], 500 );
         }
     }
+    public function rusak_get()
+    {
+        $linen_rusak = $this->admin->get('linen_rusak',"NO_TRANSAKSI='". $this->get("no") . "'");
+        $linen_rusak_detail = $this->admin->api_array('linen_rusak_detail',"no_transaksi = '". $this->get("no") . "'");
+
+        foreach ($linen_rusak_detail as $key => $value) {
+            $this->db->from('barang');
+            $this->db->join('jenis_barang','barang.id_jenis=jenis_barang.id');
+            $this->db->where(array( 'serial' => $value['epc']));
+            $data_exist = $this->db->get()->row();
+            if(!empty($data_exist)){
+                $linen_rusak_detail[$key]['item'] = $data_exist->jenis;
+                $linen_rusak_detail[$key]['berat'] = $data_exist->berat;
+            }
+        }
+
+        if ($linen_rusak != FALSE) {
+            $linen_rusak[0]->detail = $linen_rusak_detail;
+            $this->response([
+                'status' => true,
+                'data' => $linen_rusak
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
     public function keluar_get()
     {
         $linen_keluar = $this->admin->get('linen_keluar',"NO_TRANSAKSI='". $this->get("no") . "'");
@@ -1527,7 +1557,7 @@ class Api extends RestController  {
         );
 
         $this->db->trans_start();
-        
+
         $data_exist = $this->admin->get_array('linen_rusak',array( 'NO_TRANSAKSI' => $this->post('no_transaksi')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_rusak", $data);
