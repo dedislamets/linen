@@ -1526,6 +1526,8 @@ class Api extends RestController  {
             "DEFECT"        => $this->post('DEFECT'),
         );
 
+        $this->db->trans_start();
+        
         $data_exist = $this->admin->get_array('linen_rusak',array( 'NO_TRANSAKSI' => $this->post('no_transaksi')));
         if(empty($data_exist)){
             $insert = $this->db->insert("linen_rusak", $data);
