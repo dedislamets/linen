@@ -591,7 +591,7 @@ class Api extends RestController  {
                 'page' => $this->get("page"),
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         } else {
@@ -602,7 +602,7 @@ class Api extends RestController  {
                 'page' => 1,
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         }
@@ -687,7 +687,7 @@ class Api extends RestController  {
                 'page' => $this->get("page"),
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > ceil($this->perPage ? $count/$this->perPage) : 1
             ], 200 );
 
         } else {
@@ -698,7 +698,7 @@ class Api extends RestController  {
                 'page' => 1,
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         }
@@ -735,7 +735,7 @@ class Api extends RestController  {
                 'page' => $this->get("page"),
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         } else {
@@ -746,7 +746,7 @@ class Api extends RestController  {
                 'page' => 1,
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         }
@@ -783,7 +783,7 @@ class Api extends RestController  {
                 'page' => $this->get("page"),
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         } else {
@@ -794,7 +794,7 @@ class Api extends RestController  {
                 'page' => 1,
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         }
@@ -831,7 +831,7 @@ class Api extends RestController  {
                 'page' => $this->get("page"),
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
 
         } else {
@@ -842,7 +842,7 @@ class Api extends RestController  {
                 'page' => 1,
                 'per_page' => $this->perPage,
                 'total' => $count,
-                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+                'total_pages' => $count > $this->perPage ? ceil($count/$this->perPage) : 1
             ], 200 );
         }
 
