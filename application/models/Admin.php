@@ -290,10 +290,15 @@ class Admin extends CI_Model
  
         curl_close($ch);
     }
-    function api_pagination($tabel, $where = [], $limit='10', $start='0', $order = "CURRENT_INSERT"){
+    function api_pagination($tabel, $where = [], $limit='10', $start='0', $order = "CURRENT_INSERT", $search = []){
         $this->db->from($tabel);
         if(!empty($where)){
             $this->db->where($where);
+        }
+        if(!empty($search)){
+            foreach ($search as $key => $value) {
+                $this->db->or_like($key,$value);
+            }
         }
         $this->db->order_by($order, "DESC");
         $this->db->limit($limit,$start);
@@ -301,11 +306,16 @@ class Admin extends CI_Model
         return $query->result();    
     }
 
-    function api_pagination_join($tabel,$join = [], $where = [], $limit='10', $start='0', $order = "CURRENT_INSERT"){
+    function api_pagination_join($tabel,$join = [], $where = [], $limit='10', $start='0', $order = "CURRENT_INSERT", $search = []){
         $this->db->from($tabel);
         if(!empty($join)){
             foreach ($join as $key => $value) {
                 $this->db->join($key,$value);
+            }
+        }
+        if(!empty($search)){
+            foreach ($search as $key => $value) {
+                $this->db->or_like($key,$value);
             }
         }
         if(!empty($where)){

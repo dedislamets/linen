@@ -624,6 +624,16 @@ class Api extends RestController  {
         if(!empty($this->get("STATUS"))){
             $where['STATUS'] = $this->get("STATUS");
         }
+        if(!empty($this->get("search"))){
+            $search  = array(
+                "NO_TRANSAKSI" => $this->get("search"),
+                "TANGGAL" => $this->get("search"),
+                "PIC" => $this->get("search"),
+                "KATEGORI" => $this->get("search")
+            );
+        }else{
+            $search  = array();
+        }
 
         if (!empty($this->get("page"))) {
             $sisa = $count-intval(($this->perPage*$this->get("page")));
@@ -633,7 +643,7 @@ class Api extends RestController  {
                 $start=0;
             }
 
-            $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage, $start);
+            $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage, $start, "CURRENT_INSERT", $search);
             $this->response([
                 'data' => $query,
                 'page' => $this->get("page"),
@@ -644,7 +654,7 @@ class Api extends RestController  {
 
         } else {
 
-            $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage,0);
+            $query = $this->admin->api_pagination('linen_kotor', $where, $this->perPage,0, "CURRENT_INSERT", $search);
             $this->response([
                 'data' => $query,
                 'page' => 1,
