@@ -301,4 +301,20 @@ class Admin extends CI_Model
         return $query->result();    
     }
 
+    function api_pagination_join($tabel,$join = [], $where = [], $limit='10', $start='0', $order = "CURRENT_INSERT"){
+        $this->db->from($tabel);
+        if(!empty($join)){
+            foreach ($join as $key => $value) {
+                $this->db->join($key,$value);
+            }
+        }
+        if(!empty($where)){
+            $this->db->where($where);
+        }
+        $this->db->order_by($order, "DESC");
+        $this->db->limit($limit,$start);
+        $query = $this->db->get();
+        return $query->result();    
+    }
+
 }

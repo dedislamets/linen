@@ -566,6 +566,57 @@ class Api extends RestController  {
             ], 500 );
         }
     }
+    public function register_linen_all_get($value='')
+    {
+        $count = $this->db->count_all_results('barang');
+        $where = array();
+        if(!empty($this->get("STATUS"))){
+            $where['STATUS'] = $this->get("STATUS");
+        }
+        $join  = array(
+            "jenis_barang" => "barang.id_jenis =jenis_barang.id"
+        );
+
+        if (!empty($this->get("page"))) {
+            $sisa = $count-intval(($this->perPage*$this->get("page")));
+            $start = intval(($this->perPage * ($this->get("page")-1)));
+             
+            if($this->get("page") == 1){
+                $start=0;
+            }
+
+            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis");
+            $this->response([
+                'data' => $query,
+                'page' => $this->get("page"),
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+
+        } else {
+
+            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, 0, "id_jenis");
+            $this->response([
+                'data' => $query,
+                'page' => 1,
+                'per_page' => $this->perPage,
+                'total' => $count,
+                'total_pages' => $count > $this->perPage ? $count/$this->perPage : 1
+            ], 200 );
+
+        }
+
+        if ($data!= FALSE) {
+
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
     public function linen_kotor_all_get($value='')
     {
         $count = $this->db->count_all_results('linen_kotor');
