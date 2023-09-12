@@ -566,6 +566,25 @@ class Api extends RestController  {
             ], 500 );
         }
     }
+    public function request_get()
+    {
+        $request = $this->admin->get('request_linen',"no_request='". $this->get("no") . "'");
+        $request_detail = $this->admin->api_array('request_linen_detail',"no_request = '". $this->get("no") . "'");
+
+        if ($request != FALSE) {
+            $request[0]->detail = $request_detail;
+            $this->response([
+                'status' => true,
+                'data' => $request
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => false,
+                'message' => 'No data were found'
+            ], 500 );
+        }
+    }
     public function register_linen_all_get($value='')
     {
         $count = $this->db->count_all_results('barang');
