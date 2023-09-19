@@ -1551,21 +1551,20 @@ class Api extends RestController  {
                         'epc' => trim($value['epc'])
                     ));
                 if(empty($data_exist)){
-                    $data['keluar'] = 1;
                     $insert = $this->db->insert("linen_keluar_detail", $data);
 
                     //if($insert){
 
-                        /*$this->db->set(array("keluar" => 1));
-                        $this->db->where(array( "epc" => $this->post('epc'), "keluar" => 0 ));
-                        $this->db->update('linen_bersih_detail');  */
+                        $this->db->set(array("keluar" => 1));
+                        $this->db->where(array( "epc" => trim($value['epc']), "keluar" => 0 ));
+                        $this->db->update('linen_bersih_detail'); 
 
                         unset($data);
                         $data['nama_ruangan'] = $this->input->post('RUANGAN');
                         $this->db->set($data);
                         $this->db->where(
                             array( 
-                              "serial" => $this->post('epc')
+                              "serial" => trim($value['epc'])
                             ));
                         $this->db->update('barang');
                         
