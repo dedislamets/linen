@@ -1553,7 +1553,7 @@ class Api extends RestController  {
                 if(empty($data_exist)){
                     $insert = $this->db->insert("linen_keluar_detail", $data);
 
-                    if($insert){
+                    //if($insert){
 
                         $this->db->set(array("keluar" => 1));
                         $this->db->where(array( "epc" => $this->post('epc'), "keluar" => 0 ));
@@ -1568,7 +1568,7 @@ class Api extends RestController  {
                             ));
                         $this->db->update('barang');
                         
-                    }
+                    //}
 
                     foreach ($this->post('request') as $key => $value_req) {
 
