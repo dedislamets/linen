@@ -757,7 +757,8 @@ class Api extends RestController  {
                 "NO_TRANSAKSI" => $this->get("search"),
                 "TANGGAL" => $this->get("search"),
                 "PIC" => $this->get("search"),
-                "KATEGORI" => $this->get("search")
+                "RUANGAN" => $this->get("search"),
+                "NO_REFERENSI" => $this->get("search")
             );
         }
 
