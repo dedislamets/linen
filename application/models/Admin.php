@@ -296,8 +296,14 @@ class Admin extends CI_Model
             $this->db->where($where);
         }
         if(!empty($search)){
+            $i = 0;
             foreach ($search as $key => $value) {
-                $this->db->or_like($key,$value);
+                if($i == 0){
+                    $this->db->like($key,$value);
+                }else{
+                    $this->db->or_like($key,$value);
+                }
+                $i++;
             }
         }
         $this->db->order_by($order, "DESC");
