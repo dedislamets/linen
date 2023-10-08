@@ -297,6 +297,7 @@ class Admin extends CI_Model
         }
         if(!empty($search)){
             $i = 0;
+            $this->db->group_start();
             foreach ($search as $key => $value) {
                 if($i == 0){
                     $this->db->like($key,$value);
@@ -305,6 +306,7 @@ class Admin extends CI_Model
                 }
                 $i++;
             }
+            $this->db->group_end();
         }
         $this->db->order_by($order, "DESC");
         $this->db->limit($limit,$start);
