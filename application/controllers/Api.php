@@ -589,12 +589,20 @@ class Api extends RestController  {
     {
         $count = $this->db->count_all_results('barang');
         $where = array();
+        $search  = array();
+
         if(!empty($this->get("STATUS"))){
             $where['STATUS'] = $this->get("STATUS");
         }
         $join  = array(
             "jenis_barang" => "barang.id_jenis =jenis_barang.id"
         );
+
+        if(!empty($this->get("search"))){
+            $search  = array(
+                "serial" => $this->get("search")
+            );
+        }
 
         if (!empty($this->get("page"))) {
             $sisa = $count-intval(($this->perPage*$this->get("page")));
@@ -604,7 +612,7 @@ class Api extends RestController  {
                 $start=0;
             }
 
-            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis");
+            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis", $search);
             $this->response([
                 'data' => $query,
                 'page' => $this->get("page"),
@@ -615,7 +623,7 @@ class Api extends RestController  {
 
         } else {
 
-            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, 0, "id_jenis");
+            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, 0, "id_jenis", $search);
             $this->response([
                 'data' => $query,
                 'page' => 1,
@@ -640,9 +648,11 @@ class Api extends RestController  {
     {
         $count = $this->db->count_all_results('linen_kotor');
         $where = array();
+        $search  = array();
         if(!empty($this->get("STATUS"))){
             $where['STATUS'] = $this->get("STATUS");
         }
+
         if(!empty($this->get("search"))){
             $search  = array(
                 "NO_TRANSAKSI" => $this->get("search"),
@@ -650,8 +660,6 @@ class Api extends RestController  {
                 "PIC" => $this->get("search"),
                 "KATEGORI" => $this->get("search")
             );
-        }else{
-            $search  = array();
         }
 
         if (!empty($this->get("page"))) {

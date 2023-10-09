@@ -322,9 +322,17 @@ class Admin extends CI_Model
             }
         }
         if(!empty($search)){
+            $i = 0;
+            $this->db->group_start();
             foreach ($search as $key => $value) {
-                $this->db->or_like($key,$value);
+                if($i == 0){
+                    $this->db->like($key,$value);
+                }else{
+                    $this->db->or_like($key,$value);
+                }
+                $i++;
             }
+            $this->db->group_end();
         }
         if(!empty($where)){
             $this->db->where($where);
