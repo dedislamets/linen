@@ -878,6 +878,15 @@ class Api extends RestController  {
             $where['status_request'] = $this->get("STATUS");
         }
 
+        if(!empty($this->get("search"))){
+            $search  = array(
+                "no_request" => $this->get("search"),
+                "tgl_request" => $this->get("search"),
+                "requestor" => $this->get("search"),
+                "ruangan" => $this->get("search")
+            );
+        }
+
         if (!empty($this->get("page"))) {
             $sisa = $count-intval(($this->perPage*$this->get("page")));
             $start = intval(($this->perPage * ($this->get("page")-1)));
@@ -886,7 +895,7 @@ class Api extends RestController  {
                 $start=0;
             }
 
-            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, $start, "created_date");
+            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, $start, "created_date", $search);
             $this->response([
                 'data' => $query,
                 'page' => $this->get("page"),
@@ -897,7 +906,7 @@ class Api extends RestController  {
 
         } else {
 
-            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, 0, "created_date");
+            $query = $this->admin->api_pagination('request_linen', $where, $this->perPage, 0, "created_date", $search);
             $this->response([
                 'data' => $query,
                 'page' => 1,
