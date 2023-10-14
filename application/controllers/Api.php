@@ -1742,7 +1742,7 @@ class Api extends RestController  {
         $response['error']=true;
         $response['message']='Data gagal ditambahkan.';
 
-        $arr_date = explode("/", $this->post('tanggal'));
+        $arr_date = explode("/", $this->post('tgl_request'));
         $data =array(
             "no_request"    => $this->post('no_request'),
             "tgl_request"   => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
