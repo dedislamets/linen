@@ -192,6 +192,24 @@ class Api extends RestController  {
         
     }
 
+    public function rusak_delete()
+    {
+        $del = $this->admin->deleteTable('NO_TRANSAKSI', $this->delete('NO_TRANSAKSI') ,'linen_rusak');
+
+        if ($del) {
+            $this->response([
+                'status' => 200,
+                'message' => "Berhasil dihapus"
+            ], 200 );
+        }else{
+
+            $this->response( [
+                'status' => 502,
+                'message' => 'Gagal menghapus data'
+            ], 404 );
+        }
+    }
+
     public function exist_kotor_get()
     {
         $sql = "SELECT b.* 
