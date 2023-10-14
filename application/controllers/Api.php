@@ -2011,15 +2011,6 @@ class Api extends RestController  {
         $response['error']=true;
         $response['message']='Data gagal ditambahkan.';
 
-        $arr_date = explode("/", $this->post('TANGGAL'));
-        // $data =array(
-        //     "NO_TRANSAKSI"  => $this->post('NO_TRANSAKSI'),
-        //     "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
-        //     "PIC"           => $this->post('PIC'),
-        //     "CATATAN"        => $this->post('CATATAN'),
-        //     "DEFECT"        => $this->post('DEFECT'),
-        // );
-
         $this->db->trans_start();
 
         foreach ($this->post('detail') as $key => $value) {
@@ -2030,11 +2021,13 @@ class Api extends RestController  {
                 break;     
             }
 
+            $arr_date = explode("/", $value['tanggal_register']);
+            
             $data =array(
                 "serial"        => $value['serial'],
                 "id_jenis"      => $value['id_jenis'],
                 "nama_ruangan"  => $value['nama_ruangan'],
-                "tanggal_register"  => $value['tanggal_register']
+                "tanggal_register"  => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0]
             );
 
             $insert = $this->db->insert("barang", $data);
