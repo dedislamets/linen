@@ -2006,6 +2006,57 @@ class Api extends RestController  {
         $this->response($response);
     }
 
+    public function barang_multi_post()
+    {
+        $response['error']=true;
+        $response['message']='Data gagal ditambahkan.';
+
+        $arr_date = explode("/", $this->post('TANGGAL'));
+        // $data =array(
+        //     "NO_TRANSAKSI"  => $this->post('NO_TRANSAKSI'),
+        //     "TANGGAL"       => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
+        //     "PIC"           => $this->post('PIC'),
+        //     "CATATAN"        => $this->post('CATATAN'),
+        //     "DEFECT"        => $this->post('DEFECT'),
+        // );
+
+        $this->db->trans_start();
+
+        foreach ($this->post('detail') as $key => $value) {
+            $data_exist_barang = $this->admin->get_array('barang',array( 'serial' => trim($value['serial']) ));
+            if(!empty($data_exist_barang)){
+                $response['message'] = "Serial " . trim($value['serial']) ." terdaftar";   
+                $response['error']=true;      
+                break;     
+            }
+
+            $data =array(
+                "serial"        => $value['serial'],
+                "id_jenis"      => $value['id_jenis'],
+                "nama_ruangan"  => $value['nama_ruangan'],
+                "tanggal_register"  => $value['tanggal_register']
+            );
+
+            $insert = $this->db->insert("barang", $data);
+
+            $response['error']=false;
+        }
+        
+        if ($this->db->trans_status() === FALSE || $response['error'] === true)
+        {
+            $response['status']=500;
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $response['status']=200;
+            $response['message']='Data berhasil ditambahkan.';
+        }
+
+        $this->response($response, $response['status']);
+    }
+
     public function barang_post()
     {
         $data =array(
