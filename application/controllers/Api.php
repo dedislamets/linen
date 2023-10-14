@@ -1737,6 +1737,59 @@ class Api extends RestController  {
         $this->response($response, $response['status']);
     }
 
+    public function request_linen_post()
+    {
+        $response['error']=true;
+        $response['message']='Data gagal ditambahkan.';
+
+        $arr_date = explode("/", $this->post('tanggal'));
+        $data =array(
+            "no_request"    => $this->post('no_request'),
+            "tgl_request"   => $arr_date[2] . "-" . $arr_date[1]. "-". $arr_date[0],
+            "requestor"     => $this->post('requestor'),
+            "ruangan"       => $this->post('ruangan'),
+            "total_request" => $this->post('total_request'),
+            "status_request" => "Pending"
+        );
+
+        $this->db->trans_start();
+
+        $data_exist = $this->admin->get_array('request_linen',array( 'no_request' => $this->post('no_request')));
+        if(empty($data_exist)){
+            $insert = $this->db->insert("request_linen", $data);
+            
+        }
+
+        foreach ($this->post('detail') as $key => $value) {
+            $data =array(
+                "no_request"  => $this->post('no_request'),
+                "jenis"       => trim($value['jenis']),
+                "qty"         => $value['qty']
+            );
+
+            $data_exist = $this->admin->get_array('request_linen_detail',array( 'no_request' => $this->post('no_request'), 'jenis' => trim($value['jenis']) ));
+            if(empty($data_exist)){
+                $insert = $this->db->insert("request_linen_detail", $data);
+            }
+
+            $response['error']=false;
+        }
+        
+        if ($this->db->trans_status() === FALSE || $response['error'] === true)
+        {
+            $response['status']=500;
+            $this->db->trans_rollback();
+        }
+        else
+        {
+            $this->db->trans_commit();
+            $response['status']=200;
+            $response['message']='Data berhasil ditambahkan.';
+        }
+
+        $this->response($response, $response['status']);
+    }
+
     public function linen_bersih_post()
     {
         $response['error']=true;
