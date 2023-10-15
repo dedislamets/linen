@@ -631,6 +631,16 @@ class Api extends RestController  {
             }
 
             $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis", $search);
+            foreach ($q as $key => $value) {
+                $sql = "SELECT COUNT(*) jml
+                        FROM linen_kotor a 
+                        JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi  
+                        WHERE epc='". $value['serial'] ."'";
+                $jml = $this->db->query($sql)->result();
+
+                $query[$key]["jml_cuci"] = isset($jml) ? $jml : 0;
+            }
+
             $this->response([
                 'data' => $query,
                 'page' => $this->get("page"),
@@ -642,6 +652,18 @@ class Api extends RestController  {
         } else {
 
             $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, 0, "id_jenis", $search);
+
+            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis", $search);
+            foreach ($q as $key => $value) {
+                $sql = "SELECT COUNT(*) jml
+                        FROM linen_kotor a 
+                        JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi  
+                        WHERE epc='". $value['serial'] ."'";
+                $jml = $this->db->query($sql)->result();
+
+                $query[$key]["jml_cuci"] = isset($jml) ? $jml : 0;
+            }
+            
             $this->response([
                 'data' => $query,
                 'page' => 1,
@@ -2022,7 +2044,7 @@ class Api extends RestController  {
             }
 
             $arr_date = explode("/", $value['tanggal_register']);
-            
+
             $data =array(
                 "serial"        => $value['serial'],
                 "id_jenis"      => $value['id_jenis'],
