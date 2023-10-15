@@ -635,7 +635,7 @@ class Api extends RestController  {
                 $sql = "SELECT COUNT(*) jml
                         FROM linen_kotor a 
                         JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi  
-                        WHERE epc='". $value['serial'] ."'";
+                        WHERE epc='". $value->serial ."'";
                 $jml = $this->db->query($sql)->result();
 
                 $query[$key]->jml_cuci = isset($jml) ? $jml : 0;
@@ -657,7 +657,7 @@ class Api extends RestController  {
                 $sql = "SELECT COUNT(*) jml
                         FROM linen_kotor a 
                         JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi  
-                        WHERE epc='". $value['serial'] ."'";
+                        WHERE epc='". $value->serial ."'";
                 $jml = $this->db->query($sql)->result();
 
                 $query[$key]->jml_cuci = isset($jml) ? $jml : 0;
