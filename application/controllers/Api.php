@@ -631,7 +631,7 @@ class Api extends RestController  {
             }
 
             $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis", $search);
-            foreach ($q as $key => $value) {
+            foreach ($query as $key => $value) {
                 $sql = "SELECT COUNT(*) jml
                         FROM linen_kotor a 
                         JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi  
@@ -653,8 +653,7 @@ class Api extends RestController  {
 
             $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, 0, "id_jenis", $search);
 
-            $query = $this->admin->api_pagination_join('barang', $join, $where, $this->perPage, $start, "id_jenis", $search);
-            foreach ($q as $key => $value) {
+            foreach ($query as $key => $value) {
                 $sql = "SELECT COUNT(*) jml
                         FROM linen_kotor a 
                         JOIN linen_kotor_detail b ON a.NO_TRANSAKSI =b.no_transaksi  
@@ -663,7 +662,7 @@ class Api extends RestController  {
 
                 $query[$key]["jml_cuci"] = isset($jml) ? $jml : 0;
             }
-            
+
             $this->response([
                 'data' => $query,
                 'page' => 1,
