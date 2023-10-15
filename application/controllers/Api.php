@@ -638,7 +638,7 @@ class Api extends RestController  {
                         WHERE epc='". $value['serial'] ."'";
                 $jml = $this->db->query($sql)->result();
 
-                $query[$key]["jml_cuci"] = isset($jml) ? $jml : 0;
+                $query[$key]->jml_cuci = isset($jml) ? $jml : 0;
             }
 
             $this->response([
@@ -660,7 +660,7 @@ class Api extends RestController  {
                         WHERE epc='". $value['serial'] ."'";
                 $jml = $this->db->query($sql)->result();
 
-                $query[$key]["jml_cuci"] = isset($jml) ? $jml : 0;
+                $query[$key]->jml_cuci = isset($jml) ? $jml : 0;
             }
 
             $this->response([
