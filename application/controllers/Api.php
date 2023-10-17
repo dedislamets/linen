@@ -197,6 +197,7 @@ class Api extends RestController  {
         $del = $this->admin->deleteTable('NO_TRANSAKSI', $this->delete('NO_TRANSAKSI') ,'linen_rusak');
 
         if ($del) {
+            $this->admin->deleteTable('no_transaksi', $this->delete('NO_TRANSAKSI') ,'linen_rusak_detail');
             $this->response([
                 'status' => 200,
                 'message' => "Berhasil dihapus"
