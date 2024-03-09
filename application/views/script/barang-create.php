@@ -310,6 +310,9 @@
 									tanggal: {
 							  			required: true
 									},
+									ruangan: {
+										required: true
+									}
 								}
 							});
 	 	validator.valid();

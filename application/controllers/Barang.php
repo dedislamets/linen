@@ -184,6 +184,13 @@ class Barang extends CI_Controller {
     $response['msg']= "Gagal menyimpan.. Terjadi kesalahan pada sistem";
     $json_scan = json_decode($this->input->post('scan'));
 
+    if(empty($this->input->post('ruangan'))){
+      $response['error']= TRUE;
+      $response['msg']= "Ruangan tidak boleh kosong!!";
+      $this->output->set_content_type('application/json')->set_output(json_encode($response));
+      exit();
+    }
+
     $this->db->trans_begin();
     foreach ($json_scan as $value) {
       $data = array(
