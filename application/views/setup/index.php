@@ -74,6 +74,18 @@
               </div>
             </div>
             <div class="form-group row">
+              <label class="col-sm-2 col-form-label">KA Instalasi Laundry</label>
+              <div class="col-sm-4">
+                <input type="text" id="pic_1" name="pic_1" class="form-control" value="<?php echo $setup[0]->pic_1 ?>">
+              </div>
+
+              <label class="col-sm-2 col-form-label">ADM UMUM</label>
+              <div class="col-sm-4">
+                <input type="text" id="pic_2" name="pic_2" class="form-control" value="<?php echo $setup[0]->pic_2 ?>">
+              </div>
+
+            </div>
+            <div class="form-group row">
               <label class="col-sm-2 col-form-label">Logo</label>
               <div class="col-sm-4">
                 <input id="file" name="file" type="file" accept="image/png, image/jpg, image/jpeg"  />

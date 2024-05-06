@@ -864,6 +864,87 @@
 					</tr>
 				</table>
 				<div style="break-after:page"></div>
+			<?php }elseif ($page == 'rusak') { ?> 
+				<div class="row">
+					<table class="table" style="margin-bottom: 0;">
+						<tr>
+							<td style="border:none">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
+							</td>
+							<td style="border:none">
+								<h3 style="text-align: center;">Laporan Linen Rusak</h3>
+								<h4 style="font-size: 18px;text-align: center;">
+									<?= $setup[0]->company ?><br>
+									Instalasi Laundry
+								</h4>
+							</td>
+							<td style="border:none">
+								<img src="<?= base_url() .'upload/logo/'. $setup[0]->Logo ?>" style="height: 80px;width: 80px;" class="">
+							</td>
+						</tr>
+					</table>
+				</div>
+				
+				<div>
+					<table style="margin-bottom: 0; width: 100%;">
+						<thead>
+							<tr>
+								<th class="vcenter">No</th>
+								<th  class="vcenter">Tanggal</th>
+								<th  class="vcenter">Defect</th>
+								<th  class="vcenter">Nama Barang</th>
+								<th  class="vcenter">Spesifikasi</th>
+								<th  class="vcenter">Jumlah</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php 
+				              $urut=1; $total = 0;
+				              foreach($laporan_rusak as $row): ?>
+				                <tr>
+				                  <td width="10"><?=$urut?></td>
+				                  <td><?=$row->TANGGAL?></td>
+				                  <td><?=$row->DEFECT?></td>
+				                  <td><?=$row->jenis?></td>
+				                  <td><?=$row->spesifikasi ?></td>
+				                  <td style="text-align: right;"><?=$row->jml?></td>
+				                  
+				                </tr>
+				                <?php $urut++; $total += $row->jml; ?>
+				              <?php endforeach; ?>
+				              <tr>
+				                <td colspan="5" style="text-align: right;font-size: 21px;font-weight: bold;">Total</td>
+				                <td style="text-align: right;font-size: 21px;font-weight: bold;"><?= number_format($total) ?></td>
+				              </tr>
+						</tbody>
+					</table>
+				</div>
+				<table style="margin-bottom: 0;width: 100%">
+					<tr>
+						<td width="30%" style="border:none;padding-top: 30px;">
+							<p style="margin-bottom: 0;text-align: center;"><?= $setup[0]->company ?></p>
+							<p style="text-align: center;">KEPALA INSTALASI LAUNDRY</p>
+							<br>
+							<br>
+							<br>
+							<br>
+							<p style="font-weight: bold;text-align: center;text-decoration: underline;margin-bottom: 0;"><?= $setup[0]->pic_1 ?></p>
+							<!-- <p style="font-weight: bold;text-align: center;margin-bottom: 0;">NIP. 19800806 201001 1 021</p> -->
+						</td>
+						<td width="40%" class="no-border">
+						</td>
+						<td width="30%" style="border:none;padding-top: 30px;">
+							<p style="margin-bottom: 0;text-align: center;">ADM. UMUM</p>
+							<br>
+							<br>
+							<br>
+							<br>
+							<br>
+							<p style="font-weight: bold;text-align: center;"><?= $setup[0]->pic_2 ?></p>
+						</td>
+					</tr>
+				</table>
+				<div style="break-after:page"></div>
 			<?php } ?>
 		</div>
 	</body>

@@ -250,6 +250,17 @@ class Cetak extends CI_Controller {
 					) tbl_storage group by id, jenis, spesifikasi")->result();
 					$data['laporan_storage']= $laporan_storage;
 					$this->load->view('cetak',$data,FALSE); 
+				}elseif($page == 'rusak'){
+					$laporan_rusak  = $this->db->query("select TANGGAL,DEFECT,jenis, spesifikasi, count(id) jml from (
+									SELECT lr.TANGGAL ,lrd.epc ,lr.DEFECT ,jenis_barang.id , jenis_barang.`jenis`, `spesifikasi`, berat, lrd.jml_cuci 
+									FROM linen_rusak lr 
+									inner join linen_rusak_detail lrd on lrd.no_transaksi = lr.NO_TRANSAKSI 
+									INNER JOIN barang ON barang.`serial`=lrd.`epc`
+									LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+									) tbl_rusak
+								group by TANGGAL,DEFECT, jenis, spesifikasi")->result();
+					$data['laporan_rusak']= $laporan_rusak;
+					$this->load->view('cetak',$data,FALSE); 
 				}
 
 				// print("<pre>".print_r($data,true)."</pre>"); exit();	

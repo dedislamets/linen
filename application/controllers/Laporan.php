@@ -356,4 +356,32 @@ class Laporan extends CI_Controller {
 	    }				  
 						
 	}
+
+	public function rusak()
+	{		
+		if($this->admin->logged_id())
+	    {
+			$data['title'] = 'Laporan Linen Rusak';
+			$data['main'] = 'laporan/rusak';
+			$data['js'] = 'script/laporan';
+
+			$laporan_rusak  = $this->db->query("select TANGGAL,DEFECT,jenis, spesifikasi, count(id) jml from (
+									SELECT lr.TANGGAL ,lrd.epc ,lr.DEFECT ,jenis_barang.id , jenis_barang.`jenis`, `spesifikasi`, berat, lrd.jml_cuci 
+									FROM linen_rusak lr 
+									inner join linen_rusak_detail lrd on lrd.no_transaksi = lr.NO_TRANSAKSI 
+									INNER JOIN barang ON barang.`serial`=lrd.`epc`
+									LEFT JOIN jenis_barang ON `jenis_barang`.id=barang.`id_jenis`
+									) tbl_rusak
+								group by TANGGAL,DEFECT, jenis, spesifikasi")->result();
+			
+			$data['laporan_rusak']= $laporan_rusak;
+
+			$this->load->view('dashboard',$data,FALSE); 
+
+	    }else{
+	        redirect("login");
+
+	    }				  
+						
+	}
 }

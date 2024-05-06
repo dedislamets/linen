@@ -44,4 +44,7 @@
 	$('#btnStorage').on('click', function (event) {
 		window.location.href="<?= base_url(); ?>cetak?p=storage";
 	})
+	$('#btnCetakRusak').on('click', function (event) {
+		window.location.href="<?= base_url(); ?>cetak?p=rusak";
+	})
 </script>
