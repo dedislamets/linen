@@ -20,7 +20,7 @@
 		window.location.href = "<?= base_url(); ?>laporan?b=" + $("#bulan_rawat").val() + "&t=" + $("#tahun_rawat").val()
 	})
 	$('#btnKotor').on('click', function(event) {
-		window.location.href = "<?= base_url(); ?>laporan?b=" + $("#bulan_rawat").val() + "&t=" + $("#tahun_kotor").val()
+		window.location.href = "<?= base_url(); ?>laporan?b=" + $("#btnKotor").val() + "&t=" + $("#tahun_kotor").val()
 	})
 
 	$('#btnCetakMedis').on('click', function(event) {
