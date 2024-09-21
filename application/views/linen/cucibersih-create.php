@@ -22,7 +22,7 @@
     </div>
   </div>
   <div class="card-block" style="padding: 10px;">
-    <form id="form-routing" name="form-wizard" action="" method="" style="padding-top: 20px;">
+    <form id="form-routing" name="form-wizard" action="" enctype="multipart/form-data" style="padding-top: 20px;">
       <input type="hidden" name="mode" id="mode" value="<?= $mode ?>">
       <div class="row">
         <div class="col-md-6 col-12">

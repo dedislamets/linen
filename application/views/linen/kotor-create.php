@@ -51,6 +51,15 @@
               </select>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-sm-4 col-form-label" style="font-weight: bold;">DOKUMEN</label>
+            <div class="col-sm-8 col-md-8">
+              <div class="">
+                <input type="file" name="file" id="file">
+                <!-- <label class="custom-file-label" for="customFiles">Choose file</label> -->
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-md-6 col-12">
           <div class="form-group row">
