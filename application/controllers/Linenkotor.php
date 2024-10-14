@@ -48,22 +48,24 @@ class Linenkotor extends CI_Controller
     }
 
     $valid_columns = array(
-      0 => 'TANGGAL',
-      1 => 'NO_TRANSAKSI',
-      2 => 'PIC',
-      3 => 'TOTAL_QTY',
-      4 => 'TOTAL_BERAT',
-      5 => 'F_INFEKSIUS',
-      6 => 'KATEGORI',
+      0 => 'id',
+      1 => 'TANGGAL',
+      2 => 'NO_TRANSAKSI',
+      3 => 'PIC',
+      4 => 'TOTAL_QTY',
+      5 => 'TOTAL_BERAT',
+      6 => 'F_INFEKSIUS',
+      7 => 'KATEGORI',
     );
     $valid_sort = array(
-      0 => 'TANGGAL',
-      1 => 'NO_TRANSAKSI',
-      2 => 'PIC',
-      3 => 'TOTAL_QTY',
-      4 => 'TOTAL_BERAT',
-      5 => 'F_INFEKSIUS',
-      6 => 'KATEGORI',
+      0 => 'id',
+      1 => 'TANGGAL',
+      2 => 'NO_TRANSAKSI',
+      3 => 'PIC',
+      4 => 'TOTAL_QTY',
+      5 => 'TOTAL_BERAT',
+      6 => 'F_INFEKSIUS',
+      7 => 'KATEGORI',
     );
     if (!isset($valid_sort[$col])) {
       $order = null;
@@ -101,6 +103,7 @@ class Linenkotor extends CI_Controller
         $tbl_del = "";
       }
       $data[] = array(
+        $r->id,
         $r->TANGGAL,
         $r->NO_TRANSAKSI,
         $r->PIC,
