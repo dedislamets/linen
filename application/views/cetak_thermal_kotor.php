@@ -153,9 +153,9 @@
         $btnPrint.addEventListener("click", () => {
             window.print();
         });
-
+        var id_kotor_encrypted = btoa(document.querySelector("#id").value);
         var qrcode = new QRCode(document.getElementById("qrcode"), {
-            text: "<?= base_url() ?>linenkotor/detail/" + document.querySelector("#id").value,
+            text: "<?= base_url() ?>linenkotor/detail/" + id_kotor_encrypted,
             colorDark: "#000000",
             colorLight: "#ffffff",
             width: 100,

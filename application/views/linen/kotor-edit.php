@@ -16,20 +16,24 @@
   <?php } ?>
   <div class="card-header back-green" style="color:#fff;background-color: green;">
     <div class="row">
-      <div class="col-xl-8">
-        <h4><?= $title ?> <a href="<?= base_url() ?>linenkotor" style="color: #000;margin-left: 10px;"> Back </a></h4>
+      <div class="<?= $mode == 'edit' ? 'col-xl-8' : 'col-xl-10' ?>">
+        <h4><?= $title ?>
+          <?php if ($mode != 'detail') : ?>
+            <a href="<?= base_url() ?>linenkotor" style="color: #000;margin-left: 10px;"> Back </a>
+          <?php endif; ?>
+        </h4>
         <span>Halaman ini menampilkan data connote yang tersimpan</span>
       </div>
-      <!-- <div class="col-xl-2" >
-          <a v-if="mode == 'edit'" href="<?= base_url() ?>cetak/rs?id=<?= empty($data) ? "" : $data['id'] ?>" id="btnCetak" class="btn btn-block btn-warning" target="_blank">  <i class="icofont icofont-print" ></i>Cetak</a>
-        </div>
- -->
+
       <div class="col-xl-2">
         <div class="status-trans rounded-10"><?= empty($data) ? "INPUT" : $data['STATUS'] ?></div>
       </div>
-      <div class="col-xl-2">
-        <button class="btn btn-success btn-block" id="btnCetak"><i class="fa fa-print"></i>&nbsp; Print</button>
-      </div>
+      <?php if ($mode == 'edit') : ?>
+        <div class="col-xl-2">
+          <button class="btn btn-success btn-block" id="btnCetak"><i class="fa fa-print"></i>&nbsp; Print</button>
+        </div>
+      <?php endif; ?>
+
     </div>
   </div>
   <div class="card-block" style="padding: 10px;">
