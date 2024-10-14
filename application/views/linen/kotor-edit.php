@@ -149,7 +149,7 @@
           <input type="text" class="form-control" style="text-align: center;" readonly id="total_qty" name="total_qty" placeholder="" value="0">
         </div>
       </div>
-      <?php if (!empty($data) && $data['STATUS'] == "CUCI") : ?>
+      <?php if (!empty($data) && $data['STATUS'] == "CUCI" && $mode != 'detail') : ?>
         <div class="form-group row">
           <!-- <div class="col-sm-2">
           <button class="btn btn-success btn-sm btn-block" id="btnAdd" ><i class="fa fa-plus"></i> Tambah baru</button>
