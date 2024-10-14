@@ -16,6 +16,10 @@
       display: none;
     }
 
+    #ViewTableBrgMobile {
+      display: table;
+    }
+
     .total-qty {
       display: none;
     }
