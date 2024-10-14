@@ -2,6 +2,36 @@
   .dua-rts {
     width: 200px;
   }
+
+  #ViewTableBrg {
+    display: table;
+  }
+
+  #ViewTableBrgMobile {
+    display: none;
+  }
+
+  @media (max-width: 767px) {
+    #ViewTableBrg {
+      display: none;
+    }
+
+    .total-qty {
+      display: none;
+    }
+
+    .info-text {
+      font-size: 24px;
+    }
+
+    .az-header {
+      display: none;
+    }
+
+    .span-subtitle {
+      display: none;
+    }
+  }
 </style>
 <div class="card z-depth-0" id="app">
   <?php include("application/views/Browser.php");
@@ -22,7 +52,7 @@
             <a href="<?= base_url() ?>linenkotor" style="color: #000;margin-left: 10px;"> Back </a>
           <?php endif; ?>
         </h4>
-        <span>Halaman ini menampilkan data connote yang tersimpan</span>
+        <span class="span-subtitle">Halaman ini menampilkan data connote yang tersimpan</span>
       </div>
 
       <div class="col-xl-2">
@@ -51,16 +81,15 @@
             <div class="form-group row">
               <label class="col-sm-4 col-form-label" style="font-weight: bold;">TANGGAL</label>
               <div class="col-sm-8">
-                <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= empty($data) ? "" : date("Y-m-d", strtotime($data['TANGGAL'])) ?>" />
+                <input class="form-control form-bg-inverse" type="date" id="tanggal" name="tanggal" value="<?= empty($data) ? "" : date("Y-m-d", strtotime($data['TANGGAL'])) ?>" <?= $mode == 'detail' ? 'disabled' : '' ?> />
               </div>
             </div>
             <div class="form-group row">
               <label class="col-sm-4 col-form-label" style="font-weight: bold;">PIC</label>
               <div class="col-sm-8">
-                <select id="pic" name="pic" class="form-control">
+                <select id="pic" name="pic" class="form-control" <?= $mode == 'detail' ? 'disabled' : '' ?>>
                   <?php
                   foreach ($pic as $row) {
-
                     if (empty($data) ? "" : $data['PIC'] === $row->nama_user) {
                       echo '<option value="' . $row->nama_user . '" selected >' . $row->nama_user . '</option>';
                     } else {
@@ -76,7 +105,7 @@
             <div class="form-group row">
               <label class="col-sm-4 col-form-label" style="font-weight: bold;">INFEKSIUS</label>
               <div class="col-sm-8">
-                <select id="f_infeksius" name="f_infeksius" class="form-control">
+                <select id="f_infeksius" name="f_infeksius" class="form-control" <?= $mode == 'detail' ? 'disabled' : '' ?>>
                   <option value="Infeksius" <?= ($data['PIC'] == "Infeksius" ? "selected" : "")  ?>>Infeksius</option>
                   <option value="Non Infeksius" <?= ($data['PIC'] == "Non Infeksius" ? "selected" : "")  ?>>Non Infeksius</option>
                 </select>
@@ -86,7 +115,7 @@
 
               <label class="col-sm-4 col-form-label" style="font-weight: bold;">JENIS CUCIAN</label>
               <div class="col-sm-8">
-                <select id="kategori" name="kategori" class="form-control">
+                <select id="kategori" name="kategori" class="form-control" <?= $mode == 'detail' ? 'disabled' : '' ?>>
                   <option value="Cuci Normal">Cuci Normal</option>
                   <option value="Rewash">Rewash</option>
                 </select>
@@ -95,7 +124,7 @@
             <div class="form-group row">
               <label class="col-sm-4 col-form-label" style="font-weight: bold;">BERAT TIMBANG</label>
               <div class="col-sm-3">
-                <input type="text" class="form-control" id="total_berat_real" name="total_berat_real" placeholder="" value="<?= empty($data) ? "" : $data['TOTAL_BERAT_REAL'] ?>">
+                <input type="text" class="form-control" <?= $mode == 'detail' ? 'disabled' : '' ?> id="total_berat_real" name="total_berat_real" placeholder="" value="<?= empty($data) ? "" : $data['TOTAL_BERAT_REAL'] ?>">
               </div>
               <label class="col-sm-2 col-form-label" style="font-weight: bold;">BERAT</label>
               <div class="col-sm-3">
@@ -109,10 +138,10 @@
         <div class="col-sm-7">
           <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-3 total-qty">
           <h4 class="info-text" style="margin-top: 30px;text-align: right;">Total Qty</h4>
         </div>
-        <div class="col-sm-2" style="margin-top: 30px;">
+        <div class="col-sm-2 total-qty" style="margin-top: 30px;">
           <input type="text" class="form-control" style="text-align: center;" readonly id="total_qty" name="total_qty" placeholder="" value="0">
         </div>
       </div>
@@ -140,7 +169,6 @@
       <?php endif; ?>
 
       <div class="row" id="barang">
-
         <div class="col-sm-12">
           <div class="dt-responsive table-responsive table-brg">
             <input type="hidden" id="total-row" name="total-row" value="<?= $totalrow ?>">
@@ -179,10 +207,6 @@
                     <td style="width:1%"><?= $urut ?></td>
                     <td v-bind:class="[last_status == 'CUCI' ? 'dua-rts' : '', '']" style="width: 120px;">
                       <input type="hidden" id="id_detail<?= $urut ?>" name="id_detail<?= $urut ?>" class="form-control hidden" value="<?= $row['id'] ?>">
-                      <!-- <a href="#" id="cari<?= $urut ?>" class="btn hor-grd btn-success" onclick="cari_dealer(this)" v-if="last_status != 'BERSIH'">
-                            <i class="fa fa-search"></i>&nbsp; Cari
-                          </a> -->
-                      <!-- <a href="javascript:void(0)" class="btn hor-grd btn-danger" onclick="cancel(this)" v-if="last_status != 'BERSIH'"><i class="fa fa-trash"></i>&nbsp; Del</a> -->
                     </td>
                     <td>
                       <input type="text" name="epc<?= $urut ?>" id="epc<?= $urut ?>" class="form-control" value="<?= $row['epc'] ?>" readonly />
@@ -201,6 +225,25 @@
                   <?php $urut++ ?>
                 <?php endforeach; ?>
 
+              </tbody>
+            </table>
+            <table id="ViewTableBrgMobile" class="table table-striped" style="margin-top: 0 !important;width: 100% !important;">
+              <thead class="text-primary">
+                <tr>
+                  <th>No</th>
+                  <th>Serial/Jenis/Ruangan/Berat</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-table">
+                <?php
+                $urut = 1;
+                foreach ($data_detail as $row): ?>
+                  <tr>
+                    <td style="width:1%"><?= $urut ?></td>
+                    <td><?= '<b>' . $row['epc'] . '</b><br/>' . $row['jenis'] . '<br/>' . $row['ruangan'] . '<br/>Berat : ' . $row['berat'] ?></td>
+                  </tr>
+                  <?php $urut++ ?>
+                <?php endforeach; ?>
               </tbody>
             </table>
           </div>
