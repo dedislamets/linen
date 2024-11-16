@@ -1,4 +1,18 @@
 <style type="text/css">
+  .kbw-signature {
+    width: 100%;
+    height: 200px;
+  }
+
+  #sig canvas {
+    width: 100% !important;
+    height: auto;
+  }
+
+  .info-text {
+    font-size: 20px;
+  }
+
   .dua-rts {
     width: 200px;
   }
@@ -71,7 +85,7 @@
     </div>
   </div>
   <div class="card-block" style="padding: 10px;">
-    <form id="form-routing" name="form-wizard" action="" method="" style="padding-top: 10px;">
+    <form id="form-routing" name="form-wizard" action="<?= base_url() ?>linenkotor/savesignature" method="POST" style="padding-top: 10px;">
       <input type="hidden" name="mode" id="mode" value="<?= $mode ?>">
       <div class="card card-body bg-gray-100 bd-1 rounded-10 pd-20">
         <div class="row">
@@ -138,6 +152,7 @@
           </div>
         </div>
       </div>
+
       <div class="row">
         <div class="col-sm-7">
           <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Data Linen</h4>
@@ -253,6 +268,62 @@
           </div>
         </div>
       </div>
+
+      <?php if ($mode == "detail"): ?>
+        <div class="form-group row pd-t-15">
+          <label class="col-sm-2 col-form-label" style="font-weight: bold;">Nama Penerima</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control form-bg-inverse" id="penerima" name="penerima"
+              placeholder="masukkan nama penerima" value="<?= $data['penerima'] ?>" required
+              <?= (empty($data['penerima']) ? '' : 'disabled') ?>>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="" for="" style="font-weight: bold;">Tanda Tangan Penerima:</label>
+            <br />
+            <div id="sig" style="<?= (empty($data['signature']) ? '' : 'display: none;') ?>"></div>
+            <br />
+            <button id="clear" style="<?= (empty($data['signature']) ? '' : 'display: none;') ?>">Clear Signature</button>
+            <textarea id="signature64" name="signed" style="display: none"></textarea><br>
+            <?php if (!empty($data['signature'])): ?>
+              <img class="img-fluid" src="<?= base_url() ?>upload/signature/<?= $data['signature'] ?>">
+            <?php endif; ?>
+          </div>
+        </div>
+        <?php if (empty($data['penerima'])): ?>
+          <button class="btn btn-success btn-rounded btn-sm btn-block mg-t-15" id="btnSave"><i class="fa fa-save"></i> Submit</button>
+        <?php endif; ?>
+      <?php endif; ?>
+
+      <?php if ($mode == "edit"): ?>
+        <div class="row">
+          <div class="col-12">
+            <h4 class="info-text" style="margin-top: 30px;padding-left: 00px;">Penerima</h4>
+            <table class="table table-bordered mg-t-15">
+              <tr>
+                <td style="width:200px;">Diterima Tanggal</td>
+                <td width="10">:</td>
+                <td><?= empty($data) ? "" : (empty($data['penerima']) ? "-" : tgl_waktu_indo($data['tgl_terima'])) ?></td>
+              </tr>
+              <tr>
+                <td style="width:200px;">Diterima Oleh</td>
+                <td width="10">:</td>
+                <td><?= empty($data) ? "-" : $data['penerima'] ?></td>
+              </tr>
+              <tr>
+                <td style="width:200px;">Signature</td>
+                <td width="10">:</td>
+                <td>
+                  <?php if (!empty($data['signature'])): ?>
+                    <img src="<?= base_url() ?>/upload/signature/<?= $data['signature'] ?>" style="width: 400px;">
+                  <?php endif; ?>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      <?php endif; ?>
 
       <div class="row">
         <div class="col-sm-12" style="margin-top: 10px;">

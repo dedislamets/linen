@@ -35,7 +35,15 @@
 	var totalberat = 0;
 
 	$(document).ready(function() {
-
+		var sig = $('#sig').signature({
+			syncField: '#signature64',
+			syncFormat: 'PNG'
+		});
+		$('#clear').click(function(e) {
+			e.preventDefault();
+			sig.signature('clear');
+			$("#signature64").val('');
+		});
 		$("#txt_scan").on("change", function() {
 			scan_by_reader($(this).val());
 			$("#txt_scan").val('');
