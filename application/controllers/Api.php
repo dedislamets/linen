@@ -1657,6 +1657,10 @@ class Api extends RestController
                             if (intval($value_req['ready']) != intval($value_req['qty'])) {
                                 $is_finish = false;
                             }
+                        } else {
+                            if (intval($value_req['ready']) != intval($value_req['qty'])) {
+                                $is_finish = false;
+                            }
                         }
                     }
 
