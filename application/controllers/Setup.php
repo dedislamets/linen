@@ -236,6 +236,7 @@ class Setup extends CI_Controller
             $this->db->truncate('tb_penerimaan');
             $this->db->truncate('tb_penerimaan_detail');
             $this->db->truncate('tb_vbs');
+            $this->db->truncate('logs_apk');
 
             $db_error = $this->db->error();
             if (!empty($db_error)) {
