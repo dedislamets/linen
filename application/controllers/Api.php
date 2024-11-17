@@ -400,7 +400,7 @@ class Api extends RestController
     {
         $data = array(
             "email" => $this->post('email'),
-            "password" => $this->Acak($this->input->post('password', TRUE), "goldenginger"),
+            "password" => $this->Acak($this->post('password', TRUE), "goldenginger"),
         );
 
         $this->db->from('tb_user');
@@ -1623,7 +1623,7 @@ class Api extends RestController
                     $this->db->update('linen_bersih_detail');
 
                     unset($data);
-                    $data['nama_ruangan'] = $this->input->post('RUANGAN');
+                    $data['nama_ruangan'] = $this->post('RUANGAN');
                     $this->db->set($data);
                     $this->db->where(
                         array(
@@ -1933,7 +1933,7 @@ class Api extends RestController
                 $this->db->update('linen_bersih_detail');
 
                 unset($data);
-                $data['nama_ruangan'] = $this->input->post('ruangan');
+                $data['nama_ruangan'] = $this->post('ruangan');
                 $this->db->set($data);
                 $this->db->where(
                     array(
